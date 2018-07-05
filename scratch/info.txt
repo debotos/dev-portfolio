@@ -1,0 +1,30 @@
+jquery.hoverdir.js
+		Moving from one thumb to the other will immediately trigger the sliding of the info box.
+		https://tympanus.net/TipsTricks/DirectionAwareHoverEffect/
+		
+Magnific Popup	
+		Magnific Popup is a responsive lightbox & dialog script with focus on performance and providing best 			experience for user with any device
+		(for jQuery or Zepto.js).
+		http://dimsemenov.com/plugins/magnific-popup/
+		
+Owl Carousel
+		https://owlcarousel2.github.io/OwlCarousel2/demos/demos.html
+		
+Masonry PACKAGED
+		Masonry is a JavaScript grid layout library. It works by placing elements in optimal position based on 			available vertical space, sort of like a mason fitting stones in a wall. You’ve probably seen it in use 		all	over the Internet.
+		https://masonry.desandro.com/
+		
+Shuffle.js by @Vestride
+		Categorize, sort, and filter a responsive grid of items with animation
+		https://vestride.github.io/Shuffle/
+		
+Validator v0.11.5 for Bootstrap 3, by @1000hz
+		A user-friendly HTML5 form validation jQuery plugin for Bootstrap 3 
+		http://1000hz.github.io/bootstrap-validator/
+		
+imagesLoaded PACKAGED v4.1.1
+		Detect when images have been loaded.
+		https://imagesloaded.desandro.com/
+		
+pages-switcher.js
+		

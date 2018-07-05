@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+  <%include partials/head %>
+
+  <body class="material-template">
+    <% include partials/loadingAnimation %>
+      <div id="page" class="page">
+        <% include partials/header %>
+        <% include partials/mobileHeader %>
+        <!-- particles canvas -->
+        <canvas id="canvas"></canvas>
+        <!-- particles canvas -->
+        <!-- Main Content -->
+        <div id="main" class="site-main">
+          <!-- Page changer wrapper -->
+          <div class="pt-wrapper">
+            <!-- Subpages -->
+            <div class="subpages">
+              <% include partials/subpages/home %>
+              <% include partials/subpages/resume %>
+              <% include partials/subpages/services %>
+              <% include partials/subpages/portfolio %>
+              <% include partials/subpages/blog %>
+              <% include partials/subpages/contact %>
+            </div>
+            <!-- /Subpages -->
+          </div>
+          <!-- /Page changer wrapper -->
+        </div>
+        <!-- /Main Content -->
+      </div> 
+      <%include partials/footer %>
+  </body>
+
+</html>
