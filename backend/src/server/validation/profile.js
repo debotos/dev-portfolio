@@ -89,8 +89,8 @@ module.exports = function validateProfileInput(data) {
     errors.residence = 'residence is required';
   }
   // age
-  if (Validator.isEmpty(data.age)) {
-    errors.age = 'age is required';
+  if (!data.age) {
+    errors.age = 'age field is required';
   }
 
   // Social Media

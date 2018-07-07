@@ -1,2 +1,2 @@
-validation/profile.js check all profile field
-validation/experience.js check all experience field
+add image upload code
+item delete code 

@@ -2,8 +2,11 @@ const winston = require('winston');
 const express = require('express');
 const passport = require('passport');
 const bodyParser = require('body-parser');
+const morgan = require('morgan');
 const app = express();
 
+// Morgan logger middleware
+app.use(morgan('tiny'));
 // Body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

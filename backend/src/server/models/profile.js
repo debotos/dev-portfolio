@@ -56,15 +56,14 @@ const ProfileSchema = new Schema({
   },
   age: {
     type: Number,
-    required: true,
     min: 20,
     max: 100
   },
   residence: {
     type: String,
     trim: true,
-    minlength: 5,
-    maxlength: 255
+    minlength: 2,
+    maxlength: 30
   },
   skillsAt: {
     type: [String]
@@ -95,7 +94,7 @@ const ProfileSchema = new Schema({
       },
       img: {
         type: String,
-        required: true
+        // required: true
       },
       testimonial: {
         type: String,
@@ -141,7 +140,7 @@ const ProfileSchema = new Schema({
       },
       img: {
         type: String,
-        required: true
+        // required: true
       },
       info: {
         type: String,

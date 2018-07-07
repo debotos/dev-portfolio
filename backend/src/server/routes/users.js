@@ -10,13 +10,19 @@ const router = express.Router();
 const keys = require('../config/credential/keys');
 const passport = require('passport');
 
+const validateLoginInput = require('../validation/login');
+
 // @route   GET api/users/me
 // @desc    Return current user
 // @access  Private
 // set Header key: x-auth-token value: only_token_not_Bearer
 router.get('/me', auth, async (req, res) => {
-  const user = await User.findById(req.user._id).select('-password');
-  res.send(user);
+  const user = await User.findById(req.user.id).select('-password');
+  if (user) {
+    return res.send(user);
+  } else {
+    return res.status(400).send('Not logged in!');
+  }
 });
 
 // @route   GET api/users/current
@@ -62,14 +68,26 @@ router.post('/register', async (req, res) => {
 // @desc    Login User / Returning JWT Token
 // @access  Public
 router.post('/login', async (req, res) => {
-  const { error } = validateLocally(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
+  // validation example using joi
+  // const { error } = validateLocally(req.body);
+  const { errors, isValid } = validateLoginInput(req.body);
+  // Check Validation
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
 
   let user = await User.findOne({ email: req.body.email });
-  if (!user) return res.status(400).send('Invalid email or password.');
+  // Check for user
+  if (!user) {
+    errors.email = 'User not found!';
+    return res.status(404).json(errors);
+  }
 
   const validPassword = await bcrypt.compare(req.body.password, user.password);
-  if (!validPassword) return res.status(400).send('Invalid email or password.');
+  if (!validPassword) {
+    errors.password = 'Password incorrect!';
+    return res.status(404).json(errors);
+  }
 
   const token = user.generateAuthToken();
   res.json({
@@ -96,20 +114,20 @@ router.post('/me/edit', auth, async (req, res) => {
   ).then(profile => res.json(profile));
 });
 
-function validateLocally(req) {
-  const schema = {
-    email: Joi.string()
-      .min(5)
-      .max(255)
-      .required()
-      .email(),
-    password: Joi.string()
-      .min(5)
-      .max(255)
-      .required()
-  };
+// function validateLocally(req) {
+//   const schema = {
+//     email: Joi.string()
+//       .min(5)
+//       .max(255)
+//       .required()
+//       .email(),
+//     password: Joi.string()
+//       .min(5)
+//       .max(255)
+//       .required()
+//   };
 
-  return Joi.validate(req, schema);
-}
+//   return Joi.validate(req, schema);
+// }
 
 module.exports = router;
