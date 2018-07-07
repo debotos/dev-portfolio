@@ -12,6 +12,7 @@ export default ({ data, onChange }) => (
   >
     <input
       type={data.input.type}
+      value={data.input.value}
       id={data.input.id}
       className={data.input.className}
       style={data.input.style}

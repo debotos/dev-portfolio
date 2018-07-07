@@ -3,12 +3,13 @@ export const GenerateSectionOneInputFields = (profile, errors) => {
     {
       className: 'pt-form-group',
       serial: 1,
-      helperText: errors.porfile_name ? errors.porfile_name : '',
+      helperText: errors.profile_name ? errors.profile_name : '',
       label: 'Profile Name',
       labelFor: 'profile_name',
       requiredLabel: true,
       input: {
         type: 'text',
+        value: profile.profile_name,
         id: 'profile_name',
         className: 'pt-input pt-fill',
         style: { width: '400px' },
@@ -24,6 +25,7 @@ export const GenerateSectionOneInputFields = (profile, errors) => {
       requiredLabel: true,
       input: {
         type: 'text',
+        value: profile.full_name,
         id: 'full_name',
         className: 'pt-input pt-fill',
         style: { width: '400px' },
@@ -39,6 +41,7 @@ export const GenerateSectionOneInputFields = (profile, errors) => {
       requiredLabel: true,
       input: {
         type: 'email',
+        value: profile.email,
         id: 'email',
         className: 'pt-input pt-fill',
         style: { width: '400px' },
@@ -54,6 +57,7 @@ export const GenerateSectionOneInputFields = (profile, errors) => {
       requiredLabel: true,
       input: {
         type: 'text',
+        value: profile.address,
         id: 'address',
         className: 'pt-input pt-fill',
         style: { width: '400px' },
@@ -69,6 +73,7 @@ export const GenerateSectionOneInputFields = (profile, errors) => {
       requiredLabel: true,
       input: {
         type: 'text',
+        value: profile.map_address,
         id: 'map_address',
         className: 'pt-input pt-fill',
         style: { width: '400px' },
@@ -84,6 +89,7 @@ export const GenerateSectionOneInputFields = (profile, errors) => {
       requiredLabel: true,
       input: {
         type: 'text',
+        value: profile.resume_link,
         id: 'resume_link',
         className: 'pt-input pt-fill',
         style: { width: '400px' },
@@ -103,6 +109,7 @@ export const GenerateSectionTwoInputFields = (profile, errors) => [
     requiredLabel: true,
     input: {
       type: 'number',
+      value: profile.age,
       id: 'age',
       className: 'pt-input pt-fill',
       style: { width: '400px' },
@@ -118,6 +125,7 @@ export const GenerateSectionTwoInputFields = (profile, errors) => [
     requiredLabel: true,
     input: {
       type: 'text',
+      value: profile.residence,
       id: 'residence',
       className: 'pt-input pt-fill',
       style: { width: '400px' },
@@ -133,6 +141,7 @@ export const GenerateSectionTwoInputFields = (profile, errors) => [
     requiredLabel: true,
     input: {
       type: 'text',
+      value: profile.skillsAt,
       id: 'skillsAt',
       className: 'pt-input pt-fill',
       style: { width: '400px' },
@@ -148,6 +157,7 @@ export const GenerateSectionTwoInputFields = (profile, errors) => [
     requiredLabel: true,
     input: {
       type: 'text',
+      value: profile.phone,
       id: 'phone',
       className: 'pt-input pt-fill',
       style: { width: '400px' },
@@ -163,6 +173,7 @@ export const GenerateSectionTwoInputFields = (profile, errors) => [
     requiredLabel: true,
     input: {
       type: 'text',
+      value: profile.youtube,
       id: 'youtube',
       className: 'pt-input pt-fill',
       style: { width: '400px' },
@@ -178,6 +189,7 @@ export const GenerateSectionTwoInputFields = (profile, errors) => [
     requiredLabel: true,
     input: {
       type: 'text',
+      value: profile.twitter,
       id: 'twitter',
       className: 'pt-input pt-fill',
       style: { width: '400px' },
@@ -196,6 +208,7 @@ export const GenerateSectionThreeInputFields = (profile, errors) => [
     requiredLabel: true,
     input: {
       type: 'text',
+      value: profile.facebook,
       id: 'facebook',
       className: 'pt-input pt-fill',
       style: { width: '400px' },
@@ -211,6 +224,7 @@ export const GenerateSectionThreeInputFields = (profile, errors) => [
     requiredLabel: true,
     input: {
       type: 'text',
+      value: profile.linkedin,
       id: 'linkedin',
       className: 'pt-input pt-fill',
       style: { width: '400px' },
@@ -226,6 +240,7 @@ export const GenerateSectionThreeInputFields = (profile, errors) => [
     requiredLabel: true,
     input: {
       type: 'text',
+      value: profile.instagram,
       id: 'instagram',
       className: 'pt-input pt-fill',
       style: { width: '400px' },
@@ -241,6 +256,7 @@ export const GenerateSectionThreeInputFields = (profile, errors) => [
     requiredLabel: true,
     input: {
       type: 'text',
+      value: profile.github,
       id: 'github',
       className: 'pt-input pt-fill',
       style: { width: '400px' },

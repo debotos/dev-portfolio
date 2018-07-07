@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import Spinner from '../common/Spinner';
 import { getCurrentProfile } from '../../redux/actions/profileActions';
 
+import './profile.css';
+
 import VerticalTabs from './Tabs';
 
 class Profile extends Component {
@@ -33,7 +35,7 @@ class Profile extends Component {
       </div>
     ) : (
       <div>
-        <VerticalTabs profile={profile} />
+        <VerticalTabs />
       </div>
     );
   }

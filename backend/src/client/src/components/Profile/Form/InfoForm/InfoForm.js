@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Button, TextArea, Intent, FormGroup } from '@blueprintjs/core';
+import { TextArea, Intent, FormGroup } from '@blueprintjs/core';
 import { createProfile } from '../../../../redux/actions/profileActions';
 
 import ProfileFormTextField from './ProfileFormTextField';
@@ -21,40 +21,39 @@ class ProfileForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      porfile_name: '',
-      full_name: '',
-      bio: '',
-      email: '',
-      address: '',
-      map_address: '',
-      resume_link: '',
-      age: '',
-      residence: '',
-      skillsAt: '',
-      phone: '',
-      youtube: '',
-      twitter: '',
-      facebook: '',
-      linkedin: '',
-      instagram: '',
-      github: '',
+      profile_name: this.props.profile.profile.profile_name,
+      full_name: this.props.profile.profile.full_name,
+      bio: this.props.profile.profile.bio,
+      email: this.props.profile.profile.email,
+      address: this.props.profile.profile.address,
+      map_address: this.props.profile.profile.map_address,
+      resume_link: this.props.profile.profile.resume_link,
+      age: this.props.profile.profile.age,
+      residence: this.props.profile.profile.residence,
+      skillsAt: this.props.profile.profile.skillsAt,
+      phone: this.props.profile.profile.phone,
+      youtube: this.props.profile.profile.social.youtube,
+      twitter: this.props.profile.profile.social.twitter,
+      facebook: this.props.profile.profile.social.facebook,
+      linkedin: this.props.profile.profile.social.linkedin,
+      instagram: this.props.profile.profile.social.instagram,
+      github: this.props.profile.profile.social.github,
       errors: {}
     };
     this.onSubmit = this.onSubmit.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
-  onChange = e => {
-    console.log(e.target.value);
-    this.setState({ [e.target.name]: e.target.value });
-  };
+  onChange(e) {
+    this.setState({ [e.target.id]: e.target.value });
+  }
   handleBioChange = e => {
     console.log(e.target.value);
     this.setState({ bio: e.target.value });
   };
   onSubmit(e) {
-    alert('some');
     e.preventDefault();
     const profileData = {
-      porfile_name: this.state.porfile_name,
+      profile_name: this.state.profile_name,
       full_name: this.state.full_name,
       bio: this.state.bio,
       email: this.state.email,
@@ -72,22 +71,21 @@ class ProfileForm extends Component {
       instagram: this.state.instagram,
       github: this.state.github
     };
-    console.log('sending porfile datat => ', profileData);
+    console.log('sending porfile data => ', profileData);
     this.props.createProfile(profileData, this.props.history);
   }
   render() {
     const { errors } = this.state;
-    const { profile } = this.props;
     const InputFieldsSectionOne = GenerateSectionOneInputFields(
-      profile,
+      this.state,
       errors
     );
     const InputFieldsSectionTwo = GenerateSectionTwoInputFields(
-      profile,
+      this.state,
       errors
     );
     const InputFieldsSectionThree = GenerateSectionThreeInputFields(
-      profile,
+      this.state,
       errors
     );
     return (

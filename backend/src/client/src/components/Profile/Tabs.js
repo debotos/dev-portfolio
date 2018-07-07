@@ -18,20 +18,16 @@ export default class VerticalTabs extends Component {
         onChange={this.handleTabChange}
         renderActiveTabPanelOnly={this.state.activePanelOnly}
       >
-        <Tab
-          id="info"
-          title="Basic Info"
-          panel={<InfoPanel profile={this.props.profile} />}
-        />
+        <Tab id="info" title="Basic Info" panel={<InfoPanel />} />
         <Tab
           id="testimonial"
           title="Testimonial"
-          panel={<TestimonialPanel profile={this.props.profile} />}
+          panel={<TestimonialPanel />}
         />
         <Tab
           id="education"
           title="Education/Experiences"
-          panel={<EducationPanel profile={this.props.profile} />}
+          panel={<EducationPanel />}
         />
       </Tabs>
     );

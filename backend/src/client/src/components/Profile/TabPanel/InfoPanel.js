@@ -6,7 +6,7 @@ export default class InfoPanel extends Component {
   render() {
     return (
       <div>
-        <InfoForm profile={this.props.profile} />
+        <InfoForm />
       </div>
     );
   }
