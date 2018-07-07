@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import Spinner from '../common/Spinner';
 import { getCurrentProfile } from '../../redux/actions/profileActions';
 
-import ProfileForm from './ProfileForm';
 import VerticalTabs from './Tabs';
 
 class Profile extends Component {
@@ -31,20 +30,10 @@ class Profile extends Component {
         }}
       >
         <Spinner />
-        {/* <ProfileForm profile={profile} /> */}
       </div>
     ) : (
-      <div class="row">
-        <div class="col-2">
-          {/* This content will take up 2/12 of the container */}
-          <VerticalTabs />
-        </div>
-        <div class="col-10">
-          {/* This content will take up 10/12 of the container */}
-          <div>
-            <ProfileForm profile={profile} />
-          </div>
-        </div>
+      <div>
+        <VerticalTabs profile={profile} />
       </div>
     );
   }

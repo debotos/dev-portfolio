@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 
+import InfoForm from '../Form/InfoForm/InfoForm';
+
 export default class InfoPanel extends Component {
   render() {
-    return <div>Basic Info Panel</div>;
+    return (
+      <div>
+        <InfoForm profile={this.props.profile} />
+      </div>
+    );
   }
 }
