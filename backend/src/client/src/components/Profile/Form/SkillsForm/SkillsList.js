@@ -9,8 +9,6 @@ class SkillsList extends Component {
   render() {
     const { profile } = this.props.profile;
     const skills = profile.skills ? profile.skills : [];
-    console.log(skills);
-
     return (
       <div>
         {skills.length > 0 && (

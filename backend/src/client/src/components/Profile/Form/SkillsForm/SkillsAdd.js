@@ -8,7 +8,6 @@ import { addSkills } from '../../../../redux/actions/profileActions';
 
 class SkillsAdd extends Component {
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
     }
@@ -48,7 +47,6 @@ class SkillsAdd extends Component {
       title: this.state.newSkillTitle,
       percentage: this.state.newSkillPrecentage
     };
-    console.log('sending new skill data => ', newSkillData);
     this.props.addSkills(newSkillData, this.props.history);
     setTimeout(() => {
       this.setState({ submitButtonWorkingState: false });
@@ -57,14 +55,13 @@ class SkillsAdd extends Component {
         intent: Intent.SUCCESS,
         message: 'Successful! New Skill Added!'
       });
-    }, 1500);
+    }, 500);
   };
   onChange = e => {
     this.setState({ [e.target.id]: e.target.value });
   };
   render() {
     const { errors } = this.state;
-    console.log(errors);
     return (
       <div>
         <form onSubmit={this.onSubmit}>

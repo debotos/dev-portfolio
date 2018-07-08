@@ -126,7 +126,12 @@ export const getProfiles = () => dispatch => {
 export const addSkills = (skillsData, history) => dispatch => {
   axios
     .post('/api/profile/skills', skillsData)
-    .then(res => history.push('/dashboard'))
+    .then(res =>
+      dispatch({
+        type: GET_PROFILE,
+        payload: res.data
+      })
+    )
     .catch(err =>
       dispatch({
         type: GET_ERRORS,

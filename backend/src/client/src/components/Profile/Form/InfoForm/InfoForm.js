@@ -133,7 +133,7 @@ class ProfileForm extends Component {
     setTimeout(() => {
       this.setState({ submitButtonWorkingState: false });
       this.addToast();
-    }, 1500);
+    }, 500);
   }
   render() {
     const { errors } = this.state;
