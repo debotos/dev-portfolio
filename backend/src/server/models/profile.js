@@ -10,20 +10,20 @@ const ProfileSchema = new Schema({
   profile_name: {
     type: String,
     trim: true,
-    minlength: 5,
+    minlength: 3,
     maxlength: 255
   },
   full_name: {
     type: String,
     required: true,
     trim: true,
-    minlength: 5,
+    minlength: 3,
     maxlength: 255
   },
   bio: {
     type: String,
     trim: true,
-    minlength: 40,
+    minlength: 10,
     maxlength: 500
   },
   phone: {
@@ -56,7 +56,7 @@ const ProfileSchema = new Schema({
   },
   age: {
     type: Number,
-    min: 20,
+    min: 10,
     max: 100
   },
   residence: {
@@ -93,7 +93,7 @@ const ProfileSchema = new Schema({
         required: true
       },
       img: {
-        type: String,
+        type: String
         // required: true
       },
       testimonial: {
@@ -139,7 +139,7 @@ const ProfileSchema = new Schema({
         required: true
       },
       img: {
-        type: String,
+        type: String
         // required: true
       },
       info: {

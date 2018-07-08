@@ -9,6 +9,9 @@ module.exports = function validateProfileInput(data) {
     console.log(key, typeof data[key]);
   }
   */
+  for (var key in data) {
+    console.log(key, typeof data[key]);
+  }
   data.profile_name = !isEmpty(data.profile_name) ? data.profile_name : '';
   data.full_name = !isEmpty(data.full_name) ? data.full_name : '';
   data.bio = !isEmpty(data.bio) ? data.bio : '';
@@ -17,8 +20,8 @@ module.exports = function validateProfileInput(data) {
   data.map_address = !isEmpty(data.map_address) ? data.map_address : '';
   data.resume_link = !isEmpty(data.resume_link) ? data.resume_link : '';
   data.residence = !isEmpty(data.residence) ? data.residence : '';
-  data.skillsAt = !isEmpty(data.skillsAt) ? data.skillsAt.join() : ''; // .join() to make the array -> string
-  data.phone = !isEmpty(data.phone) ? data.phone.join() : '';
+  data.skillsAt = !isEmpty(data.skillsAt) ? data.skillsAt : ''; // .join() to make the array -> string
+  data.phone = !isEmpty(data.phone) ? data.phone : '';
   // profile_name
   if (!Validator.isLength(data.profile_name, { min: 4, max: 100 })) {
     errors.profile_name = 'profile name needs to between 4 and 100 characters';
@@ -96,6 +99,12 @@ module.exports = function validateProfileInput(data) {
   // age
   if (!data.age) {
     errors.age = 'age field is required';
+  }
+
+  if (data.age) {
+    if (data.age <= 10) {
+      errors.age = 'age have to be bigger than 10';
+    }
   }
 
   // Social Media

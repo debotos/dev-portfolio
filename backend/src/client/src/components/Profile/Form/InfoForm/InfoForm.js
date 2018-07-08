@@ -28,23 +28,53 @@ class ProfileForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      profile_name: this.props.profile.profile.profile_name,
-      full_name: this.props.profile.profile.full_name,
-      bio: this.props.profile.profile.bio,
-      email: this.props.profile.profile.email,
-      address: this.props.profile.profile.address,
-      map_address: this.props.profile.profile.map_address,
-      resume_link: this.props.profile.profile.resume_link,
-      age: this.props.profile.profile.age,
-      residence: this.props.profile.profile.residence,
-      skillsAt: this.props.profile.profile.skillsAt,
-      phone: this.props.profile.profile.phone,
-      youtube: this.props.profile.profile.social.youtube,
-      twitter: this.props.profile.profile.social.twitter,
-      facebook: this.props.profile.profile.social.facebook,
-      linkedin: this.props.profile.profile.social.linkedin,
-      instagram: this.props.profile.profile.social.instagram,
-      github: this.props.profile.profile.social.github,
+      profile_name: this.props.profile.profile.profile_name
+        ? this.props.profile.profile.profile_name
+        : '',
+      full_name: this.props.profile.profile.full_name
+        ? this.props.profile.profile.full_name
+        : '',
+      bio: this.props.profile.profile.bio ? this.props.profile.profile.bio : '',
+      email: this.props.profile.profile.email
+        ? this.props.profile.profile.email
+        : '',
+      address: this.props.profile.profile.address
+        ? this.props.profile.profile.address
+        : '',
+      map_address: this.props.profile.profile.map_address
+        ? this.props.profile.profile.map_address
+        : '',
+      resume_link: this.props.profile.profile.resume_link
+        ? this.props.profile.profile.resume_link
+        : '',
+      age: this.props.profile.profile.age ? this.props.profile.profile.age : '',
+      residence: this.props.profile.profile.residence
+        ? this.props.profile.profile.residence
+        : '',
+      skillsAt: this.props.profile.profile.skillsAt
+        ? this.props.profile.profile.skillsAt.join()
+        : '',
+      phone: this.props.profile.profile.phone
+        ? this.props.profile.profile.phone.join()
+        : '',
+      youtube: this.props.profile.profile.social.youtube
+        ? this.props.profile.profile.social.youtube
+        : '',
+      twitter: this.props.profile.profile.social.twitter
+        ? this.props.profile.profile.social.twitter
+        : '',
+      facebook: this.props.profile.profile.social.facebook
+        ? this.props.profile.profile.social.facebook
+        : '',
+      linkedin: this.props.profile.profile.social.linkedin
+        ? this.props.profile.profile.social.linkedin
+        : '',
+      instagram: this.props.profile.profile.social.instagram
+        ? this.props.profile.profile.social.instagram
+        : '',
+      github: this.props.profile.profile.social.github
+        ? this.props.profile.profile.social.github
+        : '',
       errors: {},
       submitButtonWorkingState: false,
       toasts: [
@@ -59,11 +89,13 @@ class ProfileForm extends Component {
   };
 
   addToast = () => {
-    this.toaster.show({
-      icon: 'tick',
-      intent: Intent.SUCCESS,
-      message: 'Successful! Profile Updated!'
-    });
+    if (Object.keys(this.state.errors).length === 0) {
+      this.toaster.show({
+        icon: 'tick',
+        intent: Intent.SUCCESS,
+        message: 'Successful! Profile Updated!'
+      });
+    }
   };
   onChange(e) {
     this.setState({ [e.target.id]: e.target.value });
@@ -74,6 +106,7 @@ class ProfileForm extends Component {
   };
   onSubmit(e) {
     e.preventDefault();
+    this.setState({ errors: {} });
     this.setState({
       submitButtonWorkingState: true
     });
@@ -96,7 +129,6 @@ class ProfileForm extends Component {
       instagram: this.state.instagram,
       github: this.state.github
     };
-    console.log('sending porfile data => ', profileData);
     this.props.createProfile(profileData, this.props.history);
     setTimeout(() => {
       this.setState({ submitButtonWorkingState: false });
