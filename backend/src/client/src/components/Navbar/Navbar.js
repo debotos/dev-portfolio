@@ -2,17 +2,20 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Button, Intent, Position, Toast, Toaster } from '@blueprintjs/core';
-import { logoutUser } from '../../redux/actions/authActions';
-import { clearCurrentProfile } from '../../redux/actions/profileActions';
-
 import {
+  Button,
+  Intent,
+  Position,
+  Toast,
+  Toaster,
   Navbar,
   // Alignment,
   // NavbarHeading,
   NavbarDivider,
   NavbarGroup
 } from '@blueprintjs/core';
+import { logoutUser } from '../../redux/actions/authActions';
+import { clearCurrentProfile } from '../../redux/actions/profileActions';
 
 class NavBar extends React.Component {
   state = {
@@ -27,7 +30,6 @@ class NavBar extends React.Component {
 
   addToast = () => {
     this.toaster.show({
-      button: 'Log out',
       icon: 'hand',
       intent: Intent.WARNING,
       message: 'Goodbye !'

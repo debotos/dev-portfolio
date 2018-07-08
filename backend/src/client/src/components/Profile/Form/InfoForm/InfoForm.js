@@ -2,7 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { TextArea, Intent, FormGroup } from '@blueprintjs/core';
+import {
+  TextArea,
+  Intent,
+  Position,
+  Toast,
+  Toaster,
+  FormGroup
+} from '@blueprintjs/core';
 import { createProfile } from '../../../../redux/actions/profileActions';
 
 import ProfileFormTextField from './ProfileFormTextField';
@@ -38,11 +45,26 @@ class ProfileForm extends Component {
       linkedin: this.props.profile.profile.social.linkedin,
       instagram: this.props.profile.profile.social.instagram,
       github: this.props.profile.profile.social.github,
-      errors: {}
+      errors: {},
+      submitButtonWorkingState: false,
+      toasts: [
+        /* IToastProps[] */
+      ]
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
   }
+  refHandlers = {
+    toaster: ref => (this.toaster = ref)
+  };
+
+  addToast = () => {
+    this.toaster.show({
+      icon: 'tick',
+      intent: Intent.SUCCESS,
+      message: 'Successful! Profile Updated!'
+    });
+  };
   onChange(e) {
     this.setState({ [e.target.id]: e.target.value });
   }
@@ -52,6 +74,9 @@ class ProfileForm extends Component {
   };
   onSubmit(e) {
     e.preventDefault();
+    this.setState({
+      submitButtonWorkingState: true
+    });
     const profileData = {
       profile_name: this.state.profile_name,
       full_name: this.state.full_name,
@@ -73,6 +98,10 @@ class ProfileForm extends Component {
     };
     console.log('sending porfile data => ', profileData);
     this.props.createProfile(profileData, this.props.history);
+    setTimeout(() => {
+      this.setState({ submitButtonWorkingState: false });
+      this.addToast();
+    }, 1500);
   }
   render() {
     const { errors } = this.state;
@@ -144,14 +173,36 @@ class ProfileForm extends Component {
             </div>
           </div>
           <div style={{ textAlign: 'center' }}>
-            <input
-              type="submit"
-              value="Submit"
-              className="pt-button pt-large pt-intent-success"
-            />
+            {this.state.submitButtonWorkingState ? (
+              <div className="pt-spinner pt-small">
+                <div className="pt-spinner-svg-container">
+                  <svg viewBox="0 0 100 100">
+                    <path
+                      className="pt-spinner-track"
+                      d="M 50,50 m 0,-44.5 a 44.5,44.5 0 1 1 0,89 a 44.5,44.5 0 1 1 0,-89"
+                    />
+                    <path
+                      className="pt-spinner-head"
+                      d="M 94.5 50 A 44.5 44.5 0 0 0 50 5.5"
+                    />
+                  </svg>
+                </div>
+              </div>
+            ) : (
+              <input
+                type="submit"
+                value="Submit"
+                className="pt-button pt-large pt-intent-success"
+              />
+            )}
           </div>
         </form>
-        {/* <h2>{JSON.stringify(profile)}</h2> */}
+        <div>
+          <Toaster position={Position.TOP} ref={this.refHandlers.toaster}>
+            {/* "Toasted!" will appear here after clicking button. */}
+            {this.state.toasts.map(toast => <Toast {...toast} />)}
+          </Toaster>
+        </div>
       </div>
     );
   }
