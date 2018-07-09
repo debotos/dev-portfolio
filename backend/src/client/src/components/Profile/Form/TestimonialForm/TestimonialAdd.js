@@ -42,12 +42,69 @@ class TestimonialAdd extends Component {
       toasts: [
         /* IToastProps[] */
       ],
+      image_file_uploaded: false,
       testimonial_name: '',
       testimonial_job: '',
       testimonial_content: '',
       selectedFile: null
     };
   }
+  uploadImageThenAddDetailsToDB = () => {
+    // create form data using img for stream upload in cloudinary
+    const data = new FormData();
+    data.append('file', this.state.selectedFile);
+    data.append(
+      'img_name',
+      new Date().toISOString() + '-' + this.state.selectedFile.name
+    );
+    data.append('name', this.state.testimonial_name);
+    data.append('job', this.state.testimonial_job);
+    data.append('testimonial', this.state.testimonial_content);
+    axios
+      .post('api/profile/testimonials/img/upload', data, {
+        onUploadProgress: progressEvent => {
+          console.log(progressEvent);
+        }
+      })
+      .then(response => {
+        if (response.data.success) {
+          // image file upload successful
+          this.setState({ image_file_uploaded: true });
+          const newTestimonialData = {
+            name: this.state.testimonial_name,
+            job: this.state.testimonial_job,
+            testimonial: this.state.testimonial_content,
+            img: response.data.fileUrl
+          };
+          console.log(newTestimonialData);
+          this.props.addTestimonials(newTestimonialData, this.props.history);
+          // turn off spinner
+          this.setState({ submitButtonWorkingState: false });
+          this.addToast({
+            icon: 'tick',
+            intent: Intent.SUCCESS,
+            message: 'Successful! New Testimonial Added!'
+          });
+        } else {
+          console.log('Error happen in file upload: ', response);
+          this.setState({ submitButtonWorkingState: false });
+          this.addToast({
+            icon: 'error',
+            intent: Intent.DANGER,
+            message: 'Error! Check console!!!'
+          });
+        }
+      })
+      .catch(err => {
+        console.log('Error log: ', err);
+        this.setState({ submitButtonWorkingState: false });
+        this.addToast({
+          icon: 'error',
+          intent: Intent.DANGER,
+          message: 'Error! Check console!!!'
+        });
+      });
+  };
   onSubmit = e => {
     e.preventDefault();
     this.setState({ errors: {} });
@@ -55,24 +112,8 @@ class TestimonialAdd extends Component {
       submitButtonWorkingState: true
     });
     if (this.state.selectedFile) {
-      // Upload Image and grab the image_url
-      // this.uploadHandler();
-      const newTestimonialData = {
-        name: this.state.testimonial_name,
-        job: this.state.testimonial_job,
-        testimonial: this.state.testimonial_content
-      };
-      console.log(newTestimonialData);
-      // Add testimonial to Database
-      this.props.addTestimonials(newTestimonialData, this.props.history);
-      setTimeout(() => {
-        this.setState({ submitButtonWorkingState: false });
-        this.addToast({
-          icon: 'tick',
-          intent: Intent.SUCCESS,
-          message: 'Successful! New Testimonial Added!'
-        });
-      }, 500);
+      // Main work
+      this.uploadImageThenAddDetailsToDB();
     } else {
       setTimeout(() => {
         this.setState({ submitButtonWorkingState: false });
@@ -92,25 +133,15 @@ class TestimonialAdd extends Component {
     console.log(file);
     this.setState({ selectedFile: file });
   };
-  uploadHandler = () => {
-    console.log(this.state.selectedFile);
-    const formData = new FormData();
-    formData.append(
-      'myFile',
-      this.state.selectedFile,
-      this.state.selectedFile.name
-    );
-    axios.post('my-domain.com/file-upload', formData, {
-      onUploadProgress: progressEvent => {
-        console.log(progressEvent.loaded / progressEvent.total);
-      }
-    });
-  };
   render() {
     const { errors } = this.state;
     return (
       <div>
-        <form onSubmit={this.onSubmit}>
+        <form
+          method="post"
+          onSubmit={this.onSubmit}
+          encType="multipart/form-data"
+        >
           <div>
             <FormGroup
               helperText={errors.name ? errors.name : ''}
@@ -147,6 +178,7 @@ class TestimonialAdd extends Component {
           </div>
           <div>
             <FileInput
+              name="testimonial_img"
               fill={true}
               text={
                 this.state.selectedFile

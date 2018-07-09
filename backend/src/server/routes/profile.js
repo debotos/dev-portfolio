@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
+const multer = require('multer');
 // const passport = require('passport');
 const auth = require('../middleware/auth');
+const fileUploadMiddleware = require('../middleware/file-upload-middleware');
 
 // Load Validation
 const validateProfileInput = require('../validation/profile');
@@ -17,6 +18,9 @@ const validateCoursesInput = require('../validation/courses');
 const Profile = require('../models/profile');
 // Load User Model
 const User = require('../models/user');
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 // @route   GET api/profile/all
 // @desc    Get all profiles
@@ -264,7 +268,6 @@ router.delete('/skills/:skill_id', auth, (req, res) => {
 // passport.authenticate('jwt', { session: false }) instead of auth middleware
 router.post('/testimonials', auth, (req, res) => {
   const { errors, isValid } = validateTestimonialsInput(req.body);
-
   // Check Validation
   if (!isValid) {
     // Return any errors with 400 status
@@ -285,6 +288,19 @@ router.post('/testimonials', auth, (req, res) => {
     profile.save().then(profile => res.json(profile));
   });
 });
+
+// @route   POST api/profile/testimonials/img/upload
+// @desc    Upload testimonials Image
+// @access  Private
+router.post(
+  '/testimonials/img/upload',
+  auth,
+  upload.single('file'),
+  fileUploadMiddleware,
+  (req, res) => {
+    console.log('Testimonial image to add -> ' + req.files);
+  }
+);
 
 // @route   DELETE api/profile/testimonials/:testimonial_id
 // @desc    Delete testimonial from profile
