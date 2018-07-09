@@ -31,6 +31,71 @@ class TestimonialAdd extends Component {
       this.toaster.show(toastData);
     }
   };
+  /*
+  // this implementation is for [Middleware] file-upload-middleware.js
+  uploadImageThenAddDetailsToDB = () => {
+    // create form data using img for stream upload in cloudinary
+    const data = new FormData();
+    data.append('file', this.state.selectedFile);
+    data.append(
+      'img_name',
+      new Date().toISOString() + '-' + this.state.selectedFile.name
+    );
+    data.append('name', this.state.testimonial_name);
+    data.append('job', this.state.testimonial_job);
+    data.append('testimonial', this.state.testimonial_content);
+    axios
+      .post('api/profile/testimonials/img/upload', data)
+      .then(response => {
+        if (response.data.success) {
+          // image file upload successful
+          this.setState({ image_file_uploaded: true });
+          const newTestimonialData = {
+            name: this.state.testimonial_name,
+            job: this.state.testimonial_job,
+            testimonial: this.state.testimonial_content,
+            img: response.data.fileUrl
+          };
+          this.props.addTestimonials(newTestimonialData, this.props.history);
+          // turn off spinner
+          this.setState({ submitButtonWorkingState: false });
+          this.addToast({
+            icon: 'tick',
+            intent: Intent.SUCCESS,
+            message: 'Successful! New Testimonial Added!'
+          });
+          this.setState({
+            testimonial_name: '',
+            testimonial_job: '',
+            testimonial_content: '',
+            selectedFile: null
+          });
+        } else {
+          console.log('Error happen in file upload: ', response);
+          this.setState({ submitButtonWorkingState: false });
+          this.addToast({
+            icon: 'error',
+            intent: Intent.DANGER,
+            message: 'Error! Check console!!!'
+          });
+        }
+      })
+      .catch(err => {
+        if (err.response.data) {
+          console.log('*******************************');
+          console.log('Error log: ', err.response);
+          console.log('*******************************');
+        }
+        this.setState({ submitButtonWorkingState: false });
+        this.addToast({
+          icon: 'error',
+          intent: Intent.DANGER,
+          message: 'Error! Check console!!!'
+        });
+        this.setState({ errors: err.response.data.errors });
+      });
+  };
+  */
   constructor(props) {
     super(props);
     this.state = {
@@ -61,12 +126,9 @@ class TestimonialAdd extends Component {
     data.append('job', this.state.testimonial_job);
     data.append('testimonial', this.state.testimonial_content);
     axios
-      .post('api/profile/testimonials/img/upload', data, {
-        onUploadProgress: progressEvent => {
-          console.log(progressEvent);
-        }
-      })
+      .post('api/profile/testimonials/img/upload', data)
       .then(response => {
+        console.log('GOT response:', response.data);
         if (response.data.success) {
           // image file upload successful
           this.setState({ image_file_uploaded: true });
@@ -76,7 +138,6 @@ class TestimonialAdd extends Component {
             testimonial: this.state.testimonial_content,
             img: response.data.fileUrl
           };
-          console.log(newTestimonialData);
           this.props.addTestimonials(newTestimonialData, this.props.history);
           // turn off spinner
           this.setState({ submitButtonWorkingState: false });
@@ -84,6 +145,12 @@ class TestimonialAdd extends Component {
             icon: 'tick',
             intent: Intent.SUCCESS,
             message: 'Successful! New Testimonial Added!'
+          });
+          this.setState({
+            testimonial_name: '',
+            testimonial_job: '',
+            testimonial_content: '',
+            selectedFile: null
           });
         } else {
           console.log('Error happen in file upload: ', response);
@@ -96,13 +163,18 @@ class TestimonialAdd extends Component {
         }
       })
       .catch(err => {
-        console.log('Error log: ', err);
+        if (err.response) {
+          console.log('*******************************');
+          console.log('Error log: ', err.response);
+          console.log('*******************************');
+        }
         this.setState({ submitButtonWorkingState: false });
         this.addToast({
           icon: 'error',
           intent: Intent.DANGER,
           message: 'Error! Check console!!!'
         });
+        this.setState({ errors: err.response.data.errors });
       });
   };
   onSubmit = e => {
@@ -130,7 +202,6 @@ class TestimonialAdd extends Component {
   };
   fileChangedHandler = event => {
     const file = event.target.files[0];
-    console.log(file);
     this.setState({ selectedFile: file });
   };
   render() {
@@ -152,6 +223,7 @@ class TestimonialAdd extends Component {
             >
               <input
                 onChange={this.onChange}
+                value={this.state.testimonial_name}
                 style={{ width: '400px' }}
                 className="pt-input .pt-round "
                 id="testimonial_name"
@@ -169,6 +241,7 @@ class TestimonialAdd extends Component {
             >
               <input
                 onChange={this.onChange}
+                value={this.state.testimonial_job}
                 style={{ width: '400px' }}
                 className="pt-input .pt-round "
                 id="testimonial_job"
@@ -183,7 +256,7 @@ class TestimonialAdd extends Component {
               text={
                 this.state.selectedFile
                   ? this.state.selectedFile.name
-                  : 'Select the image of his/her'
+                  : 'Select the image of his/her(200x200)'
               }
               onInputChange={this.fileChangedHandler}
             />
@@ -197,6 +270,7 @@ class TestimonialAdd extends Component {
               requiredLabel={true}
             >
               <TextArea
+                value={this.state.testimonial_content}
                 style={{ height: '105px' }}
                 id="testimonial_content"
                 className="pt-large pt-fill"

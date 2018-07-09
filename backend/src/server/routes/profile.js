@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
+// const winston = require('winston');
 const multer = require('multer');
 // const passport = require('passport');
 const auth = require('../middleware/auth');
-const fileUploadMiddleware = require('../middleware/file-upload-middleware');
+// const fileUploadMiddleware = require('../middleware/file-upload-middleware');
+const multerStorageCloudinary = require('../middleware/multer-storage-cloudinary');
 
 // Load Validation
 const validateProfileInput = require('../validation/profile');
@@ -18,9 +20,6 @@ const validateCoursesInput = require('../validation/courses');
 const Profile = require('../models/profile');
 // Load User Model
 const User = require('../models/user');
-
-const storage = multer.memoryStorage();
-const upload = multer({ storage });
 
 // @route   GET api/profile/all
 // @desc    Get all profiles
@@ -292,14 +291,35 @@ router.post('/testimonials', auth, (req, res) => {
 // @route   POST api/profile/testimonials/img/upload
 // @desc    Upload testimonials Image
 // @access  Private
+// router.post(
+//   '/testimonials/img/upload',
+//   auth,
+//   upload.single('file'),
+//   fileUploadMiddleware,
+//   (req, res) => {
+//     console.log('Testimonial image to add -> ' + req.file);
+//   }
+// );
+
 router.post(
   '/testimonials/img/upload',
   auth,
-  upload.single('file'),
-  fileUploadMiddleware,
-  (req, res) => {
-    console.log('Testimonial image to add -> ' + req.files);
-  }
+  multer().none(), // To get all formData fields in req.body
+  //[N.B: body-parser package can't populate those data because it has encType="multipart/form-data" means file upload related]
+  (req, res, next) => {
+    console.log(req.body);
+
+    const { errors, isValid } = validateTestimonialsInput(req.body);
+    // Check Validation
+    if (!isValid) {
+      // Return any errors with 400 status
+      return res.status(400).json({ errors });
+    }
+    next();
+  },
+  multerStorageCloudinary('testimonials').single('file'), // This middleware takes the folder_name
+  (req, res) =>
+    res.status(200).json({ success: true, fileUrl: req.file.secure_url })
 );
 
 // @route   DELETE api/profile/testimonials/:testimonial_id

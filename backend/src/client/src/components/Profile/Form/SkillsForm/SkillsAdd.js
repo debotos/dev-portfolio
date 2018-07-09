@@ -31,7 +31,7 @@ class SkillsAdd extends Component {
       errors: {},
       submitButtonWorkingState: false,
       newSkillTitle: '',
-      newSkillPrecentage: null,
+      newSkillPrecentage: '',
       toasts: [
         /* IToastProps[] */
       ]
@@ -55,6 +55,10 @@ class SkillsAdd extends Component {
         intent: Intent.SUCCESS,
         message: 'Successful! New Skill Added!'
       });
+      this.setState({
+        newSkillTitle: '',
+        newSkillPrecentage: ''
+      });
     }, 500);
   };
   onChange = e => {
@@ -76,6 +80,7 @@ class SkillsAdd extends Component {
               <input
                 onChange={this.onChange}
                 style={{ width: '400px' }}
+                value={this.state.newSkillTitle}
                 className="pt-input .pt-round "
                 id="newSkillTitle"
                 placeholder="Skill name or Technology"
@@ -92,6 +97,7 @@ class SkillsAdd extends Component {
             >
               <input
                 type="number"
+                value={this.state.newSkillPrecentage}
                 onChange={this.onChange}
                 style={{ width: '400px' }}
                 className="pt-input .pt-round "
