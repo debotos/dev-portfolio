@@ -1,6 +1,11 @@
 import React from 'react';
 
 export default class SkillsListItem extends React.Component {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps) {
+      this.setState({ deleteButtonWorkingState: false });
+    }
+  }
   state = {
     deleteButtonWorkingState: false
   };

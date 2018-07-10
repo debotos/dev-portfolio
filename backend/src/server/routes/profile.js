@@ -307,8 +307,14 @@ router.post(
   '/testimonials/img/upload',
   auth,
   multerStorageCloudinary('testimonials').single('file'), // This middleware takes the folder_name
-  (req, res) =>
-    res.status(200).json({ success: true, fileUrl: req.file.secure_url })
+  (req, res) => {
+    // console.log(req.file);s
+    return res.status(200).json({
+      success: true,
+      fileUrl: req.file.secure_url,
+      fileInfo: req.file
+    });
+  }
 );
 
 // @route   DELETE api/profile/testimonials/:testimonial_id

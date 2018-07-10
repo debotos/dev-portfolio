@@ -4,12 +4,19 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { addSkills } from '../../../../redux/actions/profileActions';
+import {
+  addSkills,
+  clearErrors
+} from '../../../../redux/actions/profileActions';
 
 class SkillsAdd extends Component {
   componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
+    if (nextProps) {
+      if (nextProps.errors) {
+        this.setState({ errors: nextProps.errors });
+      } else {
+        this.setState({ errors: {} });
+      }
     }
   }
 
@@ -20,6 +27,11 @@ class SkillsAdd extends Component {
   addToast = toastData => {
     if (Object.keys(this.state.errors).length === 0) {
       this.toaster.show(toastData);
+      this.setState({
+        newSkillTitle: '',
+        newSkillPrecentage: ''
+      });
+      this.props.clearErrors();
     }
   };
   constructor(props) {
@@ -39,9 +51,9 @@ class SkillsAdd extends Component {
   }
   onSubmit = e => {
     e.preventDefault();
-    this.setState({ errors: {} });
     this.setState({
-      submitButtonWorkingState: true
+      submitButtonWorkingState: true,
+      errors: {}
     });
     const newSkillData = {
       title: this.state.newSkillTitle,
@@ -54,10 +66,6 @@ class SkillsAdd extends Component {
         icon: 'tick',
         intent: Intent.SUCCESS,
         message: 'Successful! New Skill Added!'
-      });
-      this.setState({
-        newSkillTitle: '',
-        newSkillPrecentage: ''
       });
     }, 500);
   };
@@ -154,4 +162,6 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(mapStateToProps, { addSkills })(withRouter(SkillsAdd));
+export default connect(mapStateToProps, { addSkills, clearErrors })(
+  withRouter(SkillsAdd)
+);

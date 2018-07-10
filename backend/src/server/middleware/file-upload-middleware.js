@@ -1,11 +1,7 @@
 const axios = require('axios');
-const cloudinary = require('cloudinary');
-
-const cloudinaryConfig = require('../config/credential/keys').cloudinaryConfig;
+const cloudinary = require('../config/cloudinary');
 
 const validateTestimonialsInput = require('../validation/testimonials');
-
-cloudinary.config(cloudinaryConfig);
 
 function fileUploadMiddleware(req, res) {
   const { errors, isValid } = validateTestimonialsInput(req.body);

@@ -18,8 +18,12 @@ import validateTestimonialsInput from './validatorTestimonial';
 
 class TestimonialAdd extends Component {
   componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
+    if (nextProps) {
+      if (nextProps.errors) {
+        this.setState({ errors: nextProps.errors });
+      } else {
+        this.setState({ errors: {} });
+      }
     }
   }
 

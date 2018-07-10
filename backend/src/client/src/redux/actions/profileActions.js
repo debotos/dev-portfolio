@@ -5,7 +5,8 @@ import {
   GET_PROFILES,
   PROFILE_LOADING,
   CLEAR_CURRENT_PROFILE,
-  GET_ERRORS
+  GET_ERRORS,
+  CLEAR_ERRORS
   // SET_CURRENT_USER
 } from './types';
 
@@ -161,12 +162,12 @@ export const deleteSkills = id => dispatch => {
 export const addTestimonials = (testimonialsData, history) => dispatch => {
   axios
     .post('/api/profile/testimonials', testimonialsData)
-    .then(res =>
-      dispatch({
+    .then(res => {
+      return dispatch({
         type: GET_PROFILE,
         payload: res.data
-      })
-    )
+      });
+    })
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
@@ -256,6 +257,13 @@ export const deletecourses = id => dispatch => {
 export const setProfileLoading = () => {
   return {
     type: PROFILE_LOADING
+  };
+};
+
+// Clear errors
+export const clearErrors = () => {
+  return {
+    type: CLEAR_ERRORS
   };
 };
 

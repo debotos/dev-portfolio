@@ -19,24 +19,17 @@ import { addTestimonials } from '../../../../redux/actions/profileActions';
 import validateTestimonialsInput from './validatorTestimonial';
 
 class TestimonialListItem extends Component {
-  state = {
-    deleteButtonWorkingState: false,
-    errors: {},
-    submitButtonWorkingState: false,
-    toasts: [
-      /* IToastProps[] */
-    ],
-    image_file_uploaded: false,
-    testimonial_name: this.props.data.name ? this.props.data.name : '',
-    testimonial_job: this.props.data.job ? this.props.data.job : '',
-    testimonial_content: this.props.data.testimonial
-      ? this.props.data.testimonial
-      : '',
-    selectedFile: null
-  };
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
+    }
+    if (nextProps.data) {
+      this.setState({
+        testimonial_name: nextProps.data.name,
+        testimonial_job: nextProps.data.job,
+        testimonial_content: nextProps.data.testimonial,
+        deleteButtonWorkingState: false
+      });
     }
   }
 
@@ -54,7 +47,7 @@ class TestimonialListItem extends Component {
     this.props.deleteTestimonials(this.props.id);
     setTimeout(() => {
       this.setState({ deleteButtonWorkingState: false });
-    }, 4000);
+    }, 2000);
   };
   onChange = e => {
     this.setState({ [e.target.id]: e.target.value });
@@ -63,6 +56,25 @@ class TestimonialListItem extends Component {
     const file = event.target.files[0];
     this.setState({ selectedFile: file });
   };
+  constructor(props) {
+    super(props);
+    this.state = {
+      deleteButtonWorkingState: false,
+      errors: {},
+      submitButtonWorkingState: false,
+      toasts: [
+        /* IToastProps[] */
+      ],
+      image_file_uploaded: false,
+      testimonial_name: this.props.data.name ? this.props.data.name : '',
+      testimonial_job: this.props.data.job ? this.props.data.job : '',
+      testimonial_content: this.props.data.testimonial
+        ? this.props.data.testimonial
+        : '',
+      selectedFile: null
+    };
+  }
+
   render() {
     const { data } = this.props;
     const { errors } = this.state;

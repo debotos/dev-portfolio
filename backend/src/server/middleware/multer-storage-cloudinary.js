@@ -1,12 +1,9 @@
-var cloudinary = require('cloudinary');
-var cloudinaryStorage = require('multer-storage-cloudinary');
-var multer = require('multer');
-
-const cloudinaryConfig = require('../config/credential/keys').cloudinaryConfig;
-cloudinary.config(cloudinaryConfig);
+const cloudinaryStorage = require('multer-storage-cloudinary');
+const multer = require('multer');
+const cloudinary = require('../config/cloudinary');
 
 module.exports = path => {
-  var storage = cloudinaryStorage({
+  const storage = cloudinaryStorage({
     cloudinary: cloudinary,
     folder: `my_portfolio/${path}`,
     allowedFormats: ['jpg', 'png', 'svg', 'jpeg'],
@@ -15,6 +12,6 @@ module.exports = path => {
     }
   });
 
-  var parser = multer({ storage: storage });
+  const parser = multer({ storage: storage });
   return parser;
 };
