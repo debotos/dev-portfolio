@@ -161,7 +161,12 @@ export const deleteSkills = id => dispatch => {
 export const addTestimonials = (testimonialsData, history) => dispatch => {
   axios
     .post('/api/profile/testimonials', testimonialsData)
-    .then(res => history.push('/dashboard'))
+    .then(res =>
+      dispatch({
+        type: GET_PROFILE,
+        payload: res.data
+      })
+    )
     .catch(err =>
       dispatch({
         type: GET_ERRORS,

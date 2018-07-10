@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Card, Elevation } from '@blueprintjs/core';
 import { deleteTestimonials } from '../../../../redux/actions/profileActions';
 
 import TestimonialListItem from './TestimonialListItem';
@@ -10,19 +9,28 @@ class TestimonialList extends Component {
     const { profile } = this.props.profile;
     const testimonials = profile.testimonials ? profile.testimonials : [];
     return (
-      <div>
-        {testimonials.length > 0 && (
-          <Card interactive={true} elevation={Elevation.TWO}>
-            {testimonials.map((singleItem, index) => (
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          flexWrap: 'wrap'
+        }}
+      >
+        {testimonials.length > 0 &&
+          testimonials.map((singleItem, index) => (
+            <div
+              key={index}
+              style={{
+                margin: '0 10px 10px 0'
+              }}
+            >
               <TestimonialListItem
                 deleteTestimonials={this.props.deleteTestimonials}
                 id={singleItem._id}
                 data={singleItem}
-                key={index}
               />
-            ))}
-          </Card>
-        )}
+            </div>
+          ))}
       </div>
     );
   }

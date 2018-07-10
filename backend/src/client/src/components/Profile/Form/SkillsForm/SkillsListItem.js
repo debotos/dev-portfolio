@@ -9,7 +9,7 @@ export default class SkillsListItem extends React.Component {
     this.props.deleteSkills(this.props.id);
     setTimeout(() => {
       this.setState({ deleteButtonWorkingState: false });
-    }, 1000);
+    }, 4000);
   };
   render() {
     const { data } = this.props;
