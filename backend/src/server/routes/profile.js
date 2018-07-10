@@ -287,36 +287,25 @@ router.post('/testimonials', auth, (req, res) => {
     profile.save().then(profile => res.json(profile));
   });
 });
-
-// @route   POST api/profile/testimonials/img/upload
-// @desc    Upload testimonials Image
-// @access  Private
-// router.post(
-//   '/testimonials/img/upload',
-//   auth,
-//   upload.single('file'),
-//   fileUploadMiddleware,
-//   (req, res) => {
-//     console.log('Testimonial image to add -> ' + req.file);
-//   }
-// );
+/*
+// this implementation is for [Middleware] file-upload-middleware.js
+@route   POST api/profile/testimonials/img/upload
+@desc    Upload testimonials Image
+@access  Private
+router.post(
+  '/testimonials/img/upload',
+  auth,
+  upload.single('file'),
+  fileUploadMiddleware,
+  (req, res) => {
+    console.log('Testimonial image to add -> ' + req.file);
+  }
+);
+*/
 
 router.post(
   '/testimonials/img/upload',
   auth,
-  multer().none(), // To get all formData fields in req.body
-  //[N.B: body-parser package can't populate those data because it has encType="multipart/form-data" means file upload related]
-  (req, res, next) => {
-    console.log(req.body);
-
-    const { errors, isValid } = validateTestimonialsInput(req.body);
-    // Check Validation
-    if (!isValid) {
-      // Return any errors with 400 status
-      return res.status(400).json({ errors });
-    }
-    next();
-  },
   multerStorageCloudinary('testimonials').single('file'), // This middleware takes the folder_name
   (req, res) =>
     res.status(200).json({ success: true, fileUrl: req.file.secure_url })

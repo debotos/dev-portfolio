@@ -7,6 +7,11 @@ node_modules/
 # production
 build/
 
+# files
+keys_dev.js
+logfile.log
+todo.txt
+
 # misc
 .DS_Store
 .env.local

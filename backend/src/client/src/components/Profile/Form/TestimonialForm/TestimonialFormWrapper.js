@@ -19,9 +19,7 @@ class TestimonialFormWrapper extends Component {
           </Card>
         </div>
         <div>
-          <Card interactive={true} elevation={Elevation.TWO}>
-            <TestimonialList />
-          </Card>
+          <TestimonialList />
         </div>
       </div>
     );

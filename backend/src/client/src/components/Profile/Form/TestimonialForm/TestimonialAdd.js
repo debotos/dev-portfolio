@@ -14,6 +14,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 
 import { addTestimonials } from '../../../../redux/actions/profileActions';
+import validateTestimonialsInput from './validatorTestimonial';
 
 class TestimonialAdd extends Component {
   componentWillReceiveProps(nextProps) {
@@ -128,7 +129,6 @@ class TestimonialAdd extends Component {
     axios
       .post('api/profile/testimonials/img/upload', data)
       .then(response => {
-        console.log('GOT response:', response.data);
         if (response.data.success) {
           // image file upload successful
           this.setState({ image_file_uploaded: true });
@@ -183,10 +183,16 @@ class TestimonialAdd extends Component {
     this.setState({
       submitButtonWorkingState: true
     });
-    if (this.state.selectedFile) {
+    const { errors, isValid } = validateTestimonialsInput({
+      name: this.state.testimonial_name,
+      job: this.state.testimonial_job,
+      testimonial: this.state.testimonial_content
+    });
+    if (this.state.selectedFile && isValid) {
       // Main work
       this.uploadImageThenAddDetailsToDB();
     } else {
+      this.setState({ errors });
       setTimeout(() => {
         this.setState({ submitButtonWorkingState: false });
         this.addToast({
