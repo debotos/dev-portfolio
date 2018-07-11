@@ -8,7 +8,7 @@ node_modules/
 build/
 
 # files
-keys_dev.js
+/backend/src/server/config/credential/keys_dev.js
 logfile.log
 todo.txt
 
