@@ -19,7 +19,10 @@ export default class SkillsListItem extends React.Component {
   render() {
     const { data } = this.props;
     return (
-      <div style={{ display: 'flex' }}>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <h3 style={{ padding: '5px', paddingTop: '9px' }}>
+          {this.props.number}
+        </h3>
         <div style={{ padding: '5px' }}>
           <input
             readOnly

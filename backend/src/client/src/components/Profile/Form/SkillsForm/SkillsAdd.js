@@ -76,6 +76,7 @@ class SkillsAdd extends Component {
     const { errors } = this.state;
     return (
       <div>
+        <h3 style={{ textAlign: 'center' }}>Add New Skill</h3>
         <form onSubmit={this.onSubmit}>
           <div>
             <FormGroup

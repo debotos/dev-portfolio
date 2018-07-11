@@ -224,6 +224,7 @@ class TestimonialAdd extends Component {
     const { errors } = this.state;
     return (
       <div>
+        <h4 style={{ textAlign: 'center' }}>Add Testimonial</h4>
         <form
           method="post"
           onSubmit={this.onSubmit}

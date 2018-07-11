@@ -17,6 +17,7 @@ class SkillsList extends Component {
               <SkillsListItem
                 deleteSkills={this.props.deleteSkills}
                 id={singleItem._id}
+                number={index + 1}
                 data={singleItem}
                 key={index}
               />

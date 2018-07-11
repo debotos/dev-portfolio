@@ -13,7 +13,10 @@ import {
 } from '@blueprintjs/core';
 import moment from 'moment';
 
-import { addEducation } from '../../../../redux/actions/profileActions';
+import {
+  addEducation,
+  clearErrors
+} from '../../../../redux/actions/profileActions';
 
 class AddEducation extends Component {
   constructor(props) {
@@ -45,6 +48,15 @@ class AddEducation extends Component {
   addToast = toastData => {
     if (Object.keys(this.state.errors).length === 0) {
       this.toaster.show(toastData);
+      this.setState({
+        school: '',
+        degree: '',
+        fieldofstudy: '',
+        from: moment().format('YYYY-MM-DD'),
+        to: '',
+        description: ''
+      });
+      this.props.clearErrors();
     }
   };
   componentWillReceiveProps(nextProps) {
@@ -60,6 +72,11 @@ class AddEducation extends Component {
   onSubmit(e) {
     e.preventDefault();
 
+    this.setState({
+      submitButtonWorkingState: true,
+      errors: {}
+    });
+
     const eduData = {
       school: this.state.school,
       degree: this.state.degree,
@@ -71,6 +88,15 @@ class AddEducation extends Component {
     };
 
     this.props.addEducation(eduData, this.props.history);
+
+    setTimeout(() => {
+      this.setState({ submitButtonWorkingState: false });
+      this.addToast({
+        icon: 'tick',
+        intent: Intent.SUCCESS,
+        message: 'Successful! Education Added!'
+      });
+    }, 500);
   }
 
   onChange(e) {
@@ -88,6 +114,7 @@ class AddEducation extends Component {
     const { errors } = this.state;
     return (
       <div>
+        <h4 style={{ textAlign: 'center' }}>Add Education/Experiences</h4>
         <form onSubmit={this.onSubmit}>
           <div>
             <FormGroup
@@ -271,6 +298,6 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(mapStateToProps, { addEducation })(
+export default connect(mapStateToProps, { addEducation, clearErrors })(
   withRouter(AddEducation)
 );

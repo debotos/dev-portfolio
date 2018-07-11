@@ -47,6 +47,7 @@ class TestimonialListItem extends Component {
     }
   };
   handleItemDelete = () => {
+    // @todo : add a confirm dialog
     this.setState({ deleteButtonWorkingState: true });
     this.props.deleteTestimonials(this.props.id);
     setTimeout(() => {
@@ -84,6 +85,7 @@ class TestimonialListItem extends Component {
     const { errors } = this.state;
     return (
       <Card interactive={true} elevation={Elevation.TWO}>
+        <h2 style={{ textAlign: 'center' }}>{this.props.number}</h2>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <div>
             <FormGroup
@@ -121,6 +123,7 @@ class TestimonialListItem extends Component {
               />
             </FormGroup>
           </div>
+          {/* @todo: add the testimonial image here */}
           <div>
             <FormGroup
               className="pt-form-group"

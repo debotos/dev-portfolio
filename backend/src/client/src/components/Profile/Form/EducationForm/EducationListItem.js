@@ -1,7 +1,338 @@
 import React, { Component } from 'react';
+import { Card, Elevation } from '@blueprintjs/core';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import {
+  FormGroup,
+  Checkbox,
+  Intent,
+  Position,
+  Toast,
+  Toaster,
+  TextArea
+} from '@blueprintjs/core';
+import moment from 'moment';
 
-export default class EducationListItem extends Component {
+import {
+  // updateEducation, @todo
+  deleteEducation
+} from '../../../../redux/actions/profileActions';
+import validateExperienceInput from './validatorEducation';
+
+class EducationListItem extends Component {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.data) {
+      this.setState({
+        deleteButtonWorkingState: false,
+        submitButtonWorkingState: false,
+        disabled: nextProps.data.current ? nextProps.data.current : false,
+        school: nextProps.data.school,
+        degree: nextProps.data.degree,
+        fieldofstudy: nextProps.data.fieldofstudy,
+        from: nextProps.data.from
+          ? nextProps.data.from.split('T')[0]
+          : moment().format('YYYY-MM-DD'),
+        to: nextProps.data.to ? nextProps.data.to.split('T')[0] : '',
+        current: nextProps.data.current ? nextProps.data.current : false,
+        description: nextProps.data.description
+      });
+    }
+  }
+  constructor(props) {
+    super(props);
+    this.state = {
+      school: this.props.data.school ? this.props.data.school : '',
+      degree: this.props.data.degree ? this.props.data.degree : '',
+      fieldofstudy: this.props.data.fieldofstudy
+        ? this.props.data.fieldofstudy
+        : '',
+      from: this.props.data.from
+        ? this.props.data.from.split('T')[0]
+        : moment().format('YYYY-MM-DD'),
+      to: this.props.data.to ? this.props.data.to.split('T')[0] : '',
+      current: this.props.data.current ? this.props.data.current : false,
+      description: this.props.data.description
+        ? this.props.data.description
+        : '',
+      errors: {},
+      disabled: this.props.data.current ? this.props.data.current : false,
+      toasts: [
+        /* IToastProps[] */
+      ],
+      submitButtonWorkingState: false,
+      deleteButtonWorkingState: false
+    };
+    this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onCheck = this.onCheck.bind(this);
+  }
+  refHandlers = {
+    toaster: ref => (this.toaster = ref)
+  };
+
+  addToast = toastData => {
+    if (Object.keys(this.state.errors).length === 0) {
+      this.toaster.show(toastData);
+    }
+  };
+  onSubmit(e) {
+    // Submit is for updating
+    e.preventDefault();
+    this.setState({
+      submitButtonWorkingState: true,
+      errors: {}
+    });
+    const { errors, isValid } = validateExperienceInput(this.state);
+    // Check Validation
+    if (isValid) {
+      const eduData = {
+        school: this.state.school,
+        degree: this.state.degree,
+        fieldofstudy: this.state.fieldofstudy,
+        from: this.state.from,
+        to: this.state.to,
+        current: this.state.current,
+        description: this.state.description
+      };
+      // this.props.updateEducation(eduData, this.props.history); @todo
+      setTimeout(() => {
+        this.setState({ submitButtonWorkingState: false });
+        this.addToast({
+          icon: 'tick',
+          intent: Intent.SUCCESS,
+          message: 'Successful! Education Updated!'
+        });
+      }, 500);
+    } else {
+      this.setState({ errors });
+      this.setState({ submitButtonWorkingState: false });
+      this.addToast({
+        icon: 'tick',
+        intent: Intent.WARNING,
+        message: 'Error! Valid input please!'
+      });
+    }
+  }
+
+  handleItemDelete = () => {
+    // @todo : add a confirm dialog
+    this.setState({ deleteButtonWorkingState: true });
+    this.props.deleteEducation(this.props.data._id);
+    setTimeout(() => {
+      this.setState({ deleteButtonWorkingState: false });
+    }, 2000);
+  };
+
+  onChange(e) {
+    // console.log(`[${e.target.id}]: ${e.target.value}`);
+    this.setState({ [e.target.id]: e.target.value });
+  }
+  onCheck(e) {
+    this.setState({
+      disabled: !this.state.disabled,
+      current: !this.state.current
+    });
+  }
+
   render() {
-    return <div>Education List Item</div>;
+    const { errors } = this.state;
+
+    return (
+      <Card interactive={true} elevation={Elevation.TWO}>
+        <h2 style={{ textAlign: 'center' }}>{this.props.number}</h2>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <div>
+            <div>
+              <FormGroup
+                helperText={errors.school ? errors.school : ''}
+                label="School"
+                labelFor="school"
+                requiredLabel={true}
+                className="pt-form-group"
+              >
+                <input
+                  onChange={this.onChange}
+                  style={{ width: '400px' }}
+                  value={this.state.school}
+                  className="pt-input .pt-round"
+                  id="school"
+                  placeholder="School eg. National University"
+                />
+              </FormGroup>
+            </div>
+            <div>
+              <FormGroup
+                helperText={errors.degree ? errors.degree : ''}
+                label="Degree"
+                labelFor="degree"
+                requiredLabel={true}
+                className="pt-form-group"
+              >
+                <input
+                  onChange={this.onChange}
+                  style={{ width: '400px' }}
+                  value={this.state.degree}
+                  className="pt-input .pt-round"
+                  id="degree"
+                  placeholder="Degree eg. B.Sc"
+                />
+              </FormGroup>
+            </div>
+            <div>
+              <FormGroup
+                helperText={errors.fieldofstudy ? errors.fieldofstudy : ''}
+                label="Field Of Study"
+                labelFor="fieldofstudy"
+                requiredLabel={true}
+                className="pt-form-group"
+              >
+                <input
+                  onChange={this.onChange}
+                  style={{ width: '400px' }}
+                  value={this.state.fieldofstudy}
+                  className="pt-input .pt-round"
+                  id="fieldofstudy"
+                  placeholder="Field Of Study eg. CSE"
+                />
+              </FormGroup>
+            </div>
+            {/* Date related */}
+            <div
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                justifyContent: 'space-between',
+                alignItems: 'center'
+              }}
+            >
+              <div>
+                <FormGroup
+                  label="From"
+                  labelFor="from"
+                  requiredLabel={true}
+                  className="pt-form-group"
+                  helperText={errors.from ? errors.from : ''}
+                >
+                  <input
+                    type="date"
+                    id="from"
+                    name="from"
+                    className="pt-input"
+                    value={this.state.from}
+                    onChange={this.onChange}
+                    min="2000-01-01"
+                    max="2060-01-01"
+                  />
+                </FormGroup>
+              </div>
+              <div>
+                <FormGroup
+                  label="To"
+                  labelFor="to"
+                  className="pt-form-group"
+                  helperText={errors.to ? errors.to : ''}
+                >
+                  <input
+                    type="date"
+                    id="to"
+                    name="to"
+                    className="pt-input"
+                    value={this.state.to}
+                    onChange={this.onChange}
+                    min="2000-01-01"
+                    max="2060-01-01"
+                    disabled={this.state.disabled ? 'disabled' : ''}
+                  />
+                </FormGroup>
+              </div>
+              <div style={{ marginTop: '20px' }}>
+                <Checkbox
+                  id="current"
+                  name="current"
+                  checked={this.state.current}
+                  value={this.state.current}
+                  label="Current"
+                  onChange={this.onCheck}
+                />
+              </div>
+            </div>
+            {/* Date related staff end */}
+            <div>
+              <FormGroup
+                className="pt-form-group"
+                helperText={errors ? errors.description : ''}
+                label="Description"
+                labelFor="description"
+                requiredLabel={true}
+              >
+                <TextArea
+                  value={this.state.description}
+                  style={{ height: '105px' }}
+                  id="description"
+                  className="pt-large pt-fill"
+                  large={true}
+                  intent={Intent.PRIMARY}
+                  onChange={this.onChange}
+                  placeholder="Details/Description"
+                />
+              </FormGroup>
+            </div>
+            <div style={{ textAlign: 'center' }}>
+              {this.state.submitButtonWorkingState ||
+              this.state.deleteButtonWorkingState ? (
+                <div className="pt-spinner pt-small">
+                  <div className="pt-spinner-svg-container">
+                    <svg viewBox="0 0 100 100">
+                      <path
+                        className="pt-spinner-track"
+                        d="M 50,50 m 0,-44.5 a 44.5,44.5 0 1 1 0,89 a 44.5,44.5 0 1 1 0,-89"
+                      />
+                      <path
+                        className="pt-spinner-head"
+                        d="M 94.5 50 A 44.5 44.5 0 0 0 50 5.5"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              ) : (
+                <div
+                  style={{ display: 'flex', justifyContent: 'space-around' }}
+                >
+                  <button
+                    onClick={this.onSubmit}
+                    style={{ padding: '8px' }}
+                    className="pt-button pt-intent-success"
+                  >
+                    Update<span className="pt-icon-standard pt-icon-tick-circle pt-align-right" />
+                  </button>
+                  <button
+                    onClick={this.handleItemDelete}
+                    type="button"
+                    className="pt-button pt-intent-danger"
+                  >
+                    Delete<span className="pt-icon-standard pt-icon-trash pt-align-right" />
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+          <div>
+            <Toaster position={Position.TOP} ref={this.refHandlers.toaster}>
+              {/* "Toasted!" will appear here after clicking button. */}
+              {this.state.toasts.map(toast => <Toast {...toast} />)}
+            </Toaster>
+          </div>
+        </div>
+      </Card>
+    );
   }
 }
+
+EducationListItem.propTypes = {
+  // updateEducation: PropTypes.func.isRequired, @todo uncomment it
+};
+
+export default connect(null, {
+  // updateEducation, @todo
+  deleteEducation
+})(withRouter(EducationListItem));

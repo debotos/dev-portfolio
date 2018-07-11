@@ -9,28 +9,36 @@ class TestimonialList extends Component {
     const { profile } = this.props.profile;
     const testimonials = profile.testimonials ? profile.testimonials : [];
     return (
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          flexWrap: 'wrap'
-        }}
-      >
-        {testimonials.length > 0 &&
-          testimonials.map((singleItem, index) => (
+      <div>
+        {testimonials.length > 0 && (
+          <div>
+            <h3>Testimonials List</h3>
+            <hr style={{ marginRight: '10rem' }} />
             <div
-              key={index}
               style={{
-                margin: '0 10px 10px 0'
+                display: 'flex',
+                flexDirection: 'row',
+                flexWrap: 'wrap'
               }}
             >
-              <TestimonialListItem
-                deleteTestimonials={this.props.deleteTestimonials}
-                id={singleItem._id}
-                data={singleItem}
-              />
+              {testimonials.map((singleItem, index) => (
+                <div
+                  key={index}
+                  style={{
+                    margin: '0 10px 10px 0'
+                  }}
+                >
+                  <TestimonialListItem
+                    deleteTestimonials={this.props.deleteTestimonials}
+                    id={singleItem._id}
+                    data={singleItem}
+                    number={index + 1}
+                  />
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
+        )}
       </div>
     );
   }
