@@ -96,6 +96,9 @@ const ProfileSchema = new Schema({
         type: String
         // required: true
       },
+      public_id: {
+        type: String
+      },
       testimonial: {
         type: String,
         required: true

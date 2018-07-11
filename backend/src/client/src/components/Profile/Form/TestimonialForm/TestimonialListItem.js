@@ -15,13 +15,17 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 
-import { addTestimonials } from '../../../../redux/actions/profileActions';
+import { deleteTestimonials } from '../../../../redux/actions/profileActions';
 import validateTestimonialsInput from './validatorTestimonial';
 
 class TestimonialListItem extends Component {
   componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
+    if (nextProps) {
+      if (nextProps.errors) {
+        this.setState({ errors: nextProps.errors });
+      } else {
+        this.setState({ errors: {} });
+      }
     }
     if (nextProps.data) {
       this.setState({
@@ -175,6 +179,6 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(mapStateToProps, { addTestimonials })(
+export default connect(mapStateToProps, { deleteTestimonials })(
   withRouter(TestimonialListItem)
 );

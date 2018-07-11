@@ -1,5 +1,5 @@
 module.exports = {
-  mongoURI: 'mongodb://debotos:debotos1@ds227481.mlab.com:27481/my-portfolio',
+  mongoURI: 'mongodb://debotos:passme1@ds139890.mlab.com:39890/portfolio',
   jwtPrivateKey: 'secretjwtPrivateKey',
   secretOrKey: 'secret',
   cloudinaryConfig: {

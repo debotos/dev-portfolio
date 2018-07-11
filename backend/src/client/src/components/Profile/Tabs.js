@@ -12,26 +12,42 @@ export default class VerticalTabs extends Component {
   };
   handleTabChange = navbarTabId => this.setState({ navbarTabId });
   render() {
-    return (
-      <Tabs
-        vertical={true}
-        id="profile_page_tab"
-        onChange={this.handleTabChange}
-        renderActiveTabPanelOnly={this.state.activePanelOnly}
-      >
-        <Tab
-          id="testimonial"
-          title="Testimonial"
-          panel={<TestimonialPanel />}
-        />
-        <Tab id="info" title="Basic Info" panel={<InfoPanel />} />
-        <Tab id="skills" title="Skills" panel={<Skills />} />
-        <Tab
-          id="education"
-          title="Education/Experiences"
-          panel={<EducationPanel />}
-        />
-      </Tabs>
-    );
+    const { profile } = this.props;
+    const onlyShowInfoPanel = Object.keys(profile).length === 0;
+    let TabContent;
+    if (onlyShowInfoPanel) {
+      TabContent = (
+        <div>
+          <h1 style={{ textAlign: 'center' }}>First create a basic profile</h1>
+          <div style={{ margin: 'auto' }}>
+            <InfoPanel />
+          </div>
+        </div>
+      );
+    } else {
+      TabContent = (
+        <Tabs
+          vertical={true}
+          id="profile_page_tab"
+          onChange={this.handleTabChange}
+          renderActiveTabPanelOnly={this.state.activePanelOnly}
+        >
+          <Tab
+            id="testimonial"
+            title="Testimonial"
+            panel={<TestimonialPanel />}
+          />
+          <Tab id="info" title="Basic Info" panel={<InfoPanel />} />
+          <Tab id="skills" title="Skills" panel={<Skills />} />
+          <Tab
+            id="education"
+            title="Education/Experiences"
+            panel={<EducationPanel />}
+          />
+        </Tabs>
+      );
+    }
+
+    return TabContent;
   }
 }

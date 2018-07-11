@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
-// const winston = require('winston');
+const winston = require('winston');
 const multer = require('multer');
 // const passport = require('passport');
 const auth = require('../middleware/auth');
 // const fileUploadMiddleware = require('../middleware/file-upload-middleware');
 const multerStorageCloudinary = require('../middleware/multer-storage-cloudinary');
-
+// cloudinary
+const cloudinary = require('../config/cloudinary');
 // Load Validation
 const validateProfileInput = require('../validation/profile');
 const validateExperienceInput = require('../validation/experience');
@@ -153,7 +154,7 @@ router.post('/', auth, (req, res) => {
 });
 
 // @route   DELETE api/profile
-// @desc    Delete Whole profile Data
+// @desc    Delete profile [Whole Data]
 // @access  Private
 router.delete('/', auth, (req, res) => {
   Profile.findOneAndRemove({ user: req.user.id }).then(() => {
@@ -278,6 +279,7 @@ router.post('/testimonials', auth, (req, res) => {
       name: req.body.name,
       job: req.body.job,
       img: req.body.img,
+      public_id: req.body.public_id,
       testimonial: req.body.testimonial
     };
 
@@ -321,6 +323,7 @@ router.post(
 // @desc    Delete testimonial from profile
 // @access  Private
 router.delete('/testimonials/:testimonial_id', auth, (req, res) => {
+  // First delete from DB
   Profile.findOne({ user: req.user.id })
     .then(profile => {
       // Get remove index
@@ -328,13 +331,34 @@ router.delete('/testimonials/:testimonial_id', auth, (req, res) => {
         .map(item => item.id)
         .indexOf(req.params.testimonial_id);
 
+      let public_id = profile.testimonials[removeIndex].public_id;
+      console.log('Image public id is => ', public_id);
+
       // Splice out of array
       profile.testimonials.splice(removeIndex, 1);
+
+      // Secondly delete image
+      cloudinary.v2.api.delete_resources([public_id], function(error, result) {
+        if (error) {
+          winston.error(
+            `Failed to delete testimonial image from ${
+              req.user.email
+            }. testimonial_id: ${
+              req.params.testimonial_id
+            }and image_id: ${public_id}`
+          );
+        }
+        winston.info('testimonial image deleted ! ' + JSON.stringify(result));
+      });
 
       // Save
       profile.save().then(profile => res.json(profile));
     })
-    .catch(err => res.status(404).json(err));
+    .catch(err => {
+      console.log('Error', err);
+
+      return res.status(404).json(err);
+    });
 });
 
 // @route   POST api/profile/what_i_do

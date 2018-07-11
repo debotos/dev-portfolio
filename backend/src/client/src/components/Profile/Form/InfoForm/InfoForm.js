@@ -21,8 +21,12 @@ import {
 
 class ProfileForm extends Component {
   componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
+    if (nextProps) {
+      if (nextProps.errors) {
+        this.setState({ errors: nextProps.errors });
+      } else {
+        this.setState({ errors: {} });
+      }
     }
   }
   constructor(props) {
@@ -57,22 +61,22 @@ class ProfileForm extends Component {
       phone: this.props.profile.profile.phone
         ? this.props.profile.profile.phone.join()
         : '',
-      youtube: this.props.profile.profile.social.youtube
+      youtube: this.props.profile.profile.social
         ? this.props.profile.profile.social.youtube
         : '',
-      twitter: this.props.profile.profile.social.twitter
+      twitter: this.props.profile.profile.social
         ? this.props.profile.profile.social.twitter
         : '',
-      facebook: this.props.profile.profile.social.facebook
+      facebook: this.props.profile.profile.social
         ? this.props.profile.profile.social.facebook
         : '',
-      linkedin: this.props.profile.profile.social.linkedin
+      linkedin: this.props.profile.profile.social
         ? this.props.profile.profile.social.linkedin
         : '',
-      instagram: this.props.profile.profile.social.instagram
+      instagram: this.props.profile.profile.social
         ? this.props.profile.profile.social.instagram
         : '',
-      github: this.props.profile.profile.social.github
+      github: this.props.profile.profile.social
         ? this.props.profile.profile.social.github
         : '',
       errors: {},

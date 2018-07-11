@@ -130,9 +130,12 @@ class TestimonialAdd extends Component {
     data.append('name', this.state.testimonial_name);
     data.append('job', this.state.testimonial_job);
     data.append('testimonial', this.state.testimonial_content);
+    data.append('profile', this.props.profile.profile.email);
     axios
-      .post('api/profile/testimonials/img/upload', data)
+      .post(`api/profile/testimonials/img/upload`, data)
       .then(response => {
+        // console.log('File Upload Response => ', response);
+
         if (response.data.success) {
           // image file upload successful
           this.setState({ image_file_uploaded: true });
@@ -140,8 +143,11 @@ class TestimonialAdd extends Component {
             name: this.state.testimonial_name,
             job: this.state.testimonial_job,
             testimonial: this.state.testimonial_content,
-            img: response.data.fileUrl
+            img: response.data.fileUrl,
+            public_id: response.data.fileInfo.public_id
           };
+          // console.log('New Testimonial going to add => ', newTestimonialData);
+
           this.props.addTestimonials(newTestimonialData, this.props.history);
           // turn off spinner
           this.setState({ submitButtonWorkingState: false });
@@ -167,18 +173,18 @@ class TestimonialAdd extends Component {
         }
       })
       .catch(err => {
-        if (err.response) {
-          console.log('*******************************');
-          console.log('Error log: ', err.response);
-          console.log('*******************************');
-        }
+        console.log('*******************************');
+        console.log('Error log: ', err);
+        console.log('*******************************');
         this.setState({ submitButtonWorkingState: false });
         this.addToast({
           icon: 'error',
           intent: Intent.DANGER,
-          message: 'Error! Check console!!!'
+          message: 'Session Expired! Login again!!!'
         });
-        this.setState({ errors: err.response.data.errors });
+        if (err.response) {
+          this.setState({ errors: err.response.data.errors });
+        }
       });
   };
   onSubmit = e => {
@@ -225,7 +231,7 @@ class TestimonialAdd extends Component {
         >
           <div>
             <FormGroup
-              helperText={errors.name ? errors.name : ''}
+              helperText={errors ? errors.name : ''}
               label="Name"
               labelFor="testimonial_name"
               requiredLabel={true}
@@ -243,7 +249,7 @@ class TestimonialAdd extends Component {
           </div>
           <div>
             <FormGroup
-              helperText={errors.job ? errors.job : ''}
+              helperText={errors ? errors.job : ''}
               label="Job"
               labelFor="testimonial_job"
               requiredLabel={true}
@@ -274,7 +280,7 @@ class TestimonialAdd extends Component {
           <div>
             <FormGroup
               className="pt-form-group"
-              helperText={errors.testimonial ? errors.testimonial : ''}
+              helperText={errors ? errors.testimonial : ''}
               label="Testimonial"
               labelFor="testimonial_content"
               requiredLabel={true}

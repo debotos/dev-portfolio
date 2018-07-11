@@ -35,7 +35,7 @@ class Profile extends Component {
       </div>
     ) : (
       <div>
-        <VerticalTabs />
+        <VerticalTabs profile={profile} />
       </div>
     );
   }
