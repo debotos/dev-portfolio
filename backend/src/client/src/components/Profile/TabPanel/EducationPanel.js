@@ -1,7 +1,29 @@
 import React, { Component } from 'react';
+import { Card, Elevation } from '@blueprintjs/core';
 
-export default class EducationPanel extends Component {
+import AddEducation from '../Form/EducationForm/AddEducation';
+import EducationList from '../Form/EducationForm/EducationList';
+
+class EducationPanel extends Component {
   render() {
-    return <div>Basic EducationPanel</div>;
+    return (
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row'
+        }}
+      >
+        <div style={{ paddingRight: '30px' }}>
+          <Card interactive={true} elevation={Elevation.TWO}>
+            <AddEducation />
+          </Card>
+        </div>
+        <div>
+          <EducationList />
+        </div>
+      </div>
+    );
   }
 }
+
+export default EducationPanel;

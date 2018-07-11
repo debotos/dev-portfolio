@@ -159,7 +159,8 @@ class ProfileForm extends Component {
           <div
             style={{
               display: 'flex',
-              alignItems: 'flex-start'
+              alignItems: 'flex-start',
+              flexWrap: 'wrap'
             }}
           >
             <div style={{ padding: '20px' }}>

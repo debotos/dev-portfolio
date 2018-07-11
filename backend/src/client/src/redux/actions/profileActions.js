@@ -59,7 +59,12 @@ export const addExperience = (expData, history) => dispatch => {
 export const addEducation = (eduData, history) => dispatch => {
   axios
     .post('/api/profile/education', eduData)
-    .then(res => history.push('/dashboard'))
+    .then(res =>
+      dispatch({
+        type: GET_PROFILE,
+        payload: res.data
+      })
+    )
     .catch(err =>
       dispatch({
         type: GET_ERRORS,

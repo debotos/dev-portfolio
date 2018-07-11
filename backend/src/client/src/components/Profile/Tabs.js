@@ -33,17 +33,17 @@ export default class VerticalTabs extends Component {
           renderActiveTabPanelOnly={this.state.activePanelOnly}
         >
           <Tab
+            id="education"
+            title="Education/Experiences"
+            panel={<EducationPanel />}
+          />
+          <Tab
             id="testimonial"
             title="Testimonial"
             panel={<TestimonialPanel />}
           />
           <Tab id="info" title="Basic Info" panel={<InfoPanel />} />
           <Tab id="skills" title="Skills" panel={<Skills />} />
-          <Tab
-            id="education"
-            title="Education/Experiences"
-            panel={<EducationPanel />}
-          />
         </Tabs>
       );
     }

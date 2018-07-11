@@ -4,19 +4,19 @@ import {
   Elevation,
   FormGroup,
   Intent,
-  Position,
-  Toast,
-  Toaster,
-  TextArea,
-  FileInput
+  // Position,
+  // Toast,
+  // Toaster,
+  TextArea
+  // FileInput
 } from '@blueprintjs/core';
 
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import axios from 'axios';
+// import axios from 'axios';
 
 import { deleteTestimonials } from '../../../../redux/actions/profileActions';
-import validateTestimonialsInput from './validatorTestimonial';
+// import validateTestimonialsInput from './validatorTestimonial';
 
 class TestimonialListItem extends Component {
   componentWillReceiveProps(nextProps) {
@@ -80,7 +80,7 @@ class TestimonialListItem extends Component {
   }
 
   render() {
-    const { data } = this.props;
+    // const { data } = this.props;
     const { errors } = this.state;
     return (
       <Card interactive={true} elevation={Elevation.TWO}>
