@@ -6,6 +6,7 @@ import TestimonialPanel from './TabPanel/TestimonialPanel';
 import EducationPanel from './TabPanel/EducationPanel';
 import Skills from './TabPanel/Skills';
 import WhatIDo from './TabPanel/WhatIDo';
+import Experiences from './TabPanel/Experiences';
 
 export default class VerticalTabs extends Component {
   state = {
@@ -33,12 +34,9 @@ export default class VerticalTabs extends Component {
           onChange={this.handleTabChange}
           renderActiveTabPanelOnly={this.state.activePanelOnly}
         >
+          <Tab id="experiences" title="Experiences" panel={<Experiences />} />
           <Tab id="what_i_do" title="What I Do" panel={<WhatIDo />} />
-          <Tab
-            id="education"
-            title="Education/Experiences"
-            panel={<EducationPanel />}
-          />
+          <Tab id="education" title="Education" panel={<EducationPanel />} />
           <Tab
             id="testimonial"
             title="Testimonial"

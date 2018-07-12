@@ -105,36 +105,6 @@ const ProfileSchema = new Schema({
       }
     }
   ],
-  experience: [
-    // Experience or Job
-    {
-      title: {
-        type: String,
-        required: true
-      },
-      company: {
-        type: String,
-        required: true
-      },
-      location: {
-        type: String
-      },
-      from: {
-        type: Date,
-        required: true
-      },
-      to: {
-        type: Date
-      },
-      current: {
-        type: Boolean,
-        default: false
-      },
-      description: {
-        type: String
-      }
-    }
-  ],
   what_i_do: [
     {
       title: {
@@ -168,6 +138,36 @@ const ProfileSchema = new Schema({
       fieldofstudy: {
         type: String,
         required: true
+      },
+      from: {
+        type: Date,
+        required: true
+      },
+      to: {
+        type: Date
+      },
+      current: {
+        type: Boolean,
+        default: false
+      },
+      description: {
+        type: String
+      }
+    }
+  ],
+  experience: [
+    // Experience or Job
+    {
+      title: {
+        type: String,
+        required: true
+      },
+      company: {
+        type: String,
+        required: true
+      },
+      location: {
+        type: String
       },
       from: {
         type: Date,

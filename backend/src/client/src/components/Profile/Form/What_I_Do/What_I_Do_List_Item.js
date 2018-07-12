@@ -1,11 +1,5 @@
 import React, { Component } from 'react';
-import {
-  Card,
-  Elevation,
-  FormGroup,
-  Intent,
-  TextArea
-} from '@blueprintjs/core';
+import { Card, Elevation, Intent, TextArea } from '@blueprintjs/core';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
@@ -67,7 +61,6 @@ class What_I_Do_List_Item extends Component {
     return finalUrl;
   };
   render() {
-    const { errors } = this.state;
     return (
       <Card interactive={true} elevation={Elevation.TWO}>
         <h2 style={{ textAlign: 'center' }}>{this.props.number}</h2>

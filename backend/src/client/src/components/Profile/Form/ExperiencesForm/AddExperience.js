@@ -14,17 +14,17 @@ import {
 import moment from 'moment';
 
 import {
-  addEducation,
+  addExperience,
   clearErrors
 } from '../../../../redux/actions/profileActions';
 
-class AddEducation extends Component {
+class AddExperience extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      school: '',
-      degree: '',
-      fieldofstudy: '',
+      title: '',
+      company: '',
+      location: '',
       from: moment().format('YYYY-MM-DD'),
       to: '',
       current: false,
@@ -49,9 +49,9 @@ class AddEducation extends Component {
     if (Object.keys(this.state.errors).length === 0) {
       this.toaster.show(toastData);
       this.setState({
-        school: '',
-        degree: '',
-        fieldofstudy: '',
+        title: '',
+        company: '',
+        location: '',
         from: moment().format('YYYY-MM-DD'),
         to: '',
         description: ''
@@ -77,17 +77,17 @@ class AddEducation extends Component {
       errors: {}
     });
 
-    const eduData = {
-      school: this.state.school,
-      degree: this.state.degree,
-      fieldofstudy: this.state.fieldofstudy,
+    const experienceData = {
+      title: this.state.title,
+      company: this.state.company,
+      location: this.state.location,
       from: this.state.from,
       to: this.state.current ? null : this.state.to,
       current: this.state.current,
       description: this.state.description
     };
 
-    this.props.addEducation(eduData, this.props.history);
+    this.props.addExperience(experienceData, this.props.history);
 
     setTimeout(() => {
       this.setState({ submitButtonWorkingState: false });
@@ -114,59 +114,59 @@ class AddEducation extends Component {
     const { errors } = this.state;
     return (
       <div>
-        <h4 style={{ textAlign: 'center' }}>Add Education</h4>
+        <h4 style={{ textAlign: 'center' }}>Add Experiences</h4>
         <form onSubmit={this.onSubmit}>
           <div>
             <FormGroup
-              helperText={errors.school ? errors.school : ''}
-              label="School"
-              labelFor="school"
+              helperText={errors.title ? errors.title : ''}
+              label="Title"
+              labelFor="title"
               requiredLabel={true}
               className="pt-form-group"
             >
               <input
                 onChange={this.onChange}
                 style={{ width: '400px' }}
-                value={this.state.school}
+                value={this.state.title}
                 className="pt-input .pt-round"
-                id="school"
-                placeholder="School eg. National University"
+                id="title"
+                placeholder="title eg. Project Manager"
               />
             </FormGroup>
           </div>
           <div>
             <FormGroup
-              helperText={errors.degree ? errors.degree : ''}
-              label="Degree"
-              labelFor="degree"
+              helperText={errors.company ? errors.company : ''}
+              label="Company"
+              labelFor="company"
               requiredLabel={true}
               className="pt-form-group"
             >
               <input
                 onChange={this.onChange}
                 style={{ width: '400px' }}
-                value={this.state.degree}
+                value={this.state.company}
                 className="pt-input .pt-round"
-                id="degree"
-                placeholder="Degree eg. B.Sc"
+                id="company"
+                placeholder="Company eg. Google"
               />
             </FormGroup>
           </div>
           <div>
             <FormGroup
-              helperText={errors.fieldofstudy ? errors.fieldofstudy : ''}
-              label="Field Of Study"
-              labelFor="fieldofstudy"
+              helperText={errors.location ? errors.location : ''}
+              label="Location"
+              labelFor="location"
               requiredLabel={true}
               className="pt-form-group"
             >
               <input
                 onChange={this.onChange}
                 style={{ width: '400px' }}
-                value={this.state.fieldofstudy}
+                value={this.state.location}
                 className="pt-input .pt-round"
-                id="fieldofstudy"
-                placeholder="Field Of Study eg. CSE"
+                id="location"
+                placeholder="Location eg. India, Bangalore"
               />
             </FormGroup>
           </div>
@@ -287,8 +287,8 @@ class AddEducation extends Component {
   }
 }
 
-AddEducation.propTypes = {
-  addEducation: PropTypes.func.isRequired,
+AddExperience.propTypes = {
+  addExperience: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 };
@@ -298,6 +298,6 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(mapStateToProps, { addEducation, clearErrors })(
-  withRouter(AddEducation)
+export default connect(mapStateToProps, { addExperience, clearErrors })(
+  withRouter(AddExperience)
 );

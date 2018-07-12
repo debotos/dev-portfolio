@@ -380,7 +380,8 @@ router.post('/what_i_do', auth, (req, res) => {
     const newDoItem = {
       title: req.body.title,
       img: req.body.img,
-      info: req.body.info
+      info: req.body.info,
+      public_id: req.body.public_id
     };
 
     // Add to exp array
