@@ -73,6 +73,19 @@ export const addEducation = (eduData, history) => dispatch => {
     );
 };
 
+// Update education
+export const updateEducation = (id, newEduData, history) => dispatch => {
+  axios
+    .post(`/api/profile/education/${id}`, newEduData)
+    .then(res =>
+      dispatch({
+        type: GET_PROFILE,
+        payload: res.data
+      })
+    )
+    .catch(err => console.log('Education Update Failed! log ->', err));
+};
+
 // Delete Experience
 export const deleteExperience = id => dispatch => {
   axios
@@ -202,7 +215,12 @@ export const deleteTestimonials = id => dispatch => {
 export const add_what_i_do = (what_i_do_Data, history) => dispatch => {
   axios
     .post('/api/profile/what_i_do', what_i_do_Data)
-    .then(res => history.push('/dashboard'))
+    .then(res =>
+      dispatch({
+        type: GET_PROFILE,
+        payload: res.data
+      })
+    )
     .catch(err =>
       dispatch({
         type: GET_ERRORS,

@@ -308,9 +308,10 @@ router.post(
 router.post(
   '/testimonials/img/upload',
   auth,
-  multerStorageCloudinary('testimonials').single('file'), // This middleware takes the folder_name
+  multerStorageCloudinary('testimonials').single('file'),
+  // This middleware takes the folder_name and parse single file provided as a key
   (req, res) => {
-    // console.log(req.file);s
+    // console.log(req.file);
     return res.status(200).json({
       success: true,
       fileUrl: req.file.secure_url,
@@ -332,7 +333,7 @@ router.delete('/testimonials/:testimonial_id', auth, (req, res) => {
         .indexOf(req.params.testimonial_id);
 
       let public_id = profile.testimonials[removeIndex].public_id;
-      console.log('Image public id is => ', public_id);
+      // console.log('Image public id is => ', public_id);
 
       // Splice out of array
       profile.testimonials.splice(removeIndex, 1);
@@ -389,6 +390,26 @@ router.post('/what_i_do', auth, (req, res) => {
   });
 });
 
+/*
+@route   POST api/profile/what_i_do/img/upload
+@desc    Upload what_i_do Image
+@access  Private
+*/
+router.post(
+  '/what_i_do/img/upload',
+  auth,
+  multerStorageCloudinary('what_i_do').single('file'),
+  // This middleware takes the folder_name and parse single file provided as a key
+  (req, res) => {
+    // console.log(req.file);
+    return res.status(200).json({
+      success: true,
+      fileUrl: req.file.secure_url,
+      fileInfo: req.file
+    });
+  }
+);
+
 // @route   DELETE api/profile/what_i_do/:what_i_do_id
 // @desc    Delete what_i_do from profile
 // @access  Private
@@ -400,8 +421,25 @@ router.delete('/what_i_do/:what_i_do_id', auth, (req, res) => {
         .map(item => item.id)
         .indexOf(req.params.what_i_do_id);
 
+      let public_id = profile.what_i_do[removeIndex].public_id;
+      console.log('Image public id is => ', public_id);
+
       // Splice out of array
       profile.what_i_do.splice(removeIndex, 1);
+
+      // Secondly delete image
+      cloudinary.v2.api.delete_resources([public_id], function(error, result) {
+        if (error) {
+          winston.error(
+            `Failed to delete what_i_do image from ${
+              req.user.email
+            }. what_i_do_id: ${
+              req.params.what_i_do_id
+            }and image_id: ${public_id}`
+          );
+        }
+        winston.info('what_i_do image deleted ! ' + JSON.stringify(result));
+      });
 
       // Save
       profile.save().then(profile => res.json(profile));
@@ -439,6 +477,39 @@ router.post('/education', auth, (req, res) => {
 
     profile.save().then(profile => res.json(profile));
   });
+});
+
+// @route   Update api/profile/education/:edu_id
+// @desc    Update education from profile
+// @access  Private
+router.post('/education/:edu_id', auth, (req, res) => {
+  const { errors, isValid } = validateEducationInput(req.body);
+  // Check Validation
+  if (!isValid) {
+    // Return any errors with 400 status
+    return res.status(400).json(errors);
+  }
+  Profile.findOne({ user: req.user.id })
+    .then(profile => {
+      // Get update index
+      const updateIndex = profile.education
+        .map(item => item.id)
+        .indexOf(req.params.edu_id);
+
+      // Splice out of array
+      let currentEducation = profile.education[updateIndex];
+      currentEducation.school = req.body.school;
+      currentEducation.degree = req.body.degree;
+      currentEducation.fieldofstudy = req.body.fieldofstudy;
+      currentEducation.from = req.body.from;
+      currentEducation.to = req.body.to;
+      currentEducation.current = req.body.current;
+      currentEducation.description = req.body.description;
+
+      // Save
+      profile.save().then(profile => res.json(profile));
+    })
+    .catch(err => res.status(404).json(err));
 });
 
 // @route   DELETE api/profile/education/:edu_id

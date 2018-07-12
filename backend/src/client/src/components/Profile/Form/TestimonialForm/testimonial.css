@@ -1,0 +1,8 @@
+.image {
+  width: 100px !important;
+  height: 100px !important;
+  border: 4px solid rgba(18, 99, 81, 0.219);
+  border-radius: 50%;
+  background-position: center center;
+  background-size: cover;
+}

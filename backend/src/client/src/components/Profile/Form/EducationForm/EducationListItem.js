@@ -14,7 +14,7 @@ import {
 import moment from 'moment';
 
 import {
-  // updateEducation, @todo
+  updateEducation,
   deleteEducation
 } from '../../../../redux/actions/profileActions';
 import validateExperienceInput from './validatorEducation';
@@ -94,7 +94,11 @@ class EducationListItem extends Component {
         current: this.state.current,
         description: this.state.description
       };
-      // this.props.updateEducation(eduData, this.props.history); @todo
+      this.props.updateEducation(
+        this.props.data._id,
+        eduData,
+        this.props.history
+      );
       setTimeout(() => {
         this.setState({ submitButtonWorkingState: false });
         this.addToast({
@@ -328,11 +332,7 @@ class EducationListItem extends Component {
   }
 }
 
-EducationListItem.propTypes = {
-  // updateEducation: PropTypes.func.isRequired, @todo uncomment it
-};
-
 export default connect(null, {
-  // updateEducation, @todo
+  updateEducation,
   deleteEducation
 })(withRouter(EducationListItem));

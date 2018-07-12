@@ -145,6 +145,9 @@ const ProfileSchema = new Schema({
         type: String
         // required: true
       },
+      public_id: {
+        type: String
+      },
       info: {
         type: String,
         required: true

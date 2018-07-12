@@ -10,13 +10,13 @@ import {
   TextArea
   // FileInput
 } from '@blueprintjs/core';
-
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 // import axios from 'axios';
 
 import { deleteTestimonials } from '../../../../redux/actions/profileActions';
 // import validateTestimonialsInput from './validatorTestimonial';
+import './testimonial.css';
 
 class TestimonialListItem extends Component {
   componentWillReceiveProps(nextProps) {
@@ -80,6 +80,12 @@ class TestimonialListItem extends Component {
     };
   }
 
+  getImageUrl = url => {
+    let urlArray = url.split('upload');
+    let finalUrl = urlArray[0] + 'upload/w_100,h_100' + urlArray[1];
+    return finalUrl;
+  };
+
   render() {
     // const { data } = this.props;
     const { errors } = this.state;
@@ -92,10 +98,10 @@ class TestimonialListItem extends Component {
               helperText={errors.name ? errors.name : ''}
               label="Name"
               labelFor="testimonial_name"
-              requiredLabel={true}
               className="pt-form-group"
             >
               <input
+                readOnly
                 onChange={this.onChange}
                 value={this.state.testimonial_name}
                 style={{ width: '400px' }}
@@ -110,10 +116,10 @@ class TestimonialListItem extends Component {
               helperText={errors.job ? errors.job : ''}
               label="Job"
               labelFor="testimonial_job"
-              requiredLabel={true}
               className="pt-form-group"
             >
               <input
+                readOnly
                 onChange={this.onChange}
                 value={this.state.testimonial_job}
                 style={{ width: '400px' }}
@@ -123,16 +129,24 @@ class TestimonialListItem extends Component {
               />
             </FormGroup>
           </div>
-          {/* @todo: add the testimonial image here */}
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <div>
+              <img
+                className="image"
+                src={this.getImageUrl(this.props.data.img)}
+                alt="Who Give The Testimonial"
+              />
+            </div>
+          </div>
           <div>
             <FormGroup
               className="pt-form-group"
               helperText={errors.testimonial ? errors.testimonial : ''}
               label="Testimonial"
               labelFor="testimonial_content"
-              requiredLabel={true}
             >
               <TextArea
+                readOnly
                 value={this.state.testimonial_content}
                 style={{ height: '105px' }}
                 id="testimonial_content"
@@ -178,10 +192,6 @@ class TestimonialListItem extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  errors: state.errors
-});
-
-export default connect(mapStateToProps, { deleteTestimonials })(
+export default connect(null, { deleteTestimonials })(
   withRouter(TestimonialListItem)
 );

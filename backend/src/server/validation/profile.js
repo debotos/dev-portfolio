@@ -105,6 +105,9 @@ module.exports = function validateProfileInput(data) {
     if (data.age <= 10) {
       errors.age = 'age have to be bigger than 10';
     }
+    if (data.age > 110) {
+      errors.age = 'age have to be lower than 110';
+    }
   }
 
   // Social Media
