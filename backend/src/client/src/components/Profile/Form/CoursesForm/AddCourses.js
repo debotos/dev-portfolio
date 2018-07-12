@@ -14,17 +14,16 @@ import {
 import moment from 'moment';
 
 import {
-  addExperience,
+  addCourses,
   clearErrors
 } from '../../../../redux/actions/profileActions';
 
-class AddExperience extends Component {
+class AddCourses extends Component {
   constructor(props) {
     super(props);
     this.state = {
       title: '',
-      company: '',
-      location: '',
+      who_give: '',
       from: moment().format('YYYY-MM-DD'),
       to: '',
       current: false,
@@ -50,8 +49,7 @@ class AddExperience extends Component {
       this.toaster.show(toastData);
       this.setState({
         title: '',
-        company: '',
-        location: '',
+        who_give: '',
         from: moment().format('YYYY-MM-DD'),
         to: '',
         description: ''
@@ -59,6 +57,7 @@ class AddExperience extends Component {
       this.props.clearErrors();
     }
   };
+
   componentWillReceiveProps(nextProps) {
     if (nextProps) {
       if (nextProps.errors) {
@@ -77,24 +76,23 @@ class AddExperience extends Component {
       errors: {}
     });
 
-    const experienceData = {
+    const courseData = {
       title: this.state.title,
-      company: this.state.company,
-      location: this.state.location,
+      who_give: this.state.who_give,
       from: this.state.from,
       to: this.state.current ? null : this.state.to,
       current: this.state.current,
       description: this.state.description
     };
 
-    this.props.addExperience(experienceData, this.props.history);
+    this.props.addCourses(courseData, this.props.history);
 
     setTimeout(() => {
       this.setState({ submitButtonWorkingState: false });
       this.addToast({
         icon: 'tick',
         intent: Intent.SUCCESS,
-        message: 'Successful! Experience Item Added!'
+        message: 'Successful! Course Added!'
       });
     }, 500);
   }
@@ -114,7 +112,7 @@ class AddExperience extends Component {
     const { errors } = this.state;
     return (
       <div>
-        <h4 style={{ textAlign: 'center' }}>Add Experiences</h4>
+        <h4 style={{ textAlign: 'center' }}>Add Courses</h4>
         <form onSubmit={this.onSubmit}>
           <div>
             <FormGroup
@@ -130,43 +128,25 @@ class AddExperience extends Component {
                 value={this.state.title}
                 className="pt-input .pt-round"
                 id="title"
-                placeholder="title eg. Project Manager"
+                placeholder="title eg. Advance AI Course"
               />
             </FormGroup>
           </div>
           <div>
             <FormGroup
-              helperText={errors.company ? errors.company : ''}
-              label="Company"
-              labelFor="company"
+              helperText={errors.who_give ? errors.who_give : ''}
+              label="Who Give It"
+              labelFor="who_give"
               requiredLabel={true}
               className="pt-form-group"
             >
               <input
                 onChange={this.onChange}
                 style={{ width: '400px' }}
-                value={this.state.company}
+                value={this.state.who_give}
                 className="pt-input .pt-round"
-                id="company"
-                placeholder="Company eg. Google"
-              />
-            </FormGroup>
-          </div>
-          <div>
-            <FormGroup
-              helperText={errors.location ? errors.location : ''}
-              label="Location"
-              labelFor="location"
-              requiredLabel={true}
-              className="pt-form-group"
-            >
-              <input
-                onChange={this.onChange}
-                style={{ width: '400px' }}
-                value={this.state.location}
-                className="pt-input .pt-round"
-                id="location"
-                placeholder="Location eg. India, Bangalore"
+                id="who_give"
+                placeholder="who_give It eg. Google"
               />
             </FormGroup>
           </div>
@@ -287,8 +267,8 @@ class AddExperience extends Component {
   }
 }
 
-AddExperience.propTypes = {
-  addExperience: PropTypes.func.isRequired,
+AddCourses.propTypes = {
+  addCourses: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 };
@@ -298,6 +278,6 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(mapStateToProps, { addExperience, clearErrors })(
-  withRouter(AddExperience)
+export default connect(mapStateToProps, { addCourses, clearErrors })(
+  withRouter(AddCourses)
 );

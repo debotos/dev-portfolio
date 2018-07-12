@@ -14,21 +14,20 @@ import {
 import moment from 'moment';
 
 import {
-  updateEducation,
-  deleteEducation
+  updateCourses,
+  deleteCourses
 } from '../../../../redux/actions/profileActions';
-import validateEducationInput from './validatorEducation';
+import validateCoursesInput from './validateCoursesInput';
 
-class EducationListItem extends Component {
+class CoursesListItem extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.data) {
       this.setState({
         deleteButtonWorkingState: false,
         submitButtonWorkingState: false,
         disabled: nextProps.data.current ? nextProps.data.current : false,
-        school: nextProps.data.school,
-        degree: nextProps.data.degree,
-        fieldofstudy: nextProps.data.fieldofstudy,
+        title: nextProps.data.title,
+        who_give: nextProps.data.who_give,
         from: nextProps.data.from
           ? nextProps.data.from.split('T')[0]
           : moment().format('YYYY-MM-DD'),
@@ -41,11 +40,8 @@ class EducationListItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      school: this.props.data.school ? this.props.data.school : '',
-      degree: this.props.data.degree ? this.props.data.degree : '',
-      fieldofstudy: this.props.data.fieldofstudy
-        ? this.props.data.fieldofstudy
-        : '',
+      title: this.props.data.title ? this.props.data.title : '',
+      who_give: this.props.data.who_give ? this.props.data.who_give : '',
       from: this.props.data.from
         ? this.props.data.from.split('T')[0]
         : moment().format('YYYY-MM-DD'),
@@ -75,6 +71,7 @@ class EducationListItem extends Component {
       this.toaster.show(toastData);
     }
   };
+
   onSubmit(e) {
     // Submit is for updating
     e.preventDefault();
@@ -82,21 +79,20 @@ class EducationListItem extends Component {
       submitButtonWorkingState: true,
       errors: {}
     });
-    const { errors, isValid } = validateEducationInput(this.state);
+    const { errors, isValid } = validateCoursesInput(this.state);
     // Check Validation
     if (isValid) {
-      const eduData = {
-        school: this.state.school,
-        degree: this.state.degree,
-        fieldofstudy: this.state.fieldofstudy,
+      const newCourseData = {
+        title: this.state.title,
+        who_give: this.state.who_give,
         from: this.state.from,
         to: this.state.current ? null : this.state.to,
         current: this.state.current,
         description: this.state.description
       };
-      this.props.updateEducation(
+      this.props.updateCourses(
         this.props.data._id,
-        eduData,
+        newCourseData,
         this.props.history
       );
       setTimeout(() => {
@@ -104,7 +100,7 @@ class EducationListItem extends Component {
         this.addToast({
           icon: 'tick',
           intent: Intent.SUCCESS,
-          message: 'Successful! Education Updated!'
+          message: 'Successful! Course Updated!'
         });
       }, 500);
     } else {
@@ -121,12 +117,11 @@ class EducationListItem extends Component {
   handleItemDelete = () => {
     // @todo : add a confirm dialog
     this.setState({ deleteButtonWorkingState: true });
-    this.props.deleteEducation(this.props.data._id);
+    this.props.deleteCourses(this.props.data._id);
     setTimeout(() => {
       this.setState({ deleteButtonWorkingState: false });
     }, 2000);
   };
-
   onChange(e) {
     // console.log(`[${e.target.id}]: ${e.target.value}`);
     this.setState({ [e.target.id]: e.target.value });
@@ -140,7 +135,6 @@ class EducationListItem extends Component {
 
   render() {
     const { errors } = this.state;
-
     return (
       <Card interactive={true} elevation={Elevation.TWO}>
         <h2 style={{ textAlign: 'center' }}>{this.props.number}</h2>
@@ -148,55 +142,37 @@ class EducationListItem extends Component {
           <div>
             <div>
               <FormGroup
-                helperText={errors.school ? errors.school : ''}
-                label="School"
-                labelFor="school"
+                helperText={errors.title ? errors.title : ''}
+                label="Title"
+                labelFor="title"
                 requiredLabel={true}
                 className="pt-form-group"
               >
                 <input
                   onChange={this.onChange}
                   style={{ width: '400px' }}
-                  value={this.state.school}
+                  value={this.state.title}
                   className="pt-input .pt-round"
-                  id="school"
-                  placeholder="School eg. National University"
+                  id="title"
+                  placeholder="Title eg. Project Manager"
                 />
               </FormGroup>
             </div>
             <div>
               <FormGroup
-                helperText={errors.degree ? errors.degree : ''}
-                label="Degree"
-                labelFor="degree"
+                helperText={errors.who_give ? errors.who_give : ''}
+                label="Course Instructor/Author/Website"
+                labelFor="who_give"
                 requiredLabel={true}
                 className="pt-form-group"
               >
                 <input
                   onChange={this.onChange}
                   style={{ width: '400px' }}
-                  value={this.state.degree}
+                  value={this.state.who_give}
                   className="pt-input .pt-round"
-                  id="degree"
-                  placeholder="Degree eg. B.Sc"
-                />
-              </FormGroup>
-            </div>
-            <div>
-              <FormGroup
-                helperText={errors.fieldofstudy ? errors.fieldofstudy : ''}
-                label="Field Of Study"
-                labelFor="fieldofstudy"
-                requiredLabel={true}
-                className="pt-form-group"
-              >
-                <input
-                  onChange={this.onChange}
-                  style={{ width: '400px' }}
-                  value={this.state.fieldofstudy}
-                  className="pt-input .pt-round"
-                  id="fieldofstudy"
-                  placeholder="Field Of Study eg. CSE"
+                  id="who_give"
+                  placeholder="eg. Udemy Course / By Debotos Das"
                 />
               </FormGroup>
             </div>
@@ -333,6 +309,6 @@ class EducationListItem extends Component {
 }
 
 export default connect(null, {
-  updateEducation,
-  deleteEducation
-})(withRouter(EducationListItem));
+  updateCourses,
+  deleteCourses
+})(withRouter(CoursesListItem));

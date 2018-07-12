@@ -46,7 +46,12 @@ export const createProfile = (profileData, history) => dispatch => {
 export const addExperience = (expData, history) => dispatch => {
   axios
     .post('/api/profile/experience', expData)
-    .then(res => history.push('/dashboard'))
+    .then(res =>
+      dispatch({
+        type: GET_PROFILE,
+        payload: res.data
+      })
+    )
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
@@ -85,7 +90,35 @@ export const updateEducation = (id, newEduData, history) => dispatch => {
     )
     .catch(err => console.log('Education Update Failed! log ->', err));
 };
-
+// Update courses
+export const updateCourses = (id, coursesData, history) => dispatch => {
+  axios
+    .post(`/api/profile/courses/${id}`, coursesData)
+    .then(res =>
+      dispatch({
+        type: GET_PROFILE,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+// Update experience
+export const updateExperience = (id, newExpData, history) => dispatch => {
+  axios
+    .post(`/api/profile/experience/${id}`, newExpData)
+    .then(res =>
+      dispatch({
+        type: GET_PROFILE,
+        payload: res.data
+      })
+    )
+    .catch(err => console.log('Experience Update Failed! log ->', err));
+};
 // Delete Experience
 export const deleteExperience = id => dispatch => {
   axios
@@ -247,10 +280,15 @@ export const delete_what_i_do = id => dispatch => {
 };
 
 // Add courses
-export const addcourses = (coursesData, history) => dispatch => {
+export const addCourses = (coursesData, history) => dispatch => {
   axios
     .post('/api/profile/courses', coursesData)
-    .then(res => history.push('/dashboard'))
+    .then(res =>
+      dispatch({
+        type: GET_PROFILE,
+        payload: res.data
+      })
+    )
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
@@ -259,7 +297,7 @@ export const addcourses = (coursesData, history) => dispatch => {
     );
 };
 // Delete courses
-export const deletecourses = id => dispatch => {
+export const deleteCourses = id => dispatch => {
   axios
     .delete(`/api/profile/courses/${id}`)
     .then(res =>

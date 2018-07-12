@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import EducationListItem from './EducationListItem';
+import CoursesListItem from './CoursesListItem';
 
-class EducationList extends Component {
+class CoursesList extends Component {
   render() {
     const { profile } = this.props.profile;
-    const education = profile.education ? profile.education : [];
+    const courses = profile.courses ? profile.courses : [];
     return (
       <div>
-        {education.length > 0 && (
+        {courses.length > 0 && (
           <div>
-            <h4>Education List</h4>
+            <h4>Courses List</h4>
             <hr style={{ marginRight: '10rem' }} />
             <div
               style={{
@@ -20,14 +20,14 @@ class EducationList extends Component {
                 flexWrap: 'wrap'
               }}
             >
-              {education.map((singleItem, index) => (
+              {courses.map((singleItem, index) => (
                 <div
                   key={index}
                   style={{
                     margin: '0 10px 10px 0'
                   }}
                 >
-                  <EducationListItem number={index + 1} data={singleItem} />
+                  <CoursesListItem number={index + 1} data={singleItem} />
                 </div>
               ))}
             </div>
@@ -42,4 +42,4 @@ const mapStateToProps = state => ({
   profile: state.profile
 });
 
-export default connect(mapStateToProps, null)(EducationList);
+export default connect(mapStateToProps, null)(CoursesList);

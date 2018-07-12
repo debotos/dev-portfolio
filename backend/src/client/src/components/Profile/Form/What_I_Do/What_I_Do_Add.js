@@ -138,7 +138,7 @@ class What_I_Do_Add extends Component {
     const { errors } = this.state;
     return (
       <div>
-        <h4 style={{ textAlign: 'center' }}>Add Testimonial</h4>
+        <h4 style={{ textAlign: 'center' }}>Add What I Do</h4>
         <form
           method="post"
           onSubmit={this.onSubmit}

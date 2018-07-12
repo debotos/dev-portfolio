@@ -4,9 +4,10 @@ import { Tab, Tabs } from '@blueprintjs/core';
 import InfoPanel from './TabPanel/InfoPanel';
 import TestimonialPanel from './TabPanel/TestimonialPanel';
 import EducationPanel from './TabPanel/EducationPanel';
-import Skills from './TabPanel/Skills';
-import WhatIDo from './TabPanel/WhatIDo';
-import Experiences from './TabPanel/Experiences';
+import SkillsPanel from './TabPanel/SkillsPanel';
+import WhatIDoPanel from './TabPanel/WhatIDoPanel';
+import ExperiencesPanel from './TabPanel/ExperiencesPanel';
+import CoursesPanel from './TabPanel/CoursesPanel';
 
 export default class VerticalTabs extends Component {
   state = {
@@ -34,8 +35,13 @@ export default class VerticalTabs extends Component {
           onChange={this.handleTabChange}
           renderActiveTabPanelOnly={this.state.activePanelOnly}
         >
-          <Tab id="experiences" title="Experiences" panel={<Experiences />} />
-          <Tab id="what_i_do" title="What I Do" panel={<WhatIDo />} />
+          <Tab id="courses" title="Courses" panel={<CoursesPanel />} />
+          <Tab
+            id="experiences"
+            title="Experiences"
+            panel={<ExperiencesPanel />}
+          />
+          <Tab id="what_i_do" title="What I Do" panel={<WhatIDoPanel />} />
           <Tab id="education" title="Education" panel={<EducationPanel />} />
           <Tab
             id="testimonial"
@@ -43,7 +49,7 @@ export default class VerticalTabs extends Component {
             panel={<TestimonialPanel />}
           />
           <Tab id="info" title="Basic Info" panel={<InfoPanel />} />
-          <Tab id="skills" title="Skills" panel={<Skills />} />
+          <Tab id="skills" title="Skills" panel={<SkillsPanel />} />
         </Tabs>
       );
     }

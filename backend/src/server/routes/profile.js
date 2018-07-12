@@ -194,6 +194,39 @@ router.post('/experience', auth, (req, res) => {
   });
 });
 
+// @route   Update api/profile/experience/:exp_id
+// @desc    Update experience from profile
+// @access  Private
+router.post('/experience/:exp_id', auth, (req, res) => {
+  const { errors, isValid } = validateExperienceInput(req.body);
+  // Check Validation
+  if (!isValid) {
+    // Return any errors with 400 status
+    return res.status(400).json(errors);
+  }
+  Profile.findOne({ user: req.user.id })
+    .then(profile => {
+      // Get update index
+      const updateIndex = profile.experience
+        .map(item => item.id)
+        .indexOf(req.params.exp_id);
+
+      // Splice out of array
+      let currentExperience = profile.experience[updateIndex];
+      currentExperience.title = req.body.title;
+      currentExperience.company = req.body.company;
+      currentExperience.location = req.body.location;
+      currentExperience.from = req.body.from;
+      currentExperience.to = req.body.to;
+      currentExperience.current = req.body.current;
+      currentExperience.description = req.body.description;
+
+      // Save
+      profile.save().then(profile => res.json(profile));
+    })
+    .catch(err => res.status(404).json(err));
+});
+
 // @route   DELETE api/profile/experience/:experience_id
 // @desc    Delete experience from profile
 // @access  Private
@@ -562,6 +595,38 @@ router.post('/courses', auth, (req, res) => {
 
     profile.save().then(profile => res.json(profile));
   });
+});
+
+// @route   Update api/profile/courses/:course_id
+// @desc    Update course from profile
+// @access  Private
+router.post('/courses/:course_id', auth, (req, res) => {
+  const { errors, isValid } = validateCoursesInput(req.body);
+  // Check Validation
+  if (!isValid) {
+    // Return any errors with 400 status
+    return res.status(400).json(errors);
+  }
+  Profile.findOne({ user: req.user.id })
+    .then(profile => {
+      // Get update index
+      const updateIndex = profile.courses
+        .map(item => item.id)
+        .indexOf(req.params.course_id);
+
+      // Splice out of array
+      let currentCourse = profile.courses[updateIndex];
+      currentCourse.title = req.body.title;
+      currentCourse.who_give = req.body.who_give;
+      currentCourse.from = req.body.from;
+      currentCourse.to = req.body.to;
+      currentCourse.current = req.body.current;
+      currentCourse.description = req.body.description;
+
+      // Save
+      profile.save().then(profile => res.json(profile));
+    })
+    .catch(err => res.status(404).json(err));
 });
 
 // @route   DELETE api/profile/courses/:course_id

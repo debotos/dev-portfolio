@@ -6,7 +6,7 @@ const isEmpty = value =>
   (typeof value === 'object' && Object.keys(value).length === 0) ||
   (typeof value === 'string' && value.trim().length === 0);
 
-export default function validateExperienceInput(data) {
+export default function validateEducationInput(data) {
   let errors = {};
 
   data.school = !isEmpty(data.school) ? data.school : '';

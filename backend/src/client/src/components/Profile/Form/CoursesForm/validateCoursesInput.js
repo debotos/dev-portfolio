@@ -1,8 +1,12 @@
 const Validator = require('validator');
-const isEmpty = require('./is-empty');
 
-module.exports = function validateCoursesInput(data) {
-  // console.log('Got to validate => ', data);
+const isEmpty = value =>
+  value === undefined ||
+  value === null ||
+  (typeof value === 'object' && Object.keys(value).length === 0) ||
+  (typeof value === 'string' && value.trim().length === 0);
+
+export default function validateCoursesInput(data) {
   let errors = {};
 
   data.title = !isEmpty(data.title) ? data.title : '';
@@ -30,4 +34,4 @@ module.exports = function validateCoursesInput(data) {
     errors,
     isValid: isEmpty(errors)
   };
-};
+}

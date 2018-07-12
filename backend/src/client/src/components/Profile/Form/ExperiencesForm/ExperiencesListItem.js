@@ -14,21 +14,21 @@ import {
 import moment from 'moment';
 
 import {
-  updateEducation,
-  deleteEducation
+  updateExperience,
+  deleteExperience
 } from '../../../../redux/actions/profileActions';
-import validateEducationInput from './validatorEducation';
+import validateExperienceInput from './validateExperienceInput';
 
-class EducationListItem extends Component {
+class ExperiencesListItem extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.data) {
       this.setState({
         deleteButtonWorkingState: false,
         submitButtonWorkingState: false,
         disabled: nextProps.data.current ? nextProps.data.current : false,
-        school: nextProps.data.school,
-        degree: nextProps.data.degree,
-        fieldofstudy: nextProps.data.fieldofstudy,
+        title: nextProps.data.title,
+        company: nextProps.data.company,
+        loacation: nextProps.data.loacation,
         from: nextProps.data.from
           ? nextProps.data.from.split('T')[0]
           : moment().format('YYYY-MM-DD'),
@@ -41,11 +41,9 @@ class EducationListItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      school: this.props.data.school ? this.props.data.school : '',
-      degree: this.props.data.degree ? this.props.data.degree : '',
-      fieldofstudy: this.props.data.fieldofstudy
-        ? this.props.data.fieldofstudy
-        : '',
+      title: this.props.data.title ? this.props.data.title : '',
+      company: this.props.data.company ? this.props.data.company : '',
+      location: this.props.data.location ? this.props.data.location : '',
       from: this.props.data.from
         ? this.props.data.from.split('T')[0]
         : moment().format('YYYY-MM-DD'),
@@ -82,21 +80,21 @@ class EducationListItem extends Component {
       submitButtonWorkingState: true,
       errors: {}
     });
-    const { errors, isValid } = validateEducationInput(this.state);
+    const { errors, isValid } = validateExperienceInput(this.state);
     // Check Validation
     if (isValid) {
-      const eduData = {
-        school: this.state.school,
-        degree: this.state.degree,
-        fieldofstudy: this.state.fieldofstudy,
+      const newExpData = {
+        title: this.state.title,
+        company: this.state.company,
+        location: this.state.location,
         from: this.state.from,
         to: this.state.current ? null : this.state.to,
         current: this.state.current,
         description: this.state.description
       };
-      this.props.updateEducation(
+      this.props.updateExperience(
         this.props.data._id,
-        eduData,
+        newExpData,
         this.props.history
       );
       setTimeout(() => {
@@ -104,7 +102,7 @@ class EducationListItem extends Component {
         this.addToast({
           icon: 'tick',
           intent: Intent.SUCCESS,
-          message: 'Successful! Education Updated!'
+          message: 'Successful! Experience Updated!'
         });
       }, 500);
     } else {
@@ -117,16 +115,14 @@ class EducationListItem extends Component {
       });
     }
   }
-
   handleItemDelete = () => {
     // @todo : add a confirm dialog
     this.setState({ deleteButtonWorkingState: true });
-    this.props.deleteEducation(this.props.data._id);
+    this.props.deleteExperience(this.props.data._id);
     setTimeout(() => {
       this.setState({ deleteButtonWorkingState: false });
     }, 2000);
   };
-
   onChange(e) {
     // console.log(`[${e.target.id}]: ${e.target.value}`);
     this.setState({ [e.target.id]: e.target.value });
@@ -137,10 +133,8 @@ class EducationListItem extends Component {
       current: !this.state.current
     });
   }
-
   render() {
     const { errors } = this.state;
-
     return (
       <Card interactive={true} elevation={Elevation.TWO}>
         <h2 style={{ textAlign: 'center' }}>{this.props.number}</h2>
@@ -148,55 +142,55 @@ class EducationListItem extends Component {
           <div>
             <div>
               <FormGroup
-                helperText={errors.school ? errors.school : ''}
-                label="School"
-                labelFor="school"
+                helperText={errors.title ? errors.title : ''}
+                label="Title"
+                labelFor="title"
                 requiredLabel={true}
                 className="pt-form-group"
               >
                 <input
                   onChange={this.onChange}
                   style={{ width: '400px' }}
-                  value={this.state.school}
+                  value={this.state.title}
                   className="pt-input .pt-round"
-                  id="school"
-                  placeholder="School eg. National University"
+                  id="title"
+                  placeholder="Title eg. Project Manager"
                 />
               </FormGroup>
             </div>
             <div>
               <FormGroup
-                helperText={errors.degree ? errors.degree : ''}
-                label="Degree"
-                labelFor="degree"
+                helperText={errors.company ? errors.company : ''}
+                label="Company"
+                labelFor="company"
                 requiredLabel={true}
                 className="pt-form-group"
               >
                 <input
                   onChange={this.onChange}
                   style={{ width: '400px' }}
-                  value={this.state.degree}
+                  value={this.state.company}
                   className="pt-input .pt-round"
-                  id="degree"
-                  placeholder="Degree eg. B.Sc"
+                  id="company"
+                  placeholder="Company eg. Google"
                 />
               </FormGroup>
             </div>
             <div>
               <FormGroup
-                helperText={errors.fieldofstudy ? errors.fieldofstudy : ''}
-                label="Field Of Study"
-                labelFor="fieldofstudy"
+                helperText={errors.location ? errors.location : ''}
+                label="Location"
+                labelFor="location"
                 requiredLabel={true}
                 className="pt-form-group"
               >
                 <input
                   onChange={this.onChange}
                   style={{ width: '400px' }}
-                  value={this.state.fieldofstudy}
+                  value={this.state.location}
                   className="pt-input .pt-round"
-                  id="fieldofstudy"
-                  placeholder="Field Of Study eg. CSE"
+                  id="location"
+                  placeholder="Location eg. Hydrabad, India"
                 />
               </FormGroup>
             </div>
@@ -333,6 +327,6 @@ class EducationListItem extends Component {
 }
 
 export default connect(null, {
-  updateEducation,
-  deleteEducation
-})(withRouter(EducationListItem));
+  updateExperience,
+  deleteExperience
+})(withRouter(ExperiencesListItem));
