@@ -2,24 +2,32 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Spinner from '../common/Spinner';
-import { getCurrentProfile } from '../../redux/actions/profileActions';
+import {
+  getCurrentPortfolio,
+  getCurrentUserPortfolioCategories
+} from '../../redux/actions/portfolioActions';
 
 import PortfolioTab from './Tabs';
 class Portfolio extends Component {
   componentDidMount() {
-    this.props.getCurrentProfile();
+    this.props.getCurrentPortfolio();
+    this.props.getCurrentUserPortfolioCategories();
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.profile.profile === null && this.props.profile.loading) {
+    if (
+      nextProps.portfolio.portfolio === null &&
+      this.props.portfolio.loading
+    ) {
       this.props.history.push('/');
     }
   }
 
   render() {
-    const { profile, loading } = this.props.profile;
+    const { portfolio, loading } = this.props.portfolio;
+    // console.log('Portfolio props => ', this.props.portfolio);
 
-    return profile === null || loading ? (
+    return portfolio === null || loading ? (
       <div
         style={{
           display: 'flex',
@@ -37,19 +45,22 @@ class Portfolio extends Component {
           padding: '0 1rem 1rem 1rem'
         }}
       >
-        <PortfolioTab profile={profile} />
+        <PortfolioTab portfolio={portfolio} />
       </div>
     );
   }
 }
 
 Portfolio.propTypes = {
-  getCurrentProfile: PropTypes.func.isRequired,
-  profile: PropTypes.object.isRequired
+  getCurrentPortfolio: PropTypes.func.isRequired,
+  portfolio: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  profile: state.profile
+  portfolio: state.portfolio
 });
 
-export default connect(mapStateToProps, { getCurrentProfile })(Portfolio);
+export default connect(mapStateToProps, {
+  getCurrentPortfolio,
+  getCurrentUserPortfolioCategories
+})(Portfolio);

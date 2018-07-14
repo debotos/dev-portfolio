@@ -2,17 +2,19 @@ import React, { Component } from 'react';
 import { Tab, Tabs } from '@blueprintjs/core';
 
 import PortfolioCategoryPanel from './PortfolioPanel/PortfolioCategoryPanel';
-import PortfolioItemWrapper from './PortfolioPanel/PortfolioItemWrapper';
+import PortfolioItemsPanel from './PortfolioPanel/PortfolioItemsPanel';
 class PortfolioTab extends Component {
   state = {
-    navbarTabId: 'PortfolioItemWrapper'
+    navbarTabId: 'PortfolioItemsPanel'
   };
   handleTabChange = navbarTabId => this.setState({ navbarTabId });
   render() {
-    const { profile } = this.props;
-    console.log(this.props);
-
-    const onlyShowInfoPanel = Object.keys(profile).length === 0;
+    /* I don't need this check coz if there is no data of this user
+       about category or portfolio i am going to create it on server
+       side code and then insert his submitted data
+    */
+    /*const { portfolio } = this.props;
+    const onlyShowInfoPanel = Object.keys(portfolio).length === 0;
     let TabContent;
     if (onlyShowInfoPanel) {
     } else {
@@ -28,15 +30,28 @@ class PortfolioTab extends Component {
             panel={<PortfolioCategoryPanel />}
           />
           <Tab
-            id="PortfolioItemWrapper"
+            id="PortfolioItemsPanel"
             title="Portfolio Items"
-            panel={<PortfolioItemWrapper />}
+            panel={<PortfolioItemsPanel />}
           />
         </Tabs>
       );
-    }
+    }*/
 
-    return TabContent;
+    return (
+      <Tabs id="portfolio_page_tab" onChange={this.handleTabChange}>
+        <Tab
+          id="PortfolioCategoryPanel"
+          title="Categories"
+          panel={<PortfolioCategoryPanel />}
+        />
+        <Tab
+          id="PortfolioItemsPanel"
+          title="Portfolio Items"
+          panel={<PortfolioItemsPanel />}
+        />
+      </Tabs>
+    );
   }
 }
 

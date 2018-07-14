@@ -32,7 +32,6 @@ export default class PorfileTabs extends Component {
         <Tabs
           id="profile_page_tab"
           onChange={this.handleTabChange}
-          renderActiveTabPanelOnly={this.state.activePanelOnly}
           style={{ display: 'flex', flexWrap: 'wrap' }}
         >
           {/* @todo add a profile pic changer component */}
