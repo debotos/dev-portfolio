@@ -35,6 +35,7 @@ export default class VerticalTabs extends Component {
           onChange={this.handleTabChange}
           renderActiveTabPanelOnly={this.state.activePanelOnly}
         >
+          {/* @todo add a profile pic changer component */}
           <Tab id="courses" title="Courses" panel={<CoursesPanel />} />
           <Tab
             id="experiences"

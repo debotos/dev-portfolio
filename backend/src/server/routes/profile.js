@@ -530,7 +530,7 @@ router.post('/education/:edu_id', auth, (req, res) => {
         .map(item => item.id)
         .indexOf(req.params.edu_id);
 
-      // Splice out of array
+      // update array item
       let currentEducation = profile.education[updateIndex];
       currentEducation.school = req.body.school;
       currentEducation.degree = req.body.degree;

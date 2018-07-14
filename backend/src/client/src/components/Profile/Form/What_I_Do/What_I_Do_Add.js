@@ -169,7 +169,7 @@ class What_I_Do_Add extends Component {
               text={
                 this.state.selectedFile
                   ? this.state.selectedFile.name
-                  : 'Select the image (200x200)'
+                  : 'Select the image (Max: 150x150)'
               }
               onInputChange={this.fileChangedHandler}
             />

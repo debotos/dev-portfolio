@@ -10,10 +10,11 @@ class CoursesPanel extends Component {
       <div
         style={{
           display: 'flex',
-          flexDirection: 'row'
+          flexDirection: 'row',
+          flexWrap: 'wrap'
         }}
       >
-        <div style={{ paddingRight: '30px' }}>
+        <div style={{ paddingRight: '30px', paddingBottom: '10px' }}>
           <Card interactive={true} elevation={Elevation.TWO}>
             <AddCourses />
           </Card>
