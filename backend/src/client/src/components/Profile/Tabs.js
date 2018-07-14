@@ -9,7 +9,7 @@ import WhatIDoPanel from './TabPanel/WhatIDoPanel';
 import ExperiencesPanel from './TabPanel/ExperiencesPanel';
 import CoursesPanel from './TabPanel/CoursesPanel';
 
-export default class VerticalTabs extends Component {
+export default class PorfileTabs extends Component {
   state = {
     navbarTabId: 'info'
   };
@@ -30,10 +30,10 @@ export default class VerticalTabs extends Component {
     } else {
       TabContent = (
         <Tabs
-          vertical={true}
           id="profile_page_tab"
           onChange={this.handleTabChange}
           renderActiveTabPanelOnly={this.state.activePanelOnly}
+          style={{ display: 'flex', flexWrap: 'wrap' }}
         >
           {/* @todo add a profile pic changer component */}
           <Tab id="courses" title="Courses" panel={<CoursesPanel />} />

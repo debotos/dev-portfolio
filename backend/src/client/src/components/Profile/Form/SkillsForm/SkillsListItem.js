@@ -28,7 +28,7 @@ export default class SkillsListItem extends React.Component {
             readOnly
             value={data.title}
             className="pt-input"
-            style={{ width: '300px' }}
+            style={{ width: '200px' }}
           />
         </div>
         <div style={{ padding: '5px' }}>

@@ -6,7 +6,7 @@ import { getCurrentProfile } from '../../redux/actions/profileActions';
 
 import './profile.css';
 
-import VerticalTabs from './Tabs';
+import PorfileTabs from './Tabs';
 
 class Profile extends Component {
   componentDidMount() {
@@ -34,8 +34,12 @@ class Profile extends Component {
         <Spinner />
       </div>
     ) : (
-      <div>
-        <VerticalTabs profile={profile} />
+      <div
+        style={{
+          paddingLeft: '10px'
+        }}
+      >
+        <PorfileTabs profile={profile} />
       </div>
     );
   }

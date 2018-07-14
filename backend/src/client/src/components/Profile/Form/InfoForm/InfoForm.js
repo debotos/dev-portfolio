@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+// import { Card, Elevation } from '@blueprintjs/core';
 import PropTypes from 'prop-types';
 import {
   TextArea,
@@ -13,11 +14,7 @@ import {
 import { createProfile } from '../../../../redux/actions/profileActions';
 
 import ProfileFormTextField from './ProfileFormTextField';
-import {
-  GenerateSectionOneInputFields,
-  GenerateSectionTwoInputFields,
-  GenerateSectionThreeInputFields
-} from './GenerateInputFields';
+import { GenerateInputFields } from './GenerateInputFields';
 
 class ProfileForm extends Component {
   componentWillReceiveProps(nextProps) {
@@ -141,48 +138,20 @@ class ProfileForm extends Component {
   }
   render() {
     const { errors } = this.state;
-    const InputFieldsSectionOne = GenerateSectionOneInputFields(
-      this.state,
-      errors
-    );
-    const InputFieldsSectionTwo = GenerateSectionTwoInputFields(
-      this.state,
-      errors
-    );
-    const InputFieldsSectionThree = GenerateSectionThreeInputFields(
-      this.state,
-      errors
-    );
+    const InputFields = GenerateInputFields(this.state, errors);
     return (
       <div>
         <form onSubmit={this.onSubmit}>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'flex-start',
-              flexWrap: 'wrap'
-            }}
-          >
-            <div style={{ padding: '20px' }}>
-              {InputFieldsSectionOne.map(singleItemData => (
-                <ProfileFormTextField
-                  key={singleItemData.serial}
-                  data={singleItemData}
-                  onChange={this.onChange}
-                />
-              ))}
-            </div>
-            <div style={{ padding: '20px' }}>
-              {InputFieldsSectionTwo.map(singleItemData => (
-                <ProfileFormTextField
-                  key={singleItemData.serial}
-                  data={singleItemData}
-                  onChange={this.onChange}
-                />
-              ))}
-            </div>
-            <div style={{ padding: '20px' }}>
-              {InputFieldsSectionThree.map(singleItemData => (
+          <div style={{}}>
+            <div
+              style={{
+                padding: '15px',
+                display: 'flex',
+                flexDirection: 'row',
+                flexWrap: 'wrap'
+              }}
+            >
+              {InputFields.map(singleItemData => (
                 <ProfileFormTextField
                   key={singleItemData.serial}
                   data={singleItemData}
@@ -197,7 +166,7 @@ class ProfileForm extends Component {
                 requiredLabel={true}
               >
                 <TextArea
-                  style={{ height: '105px' }}
+                  style={{ height: '200px', width: '380px' }}
                   id="bio"
                   className="pt-large pt-fill"
                   large={true}
@@ -234,6 +203,7 @@ class ProfileForm extends Component {
             )}
           </div>
         </form>
+
         <div>
           <Toaster position={Position.TOP} ref={this.refHandlers.toaster}>
             {/* "Toasted!" will appear here after clicking button. */}

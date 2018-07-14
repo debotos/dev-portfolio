@@ -1,3 +1,7 @@
 .pt-form-helper-text {
   color: red !important;
 }
+
+.pt-tab {
+  outline: none !important;
+}
