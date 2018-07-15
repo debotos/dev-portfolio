@@ -105,7 +105,7 @@ class TestimonialListItem extends Component {
                 onChange={this.onChange}
                 value={this.state.testimonial_name}
                 style={{ width: '400px' }}
-                className="pt-input .pt-round "
+                className="pt-input pt-round "
                 id="testimonial_name"
                 placeholder="Who give it to you"
               />
@@ -123,7 +123,7 @@ class TestimonialListItem extends Component {
                 onChange={this.onChange}
                 value={this.state.testimonial_job}
                 style={{ width: '400px' }}
-                className="pt-input .pt-round "
+                className="pt-input pt-round "
                 id="testimonial_job"
                 placeholder="his or her job/position"
               />

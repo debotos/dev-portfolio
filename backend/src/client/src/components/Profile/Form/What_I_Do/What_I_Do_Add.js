@@ -156,7 +156,7 @@ class What_I_Do_Add extends Component {
                 onChange={this.onChange}
                 value={this.state.title}
                 style={{ width: '400px' }}
-                className="pt-input .pt-round "
+                className="pt-input pt-round "
                 id="title"
                 placeholder="Title eg. Web Development"
               />

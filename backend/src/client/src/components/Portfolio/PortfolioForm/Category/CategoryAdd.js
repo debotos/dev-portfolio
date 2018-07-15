@@ -85,7 +85,7 @@ class CategoryAdd extends Component {
                 onChange={this.onChange}
                 style={{ width: '400px' }}
                 value={this.state.category}
-                className="pt-input .pt-round "
+                className="pt-input pt-round "
                 id="category"
                 placeholder="eg. Website"
               />

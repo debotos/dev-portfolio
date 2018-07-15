@@ -158,7 +158,7 @@ class EducationListItem extends Component {
                   onChange={this.onChange}
                   style={{ width: '400px' }}
                   value={this.state.school}
-                  className="pt-input .pt-round"
+                  className="pt-input pt-round"
                   id="school"
                   placeholder="School eg. National University"
                 />
@@ -176,7 +176,7 @@ class EducationListItem extends Component {
                   onChange={this.onChange}
                   style={{ width: '400px' }}
                   value={this.state.degree}
-                  className="pt-input .pt-round"
+                  className="pt-input pt-round"
                   id="degree"
                   placeholder="Degree eg. B.Sc"
                 />
@@ -194,7 +194,7 @@ class EducationListItem extends Component {
                   onChange={this.onChange}
                   style={{ width: '400px' }}
                   value={this.state.fieldofstudy}
-                  className="pt-input .pt-round"
+                  className="pt-input pt-round"
                   id="fieldofstudy"
                   placeholder="Field Of Study eg. CSE"
                 />

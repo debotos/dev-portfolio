@@ -42,7 +42,7 @@ class Portfolio extends Component {
       <div
         style={{
           display: 'flex',
-          padding: '0 1rem 1rem 1rem'
+          padding: '0 1rem'
         }}
       >
         <PortfolioTab portfolio={portfolio} />

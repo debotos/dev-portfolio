@@ -152,7 +152,7 @@ class ExperiencesListItem extends Component {
                   onChange={this.onChange}
                   style={{ width: '400px' }}
                   value={this.state.title}
-                  className="pt-input .pt-round"
+                  className="pt-input pt-round"
                   id="title"
                   placeholder="Title eg. Project Manager"
                 />
@@ -170,7 +170,7 @@ class ExperiencesListItem extends Component {
                   onChange={this.onChange}
                   style={{ width: '400px' }}
                   value={this.state.company}
-                  className="pt-input .pt-round"
+                  className="pt-input pt-round"
                   id="company"
                   placeholder="Company eg. Google"
                 />
@@ -188,7 +188,7 @@ class ExperiencesListItem extends Component {
                   onChange={this.onChange}
                   style={{ width: '400px' }}
                   value={this.state.location}
-                  className="pt-input .pt-round"
+                  className="pt-input pt-round"
                   id="location"
                   placeholder="Location eg. Hydrabad, India"
                 />

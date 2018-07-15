@@ -13,19 +13,20 @@ class CategoryList extends Component {
 
     return (
       <div>
-        {ListOfCategories.length > 0 && (
-          <Card interactive={true} elevation={Elevation.TWO}>
-            <h3 style={{ textAlign: 'center' }}>Catagories</h3>
-            {ListOfCategories.map((singleItem, index) => (
-              <CategoryListItem
-                deleteCategory={this.props.deleteCategory}
-                number={index + 1}
-                data={singleItem}
-                key={index}
-              />
-            ))}
-          </Card>
-        )}
+        {ListOfCategories &&
+          ListOfCategories.length > 0 && (
+            <Card interactive={true} elevation={Elevation.TWO}>
+              <h3 style={{ textAlign: 'center' }}>Catagories</h3>
+              {ListOfCategories.map((singleItem, index) => (
+                <CategoryListItem
+                  deleteCategory={this.props.deleteCategory}
+                  number={index + 1}
+                  data={singleItem}
+                  key={index}
+                />
+              ))}
+            </Card>
+          )}
       </div>
     );
   }

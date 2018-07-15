@@ -152,7 +152,7 @@ class CoursesListItem extends Component {
                   onChange={this.onChange}
                   style={{ width: '400px' }}
                   value={this.state.title}
-                  className="pt-input .pt-round"
+                  className="pt-input pt-round"
                   id="title"
                   placeholder="Title eg. Project Manager"
                 />
@@ -170,7 +170,7 @@ class CoursesListItem extends Component {
                   onChange={this.onChange}
                   style={{ width: '400px' }}
                   value={this.state.who_give}
-                  className="pt-input .pt-round"
+                  className="pt-input pt-round"
                   id="who_give"
                   placeholder="eg. Udemy Course / By Debotos Das"
                 />

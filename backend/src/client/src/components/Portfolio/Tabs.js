@@ -3,6 +3,8 @@ import { Tab, Tabs } from '@blueprintjs/core';
 
 import PortfolioCategoryPanel from './PortfolioPanel/PortfolioCategoryPanel';
 import PortfolioItemsPanel from './PortfolioPanel/PortfolioItemsPanel';
+import CreatePortfolio from './PortfolioPanel/CreatePortfolio';
+
 class PortfolioTab extends Component {
   state = {
     navbarTabId: 'PortfolioItemsPanel'
@@ -40,15 +42,16 @@ class PortfolioTab extends Component {
 
     return (
       <Tabs id="portfolio_page_tab" onChange={this.handleTabChange}>
+        <Tab id="CreatePortfolio" title="Create" panel={<CreatePortfolio />} />
+        <Tab
+          id="PortfolioItemsPanel"
+          title="List"
+          panel={<PortfolioItemsPanel />}
+        />
         <Tab
           id="PortfolioCategoryPanel"
           title="Categories"
           panel={<PortfolioCategoryPanel />}
-        />
-        <Tab
-          id="PortfolioItemsPanel"
-          title="Portfolio Items"
-          panel={<PortfolioItemsPanel />}
         />
       </Tabs>
     );

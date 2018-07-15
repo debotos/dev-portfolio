@@ -90,7 +90,7 @@ class SkillsAdd extends Component {
                 onChange={this.onChange}
                 style={{ width: '400px' }}
                 value={this.state.newSkillTitle}
-                className="pt-input .pt-round "
+                className="pt-input pt-round "
                 id="newSkillTitle"
                 placeholder="Skill name or Technology"
               />
@@ -109,7 +109,7 @@ class SkillsAdd extends Component {
                 value={this.state.newSkillPrecentage}
                 onChange={this.onChange}
                 style={{ width: '400px' }}
-                className="pt-input .pt-round "
+                className="pt-input pt-round "
                 id="newSkillPrecentage"
                 placeholder="Enter Percentage."
               />

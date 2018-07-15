@@ -11,7 +11,7 @@ export const GenerateInputFields = (profile, errors) => {
         type: 'text',
         value: profile.profile_name,
         id: 'profile_name',
-        className: 'pt-input pt-fill',
+        className: 'pt-input pt-round pt-fill',
         style: { width: '380px', marginRight: '5px' },
         placeholder: 'eg. Dev Debotos'
       }
@@ -27,7 +27,7 @@ export const GenerateInputFields = (profile, errors) => {
         type: 'text',
         value: profile.full_name,
         id: 'full_name',
-        className: 'pt-input pt-fill',
+        className: 'pt-input pt-round pt-fill',
         style: { width: '380px', marginRight: '5px' },
         placeholder: 'eg. Debotos Das'
       }
@@ -43,7 +43,7 @@ export const GenerateInputFields = (profile, errors) => {
         type: 'email',
         value: profile.email,
         id: 'email',
-        className: 'pt-input pt-fill',
+        className: 'pt-input pt-round pt-fill',
         style: { width: '380px', marginRight: '5px' },
         placeholder: 'eg. debotosdas@gmail.com'
       }
@@ -59,7 +59,7 @@ export const GenerateInputFields = (profile, errors) => {
         type: 'text',
         value: profile.address,
         id: 'address',
-        className: 'pt-input pt-fill',
+        className: 'pt-input pt-round pt-fill',
         style: { width: '380px', marginRight: '5px' },
         placeholder: 'eg. Doba, Rupsa, Khulna'
       }
@@ -75,7 +75,7 @@ export const GenerateInputFields = (profile, errors) => {
         type: 'text',
         value: profile.map_address,
         id: 'map_address',
-        className: 'pt-input pt-fill',
+        className: 'pt-input pt-round pt-fill',
         style: { width: '380px', marginRight: '5px' },
         placeholder: 'eg. Khulna Division, Bangladesh'
       }
@@ -91,7 +91,7 @@ export const GenerateInputFields = (profile, errors) => {
         type: 'text',
         value: profile.resume_link,
         id: 'resume_link',
-        className: 'pt-input pt-fill',
+        className: 'pt-input pt-round pt-fill',
         style: { width: '380px', marginRight: '5px' },
         placeholder: 'URL of your online Resume/Bio'
       }
@@ -107,7 +107,7 @@ export const GenerateInputFields = (profile, errors) => {
         type: 'number',
         value: profile.age,
         id: 'age',
-        className: 'pt-input pt-fill',
+        className: 'pt-input pt-round pt-fill',
         style: { width: '380px', marginRight: '5px' },
         placeholder: 'eg. 21'
       }
@@ -123,7 +123,7 @@ export const GenerateInputFields = (profile, errors) => {
         type: 'text',
         value: profile.residence,
         id: 'residence',
-        className: 'pt-input pt-fill',
+        className: 'pt-input pt-round pt-fill',
         style: { width: '380px', marginRight: '5px' },
         placeholder: 'eg. BD'
       }
@@ -139,7 +139,7 @@ export const GenerateInputFields = (profile, errors) => {
         type: 'text',
         value: profile.skillsAt,
         id: 'skillsAt',
-        className: 'pt-input pt-fill',
+        className: 'pt-input pt-round pt-fill',
         style: { width: '380px', marginRight: '5px' },
         placeholder: 'eg. Web Developer,Android Developer'
       }
@@ -155,7 +155,7 @@ export const GenerateInputFields = (profile, errors) => {
         type: 'text',
         value: profile.phone,
         id: 'phone',
-        className: 'pt-input pt-fill',
+        className: 'pt-input pt-round pt-fill',
         style: { width: '380px', marginRight: '5px' },
         placeholder: 'eg. +8801790015380,+8801982134040'
       }
@@ -171,7 +171,7 @@ export const GenerateInputFields = (profile, errors) => {
         type: 'text',
         value: profile.youtube,
         id: 'youtube',
-        className: 'pt-input pt-fill',
+        className: 'pt-input pt-round pt-fill',
         style: { width: '380px', marginRight: '5px' },
         placeholder: 'Youtube Profile'
       }
@@ -187,7 +187,7 @@ export const GenerateInputFields = (profile, errors) => {
         type: 'text',
         value: profile.twitter,
         id: 'twitter',
-        className: 'pt-input pt-fill',
+        className: 'pt-input pt-round pt-fill',
         style: { width: '380px', marginRight: '5px' },
         placeholder: 'Twitter Profile'
       }
@@ -203,7 +203,7 @@ export const GenerateInputFields = (profile, errors) => {
         type: 'text',
         value: profile.facebook,
         id: 'facebook',
-        className: 'pt-input pt-fill',
+        className: 'pt-input pt-round pt-fill',
         style: { width: '380px', marginRight: '5px' },
         placeholder: 'Facebook Profile'
       }
@@ -219,7 +219,7 @@ export const GenerateInputFields = (profile, errors) => {
         type: 'text',
         value: profile.linkedin,
         id: 'linkedin',
-        className: 'pt-input pt-fill',
+        className: 'pt-input pt-round pt-fill',
         style: { width: '380px', marginRight: '5px' },
         placeholder: 'Linkedin Profile'
       }
@@ -235,7 +235,7 @@ export const GenerateInputFields = (profile, errors) => {
         type: 'text',
         value: profile.instagram,
         id: 'instagram',
-        className: 'pt-input pt-fill',
+        className: 'pt-input pt-round pt-fill',
         style: { width: '380px', marginRight: '5px' },
         placeholder: 'Instagram Profile'
       }
@@ -251,7 +251,7 @@ export const GenerateInputFields = (profile, errors) => {
         type: 'text',
         value: profile.github,
         id: 'github',
-        className: 'pt-input pt-fill',
+        className: 'pt-input pt-round pt-fill',
         style: { width: '380px', marginRight: '5px' },
         placeholder: 'Github Profile'
       }

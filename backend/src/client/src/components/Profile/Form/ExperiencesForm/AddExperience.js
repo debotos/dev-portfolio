@@ -128,7 +128,7 @@ class AddExperience extends Component {
                 onChange={this.onChange}
                 style={{ width: '400px' }}
                 value={this.state.title}
-                className="pt-input .pt-round"
+                className="pt-input pt-round"
                 id="title"
                 placeholder="title eg. Project Manager"
               />
@@ -146,7 +146,7 @@ class AddExperience extends Component {
                 onChange={this.onChange}
                 style={{ width: '400px' }}
                 value={this.state.company}
-                className="pt-input .pt-round"
+                className="pt-input pt-round"
                 id="company"
                 placeholder="Company eg. Google"
               />
@@ -164,7 +164,7 @@ class AddExperience extends Component {
                 onChange={this.onChange}
                 style={{ width: '400px' }}
                 value={this.state.location}
-                className="pt-input .pt-round"
+                className="pt-input pt-round"
                 id="location"
                 placeholder="Location eg. India, Bangalore"
               />

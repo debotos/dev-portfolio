@@ -71,7 +71,7 @@ class What_I_Do_List_Item extends Component {
               onChange={this.onChange}
               value={this.state.title}
               style={{ width: '400px' }}
-              className="pt-input .pt-round "
+              className="pt-input pt-round "
               id="title"
             />
           </div>

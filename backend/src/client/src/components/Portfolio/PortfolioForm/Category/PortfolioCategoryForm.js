@@ -14,7 +14,7 @@ export default class PortfolioCategoryForm extends Component {
           flexWrap: 'wrap'
         }}
       >
-        <div style={{ marginRight: '10px' }}>
+        <div style={{ marginRight: '10px', marginBottom: '10px' }}>
           <Card interactive={true} elevation={Elevation.TWO}>
             <CategoryAdd />
           </Card>
