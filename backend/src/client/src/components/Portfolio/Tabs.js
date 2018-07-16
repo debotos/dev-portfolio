@@ -42,12 +42,12 @@ class PortfolioTab extends Component {
 
     return (
       <Tabs id="portfolio_page_tab" onChange={this.handleTabChange}>
-        <Tab id="CreatePortfolio" title="Create" panel={<CreatePortfolio />} />
         <Tab
           id="PortfolioItemsPanel"
           title="List"
           panel={<PortfolioItemsPanel />}
         />
+        <Tab id="CreatePortfolio" title="Create" panel={<CreatePortfolio />} />
         <Tab
           id="PortfolioCategoryPanel"
           title="Categories"

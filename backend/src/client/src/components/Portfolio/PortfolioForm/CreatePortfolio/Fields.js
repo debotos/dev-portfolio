@@ -255,7 +255,7 @@ class PortfolioFields extends Component {
                     value={this.state.github}
                     className="pt-input pt-round pt-fill"
                     id="github"
-                    placeholder="eg. github.com/debotos [note that without 'http://']"
+                    placeholder="eg. https://www.github.com/debotos [note that with 'https://']"
                   />
                 </FormGroup>
               </div>
@@ -272,7 +272,7 @@ class PortfolioFields extends Component {
                     value={this.state.url}
                     className="pt-input pt-round pt-fill"
                     id="url"
-                    placeholder="eg. yourdomain.com [note that without 'http://']"
+                    placeholder="eg. https://www.yourdomain.com [note that with 'https://']"
                   />
                 </FormGroup>
               </div>
