@@ -10,7 +10,6 @@ import {
   FormGroup,
   TextArea,
   TagInput,
-  Icon,
   Intent
 } from '@blueprintjs/core';
 import { connect } from 'react-redux';
@@ -26,7 +25,8 @@ import ImageUploader from 'react-images-upload';
 import './list_item.css';
 import {
   updatePortfolio,
-  clearErrors
+  clearErrors,
+  deleteSinglePortfolioImage
 } from '../../../../redux/actions/portfolioActions';
 import validatePortfolioInput from './validateUpdatePortfolioData';
 
@@ -92,8 +92,8 @@ class ListItem extends Component {
     let finalUrl = urlArray[0] + 'upload/w_200,h_200' + urlArray[1];
     return finalUrl;
   };
-  deleteSinglePortfolioImage = imageUrl => {
-    console.log('Deleting Img => ', imageUrl);
+  deleteOnePortfolioImage = img_url => {
+    this.props.deleteSinglePortfolioImage(this.props.data._id, img_url);
   };
   onSubmit = e => {
     e.preventDefault();
@@ -422,12 +422,10 @@ class ListItem extends Component {
                           marginBottom: '5px'
                         }}
                         src={this.getImageUrl(singleItem)}
-                        alt="portfolio Image"
+                        alt="portfolio"
                       />
                       <Button
-                        onClick={() =>
-                          this.deleteSinglePortfolioImage(singleItem)
-                        }
+                        onClick={() => this.deleteOnePortfolioImage(singleItem)}
                         title="Delete Portfolio Image"
                         icon="trash"
                       />
@@ -513,6 +511,8 @@ const mapStateToProps = state => ({
   categories: state.portfolio.categories
 });
 
-export default connect(mapStateToProps, { updatePortfolio, clearErrors })(
-  withRouter(ListItem)
-);
+export default connect(mapStateToProps, {
+  updatePortfolio,
+  deleteSinglePortfolioImage,
+  clearErrors
+})(withRouter(ListItem));

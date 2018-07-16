@@ -8,7 +8,7 @@ module.exports = path => {
     folder: function(req, file, cb) {
       cb(null, `portfolio/${req.user.email}/${path}`);
     },
-    allowedFormats: ['jpg', 'png', 'svg', 'jpeg'],
+    allowedFormats: ['jpg', 'png', 'svg', 'jpeg', 'gif'],
     filename: function(req, file, cb) {
       cb(null, new Date().toISOString() + file.originalname);
     }

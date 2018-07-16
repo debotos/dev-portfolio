@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const winston = require('winston');
 const auth = require('../middleware/auth');
+const multerStorageCloudinary = require('../middleware/multer-storage-cloudinary');
 // cloudinary
 const cloudinary = require('../config/cloudinary');
 // Load Validation
@@ -73,31 +74,35 @@ router.post('/category', auth, (req, res) => {
     return res.status(400).json(errors);
   }
 
-  Category.findOne({ user: req.user.id }).then(CategoryData => {
-    if (CategoryData) {
-      // Update the array
-      CategoryData.portfolio_categories.unshift(req.body.portfolio_categories);
-      CategoryData.save().then(categories => res.json(categories));
-    } else {
-      // Create
-      // then add to the array
-      new Category({
-        user: req.user.id,
-        email: req.user.email,
-        portfolio_categories: []
-      })
-        .save()
-        .then(categoryAccount => {
-          Profile.findOne({ user: req.user.id }).then(categoryData => {
-            // Add to category array
-            categoryData.portfolio_categories.unshift(
-              req.body.portfolio_categories
-            );
-            categoryData.save().then(category => res.json(category));
+  Category.findOne({ user: req.user.id })
+    .then(CategoryData => {
+      if (CategoryData) {
+        // Update the array
+        CategoryData.portfolio_categories.unshift(
+          req.body.portfolio_categories
+        );
+        CategoryData.save().then(categories => res.json(categories));
+      } else {
+        // Create
+        // then add to the array
+        new Category({
+          user: req.user.id,
+          email: req.user.email,
+          portfolio_categories: []
+        })
+          .save()
+          .then(categoryAccount => {
+            Profile.findOne({ user: req.user.id }).then(categoryData => {
+              // Add to category array
+              categoryData.portfolio_categories.unshift(
+                req.body.portfolio_categories
+              );
+              categoryData.save().then(category => res.json(category));
+            });
           });
-        });
-    }
-  });
+      }
+    })
+    .catch(err => res.status(404).json(err));
 });
 
 // @route   DELETE api/portfolio/category/:category_item
@@ -227,14 +232,28 @@ router.delete('/:portfolio_id', auth, (req, res) => {
       // Get remove index
       const removeIndex = portfolioData.portfolio
         .map(item => {
-          console.log('Item ID => ', item.id);
+          // console.log('Item ID => ', item.id);
           return item.id;
         })
         .indexOf(req.params.portfolio_id);
-
+      // Grab the public_id
+      let public_id = portfolioData.portfolio[removeIndex].public_id;
+      // console.log('public_id to delete => ', public_id);
       // Splice out of array
       portfolioData.portfolio.splice(removeIndex, 1);
-
+      // Secondly delete image
+      cloudinary.v2.api.delete_resources(public_id, function(error, result) {
+        if (error) {
+          winston.error(
+            `Failed to delete portfolio image from ${
+              req.user.email
+            }. portfolio_id: ${
+              req.params.portfolio_id
+            }and image_id: ${public_id}`
+          );
+        }
+        winston.info('portfolio images deleted ! ' + JSON.stringify(result));
+      });
       // Save
       portfolioData.save().then(newPortfolio => res.json(newPortfolio));
     })
@@ -272,7 +291,72 @@ router.post('/:portfolio_id', auth, (req, res) => {
       currentPortfolio.img = req.body.img;
       currentPortfolio.public_id = req.body.public_id;
       currentPortfolio.category = req.body.category;
+      // Save
+      portfolioData.save().then(newPortfolio => res.json(newPortfolio));
+    })
+    .catch(err => res.status(404).json(err));
+});
 
+/*
+@route   POST api/portfolio/img/upload
+@desc    Upload testimonials Image
+@access  Private
+*/
+router.post(
+  '/img/upload',
+  auth,
+  multerStorageCloudinary('portfolio').array('images', 10),
+  // This middleware takes the folder_name and multiple file provided as a key
+  (req, res) => {
+    // console.log(req.files);
+    return res.status(200).json({
+      success: true,
+      filesInfo: req.files
+    });
+  }
+);
+
+// @route   POST api/portfolio/img/del
+// @desc    Delete Single portfolio Image from profile
+// @access  Private
+router.post('/img/del', auth, (req, res) => {
+  Portfolio.findOne({ user: req.user.id })
+    .then(portfolioData => {
+      // Get remove index
+      const Index = portfolioData.portfolio
+        .map(item => {
+          // console.log('Item ID => ', item.id);
+          return item.id;
+        })
+        .indexOf(req.body.id);
+      // Grab the public_id & img
+      let imgArray = portfolioData.portfolio[Index].img;
+      // Get index
+      let delete_img_index = imgArray.indexOf(req.body.img_url);
+
+      let public_id_of_the_image =
+        portfolioData.portfolio[Index].public_id[delete_img_index];
+      console.log('Got the index', public_id_of_the_image);
+      // Splice out of array
+      portfolioData.portfolio[Index].img.splice(delete_img_index, 1);
+      portfolioData.portfolio[Index].public_id.splice(delete_img_index, 1);
+
+      // Secondly delete image
+      cloudinary.v2.api.delete_resources([public_id_of_the_image], function(
+        error,
+        result
+      ) {
+        if (error) {
+          winston.error(
+            `Failed to delete portfolio image from ${
+              req.user.email
+            }. portfolio_id: ${
+              req.body.id
+            }and image_id: ${public_id_of_the_image}`
+          );
+        }
+        winston.info('portfolio images deleted ! ' + JSON.stringify(result));
+      });
       // Save
       portfolioData.save().then(newPortfolio => res.json(newPortfolio));
     })

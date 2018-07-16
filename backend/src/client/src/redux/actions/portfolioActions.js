@@ -134,6 +134,24 @@ export const updatePortfolio = (id, portfolioUpdate, history) => dispatch => {
     .catch(err => console.log('Portfolio Update Failed! log ->', err));
 };
 
+// Delete Portfolio Image(single)
+export const deleteSinglePortfolioImage = (id, img_url) => dispatch => {
+  axios
+    .post(`api/portfolio/img/del`, { id, img_url })
+    .then(res =>
+      dispatch({
+        type: GET_PORTFOLIO,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
 // Portfolio loading
 export const setPortfolioLoading = () => {
   return {
