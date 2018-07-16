@@ -14,7 +14,7 @@ import {
 } from '@blueprintjs/core';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 import moment from 'moment';
 import Select from 'react-select';
@@ -38,8 +38,11 @@ Modal.setAppElement('#root');
 class ListItem extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.data) {
+      // console.log('NextProps => ', nextProps);
       this.setState({
-        deleteButtonWorkingState: false
+        deleteButtonWorkingState: false,
+        current_img: nextProps.data.img,
+        current_public_id: nextProps.data.public_id
       });
     }
   }
@@ -70,6 +73,7 @@ class ListItem extends Component {
 
   handleSelectChange = selectedOption => {
     // selectedOption can be null when the `x` (close) button is clicked
+    // console.log(selectedOption);
     this.setState({ category: selectedOption });
   };
   handleTagInput = values => {
@@ -102,7 +106,9 @@ class ListItem extends Component {
       errors: {}
     });
     const { errors, isValid } = validatePortfolioInput(this.state);
-    if (this.state.current_img.length > 0 && isValid) {
+    // console.log(isValid);
+    if (isValid) {
+      // console.log('calling finalWork function');
       this.finalWork();
     } else {
       this.setState({ errors });
@@ -116,7 +122,79 @@ class ListItem extends Component {
       }, 200);
     }
   };
-  finalWork = () => {};
+  finalWork = () => {
+    const data = new FormData();
+    for (let index = 0; index < this.state.pictures.length; index++) {
+      data.append('images', this.state.pictures[index]);
+    }
+    axios
+      .post(`api/portfolio/img/upload`, data)
+      .then(response => {
+        if (response.data.success) {
+          let category = this.state.category.map(
+            singleItem => singleItem.value
+          );
+          // console.log('Category => ', category);
+          let img = response.data.filesInfo.map(
+            singleItem => singleItem.secure_url
+          );
+          let public_id = response.data.filesInfo.map(
+            singleItem => singleItem.public_id
+          );
+          let portfolioData = {
+            category,
+            img: [...img, ...this.state.current_img],
+            public_id: [...public_id, ...this.state.current_public_id],
+            name: this.state.name,
+            github: this.state.github,
+            url: this.state.url,
+            date: this.state.date,
+            details: this.state.details,
+            tag: this.state.tag
+          }; // @todo create obj
+          // console.log('New Updated portfolio Data for DB => ', portfolioData);
+          this.props.updatePortfolio(
+            this.props.data._id,
+            portfolioData,
+            this.props.history
+          );
+          setTimeout(() => {
+            this.setState({ submitButtonWorkingState: false });
+            this.addToast({
+              icon: 'tick',
+              intent: Intent.SUCCESS,
+              message: 'Successful! Portfolio Item Updated!'
+            });
+          }, 500);
+          this.setState({
+            pictures: []
+          });
+          this.closeModal();
+        } else {
+          console.log('Error happen in file upload: ', response);
+          this.setState({ submitButtonWorkingState: false });
+          this.addToast({
+            icon: 'error',
+            intent: Intent.DANGER,
+            message: 'Error! Check console!!!'
+          });
+        }
+      })
+      .catch(err => {
+        console.log('*******************************');
+        console.log('Error log: ', err);
+        console.log('*******************************');
+        this.setState({ submitButtonWorkingState: false });
+        this.addToast({
+          icon: 'error',
+          intent: Intent.DANGER,
+          message: 'Session Expired! Login again!!!'
+        });
+        if (err.response) {
+          this.setState({ errors: err.response.data.errors });
+        }
+      });
+  };
   state = {
     modalIsOpen: false,
     toasts: [
@@ -131,17 +209,23 @@ class ListItem extends Component {
       ? this.props.data.date.split('T')[0]
       : moment().format('YYYY-MM-DD'),
     details: this.props.data.details ? this.props.data.details : '',
-    category: this.props.data.category ? this.props.data.category : [],
+    category: this.props.data.category
+      ? this.props.data.category.map(singleItem => ({
+          value: singleItem,
+          label: singleItem
+        }))
+      : [],
     tag: this.props.data.tag ? this.props.data.tag : [],
     current_img: this.props.data.img ? this.props.data.img : [],
     current_public_id: this.props.data.public_id
       ? this.props.data.public_id
       : [],
     errors: {},
-    pictures: null
+    pictures: []
   };
 
   render() {
+    // console.log(this.props.data.category);
     let portfolio = this.props.data;
     const { errors } = this.state;
     let categories = this.props.categories
@@ -187,10 +271,10 @@ class ListItem extends Component {
               flexWrap: 'wrap'
             }}
           >
-            {portfolio.tag.map(singleItem => (
+            {portfolio.tag.map((singleItem, index) => (
               <Tag
                 style={{ padding: '5px', margin: '4px' }}
-                key={singleItem}
+                key={index}
                 minimal={true}
               >
                 {singleItem}
@@ -205,10 +289,10 @@ class ListItem extends Component {
               flexWrap: 'wrap'
             }}
           >
-            {portfolio.category.map(singleItem => (
+            {portfolio.category.map((singleItem, index) => (
               <Tag
                 style={{ padding: '5px', margin: '4px' }}
-                key={singleItem}
+                key={index}
                 minimal={true}
               >
                 {singleItem}
@@ -227,7 +311,7 @@ class ListItem extends Component {
                   <svg viewBox="0 0 100 100">
                     <path
                       className="pt-spinner-track"
-                      d="M 50,50 m 0,-44.5 a 44.5,44.5 0 1 1 0,89 a 44.5,44.5 0 1 1 0,-89"
+                      d="M 50,5index0 m 0,-44.5 a 44.5,44.5 0 1 1 0,89 a 44.5,44.5 0 1 1 0,-89"
                     />
                     <path
                       className="pt-spinner-head"

@@ -37,7 +37,11 @@ export default function validatePortfolioInput(data) {
     errors.tag = 'Tag field is required';
   }
 
-  if (isEmpty(data.current_img)) {
+  // console.log(data.pictures.length === 0);
+  // console.log(data.current_img.length === 0);
+  // console.log(data.pictures.length === 0 && data.current_img.length === 0);
+
+  if (data.pictures.length === 0 && data.current_img.length === 0) {
     errors.img = 'Image field is required';
   }
 
