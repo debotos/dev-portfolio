@@ -11,3 +11,6 @@ export const GET_PORTFOLIO = 'GET_PORTFOLIO';
 export const PORTFOLIO_LOADING = 'PORTFOLIO_LOADING';
 export const PORTFOLIO_NOT_FOUND = 'PORTFOLIO_NOT_FOUND';
 export const GET_CATEGORIES = 'GET_CATEGORIES';
+// Blog
+export const GET_BLOG = 'GET_BLOG';
+export const BLOG_LOADING = 'BLOG_LOADING';

@@ -92,7 +92,7 @@ router.post('/category', auth, (req, res) => {
         })
           .save()
           .then(categoryAccount => {
-            Profile.findOne({ user: req.user.id }).then(categoryData => {
+            Category.findOne({ user: req.user.id }).then(categoryData => {
               // Add to category array
               categoryData.portfolio_categories.unshift(
                 req.body.portfolio_categories
@@ -213,7 +213,7 @@ router.post('/', auth, (req, res) => {
       new Portfolio({ user: req.user.id, email: req.user.email, portfolio: [] })
         .save()
         .then(portfolioAccount => {
-          Profile.findOne({ user: req.user.id }).then(portfolioData => {
+          Portfolio.findOne({ user: req.user.id }).then(portfolioData => {
             // Add to portfolio array
             portfolioData.portfolio.unshift(newPortfolioItem);
             portfolioData.save().then(portfolio => res.json(portfolio));
@@ -299,7 +299,7 @@ router.post('/:portfolio_id', auth, (req, res) => {
 
 /*
 @route   POST api/portfolio/img/upload
-@desc    Upload testimonials Image
+@desc    Upload portfolio Image
 @access  Private
 */
 router.post(

@@ -21,7 +21,6 @@ import 'react-select/dist/react-select.css';
 import ImageUploader from 'react-images-upload';
 
 import validatePortfolioInput from './validatePortfolioData';
-// import {  } from './utility';
 
 import {
   createPortfolio,

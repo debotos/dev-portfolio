@@ -27,10 +27,6 @@ module.exports.validatePortfolioInput = data => {
   if (Validator.isEmpty(data.date)) {
     errors.date = 'Completed Date field is required';
   }
-  // Below, all is array
-  if (isEmpty(data.tag)) {
-    errors.tag = 'Tag field is required';
-  }
 
   if (!isEmpty(data.github)) {
     if (!Validator.isURL(data.github)) {
@@ -49,6 +45,11 @@ module.exports.validatePortfolioInput = data => {
     if (!data['url'].includes('https://')) {
       errors.url = 'Please put https://';
     }
+  }
+
+  // Below, all is array
+  if (isEmpty(data.tag)) {
+    errors.tag = 'Tag field is required';
   }
 
   if (isEmpty(data.img)) {

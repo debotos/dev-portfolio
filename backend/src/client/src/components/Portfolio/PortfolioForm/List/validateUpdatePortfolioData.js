@@ -32,7 +32,7 @@ export default function validatePortfolioInput(data) {
   if (Validator.isEmpty(data.date)) {
     errors.date = 'Completed Date field is required';
   }
-  // Below, all is array
+
   if (isEmpty(data.tag)) {
     errors.tag = 'Tag field is required';
   }
