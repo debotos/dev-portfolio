@@ -13,11 +13,11 @@ class Dashboard extends Component {
         <NavBar />
         <div style={{ marginTop: '55px' }} />
         <Switch>
-          <Route exact={true} path="/dashboard" component={Portfolio} />
+          <Route exact={true} path="/dashboard" component={Porfile} />
           <Route path={`${this.props.match.path}/blog`} component={Blog} />
           <Route
             path={`${this.props.match.path}/portfolio`}
-            component={Porfile}
+            component={Portfolio}
           />
           <Redirect to="/" />
         </Switch>

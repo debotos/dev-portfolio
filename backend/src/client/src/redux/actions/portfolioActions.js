@@ -12,7 +12,7 @@ import {
 export const getCurrentUserPortfolioCategories = () => dispatch => {
   dispatch(setPortfolioLoading());
   axios
-    .get('api/portfolio/category')
+    .get('/api/portfolio/category')
     .then(res =>
       dispatch({
         type: GET_CATEGORIES,
@@ -30,7 +30,7 @@ export const getCurrentUserPortfolioCategories = () => dispatch => {
 // Create Category
 export const createCategory = (categoryData, history) => dispatch => {
   axios
-    .post('api/portfolio/category', categoryData)
+    .post('/api/portfolio/category', categoryData)
     .then(res =>
       dispatch({
         type: GET_CATEGORIES,
@@ -49,7 +49,7 @@ export const createCategory = (categoryData, history) => dispatch => {
 // Delete Category
 export const deleteCategory = category_item => dispatch => {
   axios
-    .delete(`api/portfolio/category/${category_item}`)
+    .delete(`/api/portfolio/category/${category_item}`)
     .then(res =>
       dispatch({
         type: GET_CATEGORIES,
@@ -137,7 +137,7 @@ export const updatePortfolio = (id, portfolioUpdate, history) => dispatch => {
 // Delete Portfolio Image(single)
 export const deleteSinglePortfolioImage = (id, img_url) => dispatch => {
   axios
-    .post(`api/portfolio/img/del`, { id, img_url })
+    .post(`/api/portfolio/img/del`, { id, img_url })
     .then(res =>
       dispatch({
         type: GET_PORTFOLIO,

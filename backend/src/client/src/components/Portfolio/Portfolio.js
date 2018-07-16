@@ -10,13 +10,14 @@ import {
 import PortfolioTab from './Tabs';
 class Portfolio extends Component {
   componentDidMount() {
-    this.props.getCurrentPortfolio();
     this.props.getCurrentUserPortfolioCategories();
+    this.props.getCurrentPortfolio();
   }
 
   componentWillReceiveProps(nextProps) {
     if (
       nextProps.portfolio.portfolio === null &&
+      nextProps.portfolio.categories === null &&
       this.props.portfolio.loading
     ) {
       this.props.history.push('/');
@@ -24,10 +25,9 @@ class Portfolio extends Component {
   }
 
   render() {
-    const { portfolio, loading } = this.props.portfolio;
+    const { portfolio, categories, loading } = this.props.portfolio;
     // console.log('Portfolio props => ', this.props.portfolio);
-
-    return portfolio === null || loading ? (
+    return portfolio === null || categories === null || loading ? (
       <div
         style={{
           display: 'flex',

@@ -93,7 +93,7 @@ class PortfolioFields extends Component {
       data.append('images', this.state.pictures[index]);
     }
     axios
-      .post(`api/portfolio/img/upload`, data)
+      .post(`/api/portfolio/img/upload`, data)
       .then(response => {
         if (response.data.success) {
           let category = this.state.category.map(

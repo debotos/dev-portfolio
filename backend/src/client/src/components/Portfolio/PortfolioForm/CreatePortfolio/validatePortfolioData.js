@@ -45,6 +45,25 @@ export default function validatePortfolioInput(data) {
     errors.category = 'Category field is required';
   }
 
+  if (!isEmpty(data.github)) {
+    if (!Validator.isURL(data.github)) {
+      errors.github =
+        'Not a valid Github URL! eg. https://www.github.com/debotos';
+    }
+    if (!data['github'].includes('https://')) {
+      errors.github = 'Please put https://';
+    }
+  }
+
+  if (!isEmpty(data.url)) {
+    if (!Validator.isURL(data.url)) {
+      errors.url = 'Not a valid URL! eg. https://www.yourdomain.com/';
+    }
+    if (!data['url'].includes('https://')) {
+      errors.url = 'Please put https://';
+    }
+  }
+
   return {
     errors,
     isValid: isEmpty(errors)
