@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { loginUser } from '../../redux/actions/authActions';
 import TextFieldGroup from '../common/TextFieldGroup';
 import { history } from '../App';
@@ -82,6 +83,9 @@ class LoginForm extends Component {
                 value="Log In"
               />
             </form>
+            <Link className="nav-link" to="/register">
+              New? Sign Up
+            </Link>
           </div>
         </div>
       </div>

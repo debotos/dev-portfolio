@@ -14,15 +14,15 @@ class Portfolio extends Component {
     this.props.getCurrentPortfolio();
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (
-      nextProps.portfolio.portfolio === null &&
-      nextProps.portfolio.categories === null &&
-      this.props.portfolio.loading
-    ) {
-      this.props.history.push('/');
-    }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   if (
+  //     nextProps.portfolio.portfolio === null &&
+  //     nextProps.portfolio.categories === null &&
+  //     this.props.portfolio.loading
+  //   ) {
+  //     this.props.history.push('/');
+  //   }
+  // }
 
   render() {
     const { portfolio, categories, loading } = this.props.portfolio;

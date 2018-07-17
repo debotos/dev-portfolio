@@ -11,6 +11,7 @@ import store from '../redux/store/store';
 
 import PrivateRoute from './common/PrivateRoute';
 
+import Register from './Signup/Register';
 import LoginPage from './Login/LoginPage';
 import Dashboard from './Dashboard/Dashboard';
 
@@ -53,6 +54,7 @@ class App extends Component {
         <Router history={history}>
           <Switch>
             <Route exact path="/" component={LoginPage} />
+            <Route exact path="/register" component={Register} />
             <PrivateRoute path="/dashboard" component={Dashboard} />
             <Redirect to="/" />
           </Switch>

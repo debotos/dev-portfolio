@@ -17,9 +17,12 @@ const TextFieldGroup = ({
     <div className="form-group">
       <input
         type={type}
-        className={classnames('login-input form-control form-control-lg', {
-          'is-invalid': error
-        })}
+        className={classnames(
+          'login-input signup-input form-control form-control-lg',
+          {
+            'is-invalid': error
+          }
+        )}
         placeholder={placeholder}
         name={name}
         value={value}

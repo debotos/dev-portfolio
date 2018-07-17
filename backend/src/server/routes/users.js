@@ -11,6 +11,7 @@ const keys = require('../config/credential/keys');
 const passport = require('passport');
 
 const validateLoginInput = require('../validation/login');
+const validateSignUpInput = require('../validation/register');
 
 // @route   GET api/users/me
 // @desc    Return current user
@@ -47,11 +48,12 @@ router.get(
 // @desc    Register user
 // @access  Public
 router.post('/register', async (req, res) => {
-  const { error } = validate(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
+  const { errors, isValid } = validateSignUpInput(req.body);
+  // Check Validation
+  if (!isValid) return res.status(400).json(errors);
 
   let user = await User.findOne({ email: req.body.email });
-  if (user) return res.status(400).send('User already registered.');
+  if (user) return res.status(400).send({ other: 'User already registered!' });
 
   user = new User(_.pick(req.body, ['name', 'email', 'password']));
   const salt = await bcrypt.genSalt(10);

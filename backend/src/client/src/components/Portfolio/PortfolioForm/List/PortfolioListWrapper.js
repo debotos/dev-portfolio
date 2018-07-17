@@ -28,7 +28,7 @@ class ListWrapper extends Component {
             ))}
           </div>
         ) : (
-          <div>No Portfolio Item</div>
+          <div>No Portfolio Item! Create one!</div>
         )}
       </div>
     );

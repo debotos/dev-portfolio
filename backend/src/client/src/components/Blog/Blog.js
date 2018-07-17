@@ -12,11 +12,11 @@ class Blog extends Component {
     this.props.getCurrentBlog();
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.blog.blog === null && this.props.blog.loading) {
-      this.props.history.push('/');
-    }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   if (nextProps.blog.blog === null && this.props.blog.loading) {
+  //     this.props.history.push('/');
+  //   }
+  // }
   render() {
     const { blog, loading } = this.props.blog;
 

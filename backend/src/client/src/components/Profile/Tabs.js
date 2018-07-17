@@ -34,22 +34,21 @@ export default class PorfileTabs extends Component {
           onChange={this.handleTabChange}
           style={{ display: 'flex', flexWrap: 'wrap' }}
         >
-          {/* @todo add a profile pic changer component */}
+          <Tab id="info" title="Basic Info" panel={<InfoPanel />} />
+          <Tab id="skills" title="Skills" panel={<SkillsPanel />} />
+          <Tab id="what_i_do" title="What I Do" panel={<WhatIDoPanel />} />
+          <Tab id="education" title="Education" panel={<EducationPanel />} />
           <Tab id="courses" title="Courses" panel={<CoursesPanel />} />
           <Tab
             id="experiences"
             title="Experiences"
             panel={<ExperiencesPanel />}
           />
-          <Tab id="what_i_do" title="What I Do" panel={<WhatIDoPanel />} />
-          <Tab id="education" title="Education" panel={<EducationPanel />} />
           <Tab
             id="testimonial"
             title="Testimonial"
             panel={<TestimonialPanel />}
           />
-          <Tab id="info" title="Basic Info" panel={<InfoPanel />} />
-          <Tab id="skills" title="Skills" panel={<SkillsPanel />} />
         </Tabs>
       );
     }

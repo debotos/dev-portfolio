@@ -308,7 +308,6 @@ class ProfileForm extends Component {
                   id="bio"
                   large={true}
                   fill={true}
-                  large={true}
                   intent={Intent.PRIMARY}
                   onChange={this.handleBioChange}
                   value={this.state.bio}

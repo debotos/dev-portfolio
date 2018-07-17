@@ -9,8 +9,6 @@ import {
   Toast,
   Toaster,
   Navbar,
-  // Alignment,
-  // NavbarHeading,
   NavbarDivider,
   NavbarGroup
 } from '@blueprintjs/core';
@@ -28,7 +26,7 @@ class NavBar extends React.Component {
     toaster: ref => (this.toaster = ref)
   };
 
-  addToast = () => {
+  showGoodByeToast = () => {
     this.toaster.show({
       icon: 'hand',
       intent: Intent.WARNING,
@@ -37,7 +35,7 @@ class NavBar extends React.Component {
   };
   onLogoutClick(e) {
     e.preventDefault();
-    this.addToast();
+    this.showGoodByeToast();
     setTimeout(() => {
       this.props.clearCurrentProfile();
       this.props.logoutUser();

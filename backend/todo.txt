@@ -1,2 +1,0 @@
-add image upload code
-item delete code 
