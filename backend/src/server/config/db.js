@@ -4,6 +4,6 @@ const mongoURI = require('./credential/keys').mongoURI;
 
 module.exports = function() {
   mongoose
-    .connect(encodeURI(mongoURI), { useNewUrlParser: true })
+    .connect(mongoURI, { useNewUrlParser: true })
     .then(() => winston.info(`Connected to ${mongoURI}...`));
 };
