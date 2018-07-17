@@ -13,6 +13,12 @@ const ProfileSchema = new Schema({
     minlength: 3,
     maxlength: 255
   },
+  img: {
+    type: String
+  },
+  public_id: {
+    type: String
+  },
   full_name: {
     type: String,
     required: true,

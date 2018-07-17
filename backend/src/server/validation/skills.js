@@ -16,8 +16,6 @@ module.exports = function validateSkillsInput(data) {
 
   if (data.percentage) {
     if (data.percentage <= 10) {
-      console.log('percentage have to be bigger than 10');
-
       errors.percentage = 'percentage have to be bigger than 10';
     } else if (data.percentage > 100) {
       errors.percentage = 'percentage have to be lower than 100';

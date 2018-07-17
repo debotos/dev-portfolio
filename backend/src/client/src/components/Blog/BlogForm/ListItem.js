@@ -23,7 +23,7 @@ Modal.setAppElement('#root');
 class ListItem extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.data) {
-      console.log('NextProps => ', nextProps);
+      // console.log('NextProps => ', nextProps);
       this.setState({
         submitButtonWorkingState: false,
         title: nextProps.data.title,
@@ -33,7 +33,8 @@ class ListItem extends Component {
         category: nextProps.data.category,
         tag: nextProps.data.tag,
         img: nextProps.data.img,
-        public_id: nextProps.data.public_id
+        public_id: nextProps.data.public_id,
+        loadingDeleteBtn: false
       });
     }
   }
@@ -93,38 +94,48 @@ class ListItem extends Component {
     }
   };
   finalWork = () => {
-    const updatedBlogData = {
-      title: this.state.title,
-      author: this.state.author,
-      date: this.state.date,
-      body: this.state.body,
-      category: this.state.category,
-      tag: this.state.tag,
-      img: this.state.img,
-      public_id: this.state.public_id
-    };
-    console.log('Blog going to Update => ', updatedBlogData);
-    this.props.updateBlog(
-      this.props.data._id,
-      updatedBlogData,
-      this.props.history
-    );
-    // turn off spinner
-    setTimeout(() => {
-      this.setState({ submitButtonWorkingState: false });
+    try {
+      const updatedBlogData = {
+        title: this.state.title,
+        author: this.state.author,
+        date: this.state.date,
+        body: this.state.body,
+        category: this.state.category,
+        tag: this.state.tag,
+        img: this.state.img,
+        public_id: this.state.public_id
+      };
+      // console.log('Blog going to Update => ', updatedBlogData);
+      this.props.updateBlog(
+        this.props.data._id,
+        updatedBlogData,
+        this.props.history
+      );
+      // turn off spinner
+      setTimeout(() => {
+        this.setState({ submitButtonWorkingState: false });
+        this.addToast({
+          icon: 'tick',
+          intent: Intent.SUCCESS,
+          message: 'Successful! Blog Updated!'
+        });
+        this.closeModal();
+      }, 1000);
+    } catch (error) {
       this.addToast({
-        icon: 'tick',
-        intent: Intent.SUCCESS,
-        message: 'Successful! Blog Updated!'
+        icon: 'error',
+        intent: Intent.DANGER,
+        message: 'Error! Maybe, Session Expired! Login again!!!'
       });
-      this.closeModal();
-    }, 1000);
+      console.log('Error in blogUpdate => ', error);
+    }
   };
   constructor(props) {
     super(props);
     this.state = {
       modalIsOpen: false,
       errors: {},
+      loadingDeleteBtn: false,
       submitButtonWorkingState: false,
       toasts: [
         /* IToastProps[] */
@@ -158,7 +169,7 @@ class ListItem extends Component {
         <div className="Rtable-cell cagtegory-cell">
           <div className="Rtable-cell--heading">Category</div>
           <div className="Rtable-cell--content cagtegory-content">
-            <strong>{category}</strong>
+            <strong>{category.map(singleItem => `"${singleItem}" `)}</strong>
           </div>
         </div>
         <div className="Rtable-cell edit-cell">
@@ -170,7 +181,14 @@ class ListItem extends Component {
         <div className="Rtable-cell Rtable-cell--foot delete-cell">
           <div className="Rtable-cell--heading">Delete</div>
           <div className="Rtable-cell--content pdf-content">
-            <Button onClick={() => this.props.deleteBlog(_id)} icon="trash" />
+            <Button
+              loading={this.state.loadingDeleteBtn}
+              onClick={() => {
+                this.setState({ loadingDeleteBtn: true });
+                this.props.deleteBlog(_id);
+              }}
+              icon="trash"
+            />
           </div>
         </div>
         <div>

@@ -82,6 +82,24 @@ router.get('/', auth, (req, res) => {
     .catch(err => res.status(404).json(err));
 });
 
+// @route   POST api/profile/img/upload
+// @desc    upload user profile image
+// @access  Private
+router.post(
+  '/img/upload',
+  auth,
+  multerStorageCloudinary('profile').single('file'),
+  // This middleware takes the folder_name and parse single file provided as a key
+  (req, res) => {
+    // console.log(req.file);
+    return res.status(200).json({
+      success: true,
+      fileUrl: req.file.secure_url,
+      fileInfo: req.file
+    });
+  }
+);
+
 // @route   POST api/profile
 // @desc    Create or edit user profile
 // @access  Private
@@ -100,6 +118,8 @@ router.post('/', auth, (req, res) => {
   profileFields.user = req.user.id;
   if (req.body.profile_name) profileFields.profile_name = req.body.profile_name;
   if (req.body.full_name) profileFields.full_name = req.body.full_name;
+  if (req.body.img) profileFields.img = req.body.img;
+  if (req.body.public_id) profileFields.public_id = req.body.public_id;
   if (req.body.bio) profileFields.bio = req.body.bio;
   if (req.body.email) profileFields.email = req.body.email;
   if (req.body.address) profileFields.address = req.body.address;
@@ -109,10 +129,14 @@ router.post('/', auth, (req, res) => {
   if (req.body.residence) profileFields.residence = req.body.residence;
   // string seperate by comma - Spilt into array
   if (typeof req.body.skillsAt !== 'undefined') {
-    profileFields.skillsAt = req.body.skillsAt.split(',');
+    profileFields.skillsAt = req.body.skillsAt
+      .split(',')
+      .map(singleItem => singleItem.trim());
   }
   if (typeof req.body.phone !== 'undefined') {
-    profileFields.phone = req.body.phone.split(',');
+    profileFields.phone = req.body.phone
+      .split(',')
+      .map(singleItem => singleItem.trim());
   }
   // Social
   profileFields.social = {};
@@ -125,6 +149,23 @@ router.post('/', auth, (req, res) => {
 
   Profile.findOne({ user: req.user.id }).then(profile => {
     if (profile) {
+      // Delete existing profile img
+      let public_id_delete = profile.public_id;
+      if (req.body.deleteImageFromServer) {
+        cloudinary.v2.api.delete_resources([public_id_delete], function(
+          error,
+          result
+        ) {
+          if (error) {
+            winston.error(
+              `Failed to delete profile image from ${
+                req.user.email
+              }. profile_id: ${req.body.id}and image_id: ${public_id_delete}`
+            );
+          }
+          winston.info('profile images deleted ! ' + JSON.stringify(result));
+        });
+      }
       // Update
       Profile.findOneAndUpdate(
         { user: req.user.id },

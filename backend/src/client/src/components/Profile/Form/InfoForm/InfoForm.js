@@ -9,9 +9,12 @@ import {
   Position,
   Toast,
   Toaster,
-  FormGroup
+  FormGroup,
+  FileInput
 } from '@blueprintjs/core';
+import axios from 'axios';
 import { createProfile } from '../../../../redux/actions/profileActions';
+import './info-form.css';
 
 import ProfileFormTextField from './ProfileFormTextField';
 import { GenerateInputFields } from './GenerateInputFields';
@@ -29,6 +32,7 @@ class ProfileForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      selectedFile: null,
       profile_name: this.props.profile.profile.profile_name
         ? this.props.profile.profile.profile_name
         : '',
@@ -36,6 +40,10 @@ class ProfileForm extends Component {
         ? this.props.profile.profile.full_name
         : '',
       bio: this.props.profile.profile.bio ? this.props.profile.profile.bio : '',
+      img: this.props.profile.profile.img ? this.props.profile.profile.img : '',
+      public_id: this.props.profile.profile.public_id
+        ? this.props.profile.profile.public_id
+        : '',
       email: this.props.profile.profile.email
         ? this.props.profile.profile.email
         : '',
@@ -88,14 +96,13 @@ class ProfileForm extends Component {
   refHandlers = {
     toaster: ref => (this.toaster = ref)
   };
-
-  addToast = () => {
+  fileChangedHandler = event => {
+    const file = event.target.files[0];
+    this.setState({ selectedFile: file });
+  };
+  addToast = toastData => {
     if (Object.keys(this.state.errors).length === 0) {
-      this.toaster.show({
-        icon: 'tick',
-        intent: Intent.SUCCESS,
-        message: 'Successful! Profile Updated!'
-      });
+      this.toaster.show(toastData);
     }
   };
   onChange(e) {
@@ -105,13 +112,16 @@ class ProfileForm extends Component {
     // console.log(e.target.value);
     this.setState({ bio: e.target.value });
   };
-  onSubmit(e) {
-    e.preventDefault();
-    this.setState({ errors: {} });
-    this.setState({
-      submitButtonWorkingState: true
-    });
+  getImageUrl = url => {
+    let urlArray = url.split('upload');
+    let finalUrl = urlArray[0] + 'upload/w_165,h_165' + urlArray[1];
+    return finalUrl;
+  };
+  finalWork = () => {
     const profileData = {
+      deleteImageFromServer: false,
+      img: this.state.img,
+      public_id: this.state.public_id,
       profile_name: this.state.profile_name,
       full_name: this.state.full_name,
       bio: this.state.bio,
@@ -133,8 +143,70 @@ class ProfileForm extends Component {
     this.props.createProfile(profileData, this.props.history);
     setTimeout(() => {
       this.setState({ submitButtonWorkingState: false });
-      this.addToast();
+      this.addToast({
+        icon: 'tick',
+        intent: Intent.SUCCESS,
+        message: 'Successful!'
+      });
     }, 500);
+  };
+  finalWorkWithImageUpload = () => {
+    const data = new FormData();
+    data.append('file', this.state.selectedFile);
+    axios.post(`api/profile/img/upload`, data).then(response => {
+      // console.log('File Upload Response => ', response);
+      if (response.data.success) {
+        const profileData = {
+          deleteImageFromServer: true,
+          img: response.data.fileUrl,
+          public_id: response.data.fileInfo.public_id,
+          profile_name: this.state.profile_name,
+          full_name: this.state.full_name,
+          bio: this.state.bio,
+          email: this.state.email,
+          address: this.state.address,
+          map_address: this.state.map_address,
+          resume_link: this.state.resume_link,
+          age: this.state.age,
+          residence: this.state.residence,
+          skillsAt: this.state.skillsAt,
+          phone: this.state.phone,
+          youtube: this.state.youtube,
+          twitter: this.state.twitter,
+          facebook: this.state.facebook,
+          linkedin: this.state.linkedin,
+          instagram: this.state.instagram,
+          github: this.state.github
+        };
+        this.props.createProfile(profileData, this.props.history);
+        setTimeout(() => {
+          this.setState({ submitButtonWorkingState: false });
+          this.addToast({
+            icon: 'tick',
+            intent: Intent.SUCCESS,
+            message: 'Successful!'
+          });
+        }, 500);
+      } else {
+        console.log('Error happen in file upload: ', response);
+        this.setState({ submitButtonWorkingState: false });
+        this.addToast({
+          icon: 'error',
+          intent: Intent.DANGER,
+          message: 'Error! Check console!!!'
+        });
+      }
+    });
+  };
+  onSubmit(e) {
+    e.preventDefault();
+    this.setState({ errors: {} });
+    this.setState({ submitButtonWorkingState: true });
+    if (this.state.selectedFile) {
+      this.finalWorkWithImageUpload();
+    } else {
+      this.finalWork();
+    }
   }
   render() {
     const { errors } = this.state;
@@ -158,6 +230,72 @@ class ProfileForm extends Component {
                   onChange={this.onChange}
                 />
               ))}
+              {this.state.img ? (
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column'
+                  }}
+                >
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center'
+                    }}
+                  >
+                    <img
+                      className="profile-image"
+                      src={this.getImageUrl(this.state.img)}
+                      alt="It's you"
+                    />
+                  </div>
+                  <div>
+                    <FormGroup
+                      className="pt-form-group"
+                      helperText={errors.img ? errors.img : ''}
+                      label="Profile Picture"
+                      labelFor="img"
+                      requiredLabel={true}
+                    >
+                      <FileInput
+                        className="pt-input pt-round pt-fill"
+                        style={{ width: '380px', marginRight: '5px' }}
+                        name="img"
+                        id="img"
+                        fill={true}
+                        text={
+                          this.state.selectedFile
+                            ? this.state.selectedFile.name
+                            : 'Change your profile image(550x550)'
+                        }
+                        onInputChange={this.fileChangedHandler}
+                      />
+                    </FormGroup>
+                  </div>
+                </div>
+              ) : (
+                <FormGroup
+                  className="pt-form-group"
+                  helperText={errors.img ? errors.img : ''}
+                  label="Profile Picture"
+                  labelFor="img"
+                  requiredLabel={true}
+                >
+                  <FileInput
+                    className="pt-input pt-round pt-fill"
+                    style={{ width: '380px', marginRight: '5px' }}
+                    name="img"
+                    id="img"
+                    fill={true}
+                    text={
+                      this.state.selectedFile
+                        ? this.state.selectedFile.name
+                        : 'Select your profile image(550x550)'
+                    }
+                    onInputChange={this.fileChangedHandler}
+                  />
+                </FormGroup>
+              )}
               <FormGroup
                 className="pt-form-group"
                 helperText={errors.bio ? errors.bio : ''}
@@ -166,9 +304,10 @@ class ProfileForm extends Component {
                 requiredLabel={true}
               >
                 <TextArea
-                  style={{ height: '200px', width: '380px' }}
+                  style={{ height: '195px', width: '380px' }}
                   id="bio"
-                  className="pt-large pt-fill"
+                  large={true}
+                  fill={true}
                   large={true}
                   intent={Intent.PRIMARY}
                   onChange={this.handleBioChange}

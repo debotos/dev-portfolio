@@ -1,0 +1,16 @@
+.profile-image {
+  width: 165px !important;
+  height: 165px !important;
+  border: 4px solid rgba(18, 99, 81, 0.219);
+  border-radius: 50%;
+  background-position: center center;
+  background-size: cover;
+}
+
+textarea {
+  white-space: pre-wrap;
+}
+
+#bio {
+  white-space: pre-wrap;
+}

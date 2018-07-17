@@ -5,3 +5,7 @@
 .pt-tab {
   outline: none !important;
 }
+
+textarea {
+  white-space: pre-wrap;
+}

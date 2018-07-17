@@ -9,9 +9,6 @@ module.exports = function validateProfileInput(data) {
     console.log(key, typeof data[key]);
   }
   */
-  for (var key in data) {
-    console.log(key, typeof data[key]);
-  }
   data.profile_name = !isEmpty(data.profile_name) ? data.profile_name : '';
   data.full_name = !isEmpty(data.full_name) ? data.full_name : '';
   data.bio = !isEmpty(data.bio) ? data.bio : '';
@@ -54,6 +51,11 @@ module.exports = function validateProfileInput(data) {
 
   if (Validator.isEmpty(data.email)) {
     errors.email = 'email is required';
+  }
+
+  // profile img
+  if (Validator.isEmpty(data.img)) {
+    errors.img = 'profile image is required';
   }
 
   // address
@@ -106,7 +108,7 @@ module.exports = function validateProfileInput(data) {
       errors.age = 'age have to be bigger than 10';
     }
     if (data.age > 110) {
-      errors.age = 'age have to be lower than 110';
+      errors.age = '(Man Is Mortal) so age have to be lower than 110';
     }
   }
 
