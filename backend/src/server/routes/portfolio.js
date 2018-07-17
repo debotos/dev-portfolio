@@ -32,7 +32,7 @@ router.get('/category', auth, (req, res) => {
 });
 
 // @route   GET api/portfolio/user/category/:email
-// @desc    Get portfolio by user email
+// @desc    Get portfolio category by user email
 // @access  Public
 
 router.get('/user/category/:email', (req, res) => {

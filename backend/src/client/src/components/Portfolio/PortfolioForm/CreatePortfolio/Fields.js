@@ -181,10 +181,15 @@ class PortfolioFields extends Component {
   }
   render() {
     const { errors } = this.state;
-    let categories =
-      this.props.categories.portfolio_categories.length > 0
-        ? this.props.categories.portfolio_categories
-        : [];
+    let categories;
+    if (Object.keys(this.props.categories).length === 0) {
+      categories = [];
+    } else {
+      categories =
+        this.props.categories.portfolio_categories.length > 0
+          ? this.props.categories.portfolio_categories
+          : [];
+    }
     // Here converting an array of string to array of obj coz requirement of react-select
     const categoriesObjArray = categories.map(singleItem => ({
       value: singleItem,
