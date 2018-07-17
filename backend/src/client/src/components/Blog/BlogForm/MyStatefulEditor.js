@@ -8,7 +8,9 @@ class MyStatefulEditor extends Component {
   };
 
   state = {
-    value: RichTextEditor.createEmptyValue()
+    value: this.props.initialValue
+      ? RichTextEditor.createValueFromString(this.props.initialValue, 'html')
+      : RichTextEditor.createEmptyValue()
   };
 
   onChange = value => {

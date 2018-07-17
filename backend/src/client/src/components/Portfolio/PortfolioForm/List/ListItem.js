@@ -358,7 +358,7 @@ class ListItem extends Component {
           onAfterOpen={this.afterOpenModal}
           onRequestClose={this.closeModal}
           style={customStyles}
-          contentLabel="Example Modal"
+          contentLabel="Portfolio Modal"
         >
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>

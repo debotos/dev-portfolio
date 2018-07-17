@@ -120,7 +120,6 @@ class TestimonialAdd extends Component {
     };
   }
   uploadImageThenAddDetailsToDB = () => {
-    // create form data using img for stream upload in cloudinary
     const data = new FormData();
     data.append('file', this.state.selectedFile);
     data.append(

@@ -9,3 +9,11 @@
 .react-rte-blog {
   min-height: 15rem;
 }
+
+.image-blog {
+  width: 300px !important;
+  height: 200px !important;
+  border: 4px solid rgba(18, 99, 81, 0.219);
+  background-position: center center;
+  background-size: cover;
+}

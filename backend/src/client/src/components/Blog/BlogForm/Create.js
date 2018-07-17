@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import axios from 'axios';
 
 import validateBlogInput from './validateBlogInput';
 import MyStatefulEditor from './MyStatefulEditor';
@@ -83,7 +84,68 @@ class Create extends Component {
   onBodyChange = body => {
     this.setState({ body });
   };
-  finalWork = () => {};
+  finalWork = () => {
+    const data = new FormData();
+    data.append('file', this.state.selectedFile);
+    axios
+      .post(`/api/blog/img/upload`, data)
+      .then(response => {
+        // console.log('File Upload Response => ', response);
+        if (response.data.success) {
+          // image file upload successful
+          const newBlogData = {
+            title: this.state.title,
+            author: this.state.author,
+            date: this.state.date,
+            body: this.state.body,
+            category: this.state.category,
+            tag: this.state.tag,
+            img: response.data.filesInfo.secure_url,
+            public_id: response.data.filesInfo.public_id
+          };
+          // console.log('New Blog going to add => ', newBlogData);
+          this.props.createBlog(newBlogData, this.props.history);
+          // turn off spinner
+          this.setState({ submitButtonWorkingState: false });
+          this.addToast({
+            icon: 'tick',
+            intent: Intent.SUCCESS,
+            message: 'Successful! New Blog Added!'
+          });
+          this.setState({
+            title: '',
+            author: '',
+            date: moment().format('YYYY-MM-DD'),
+            body: '',
+            category: [],
+            tag: [],
+            selectedFile: null
+          });
+        } else {
+          console.log('Error happen in file upload: ', response);
+          this.setState({ submitButtonWorkingState: false });
+          this.addToast({
+            icon: 'error',
+            intent: Intent.DANGER,
+            message: 'Error! Check console!!!'
+          });
+        }
+      })
+      .catch(err => {
+        console.log('*******************************');
+        console.log('Error log: ', err);
+        console.log('*******************************');
+        this.setState({ submitButtonWorkingState: false });
+        this.addToast({
+          icon: 'error',
+          intent: Intent.DANGER,
+          message: 'Session Expired! Login again!!!'
+        });
+        if (err.response) {
+          this.setState({ errors: err.response.data.errors });
+        }
+      });
+  };
 
   constructor(props) {
     super(props);
