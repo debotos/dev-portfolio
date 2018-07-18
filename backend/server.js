@@ -4,6 +4,16 @@ const passport = require('passport');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const app = express();
+const path = require('path');
+
+// Server log
+console.log(process.env.NODE_ENV);
+console.log(process.env.MONGO_URI);
+console.log(process.env.JWT_PRIVATE_KEY);
+console.log(process.env.SECRET_OR_KEY);
+console.log(process.env.CLOUDINARY_CLOUD_NAME);
+console.log(process.env.CLOUDINARY_API_KEY);
+console.log(process.env.CLOUDINARY_API_SECRET);
 
 // Morgan logger middleware
 app.use(morgan('tiny'));
@@ -24,10 +34,10 @@ require('./src/server/config/passport')(passport);
 // Server static assets if in production
 if (process.env.NODE_ENV === 'production') {
   // Set static folder
-  app.use(express.static('./src/client/build'));
-
+  app.use(express.static('src/client/build'));
+	console.log("html file path => ", path.resolve(__dirname, 'src', 'client', 'build', 'index.html'));
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+    res.sendFile(path.resolve(__dirname, 'src', 'client', 'build', 'index.html'));
   });
 }
 
