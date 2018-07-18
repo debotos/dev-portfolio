@@ -148,7 +148,7 @@ class ProfileForm extends Component {
         intent: Intent.SUCCESS,
         message: 'Successful!'
       });
-    }, 500);
+    }, 1500);
   };
   finalWorkWithImageUpload = () => {
     const data = new FormData();
@@ -186,15 +186,16 @@ class ProfileForm extends Component {
             intent: Intent.SUCCESS,
             message: 'Successful!'
           });
-        }, 500);
+        }, 1500);
       } else {
         console.log('Error happen in file upload: ', response);
         this.setState({ submitButtonWorkingState: false });
         this.addToast({
           icon: 'error',
           intent: Intent.DANGER,
-          message: 'Error! Check console!!!'
+          message: 'Error! Session Expired! LogIn Again!'
         });
+        this.props.history.push('/');
       }
     });
   };
@@ -213,7 +214,10 @@ class ProfileForm extends Component {
     const InputFields = GenerateInputFields(this.state, errors);
     return (
       <div>
-        <form onSubmit={this.onSubmit}>
+        <form
+          onSubmit={this.onSubmit}
+          style={{ position: 'relative', marginBottom: '110px' }}
+        >
           <div style={{}}>
             <div
               style={{
@@ -316,7 +320,14 @@ class ProfileForm extends Component {
               </FormGroup>
             </div>
           </div>
-          <div style={{ textAlign: 'center' }}>
+          <div
+            style={{
+              textAlign: 'center',
+              position: 'fixed',
+              top: '93vh',
+              left: '48vw'
+            }}
+          >
             {this.state.submitButtonWorkingState ? (
               <div className="pt-spinner pt-small">
                 <div className="pt-spinner-svg-container">

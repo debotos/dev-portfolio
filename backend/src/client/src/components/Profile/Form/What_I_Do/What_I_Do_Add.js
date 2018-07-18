@@ -88,6 +88,7 @@ class What_I_Do_Add extends Component {
             intent: Intent.DANGER,
             message: 'Error! Check console!!!'
           });
+          this.props.history.push('/');
         }
       })
       .catch(err => {
@@ -103,6 +104,7 @@ class What_I_Do_Add extends Component {
         if (err.response) {
           this.setState({ errors: err.response.data.errors });
         }
+        this.props.history.push('/');
       });
   };
   onSubmit = e => {

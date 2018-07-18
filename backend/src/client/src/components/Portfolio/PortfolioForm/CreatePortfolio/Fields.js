@@ -143,6 +143,7 @@ class PortfolioFields extends Component {
             intent: Intent.DANGER,
             message: 'Error! Check console!!!'
           });
+          this.props.history.push('/');
         }
       })
       .catch(err => {
@@ -158,6 +159,7 @@ class PortfolioFields extends Component {
         if (err.response) {
           this.setState({ errors: err.response.data.errors });
         }
+        this.props.history.push('/');
       });
   };
 
