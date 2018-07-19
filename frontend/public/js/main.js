@@ -254,15 +254,13 @@
       // Function to change the single Blog UI
       $('.blog-card').click(function(e) {
         $.ajax({
-          //   type: 'POST',
-          //   url: '/ajax.php',
-          //   data: {
-          //     action: 'ajax_action',
-          //     postid: $(this).data('id')
-          //     //$(this).data() works because it's a standard AJAX call
-          //   },
-          type: 'GET',
-          url: '/getBlogContent',
+          type: 'POST',
+          url: '/api/blog',
+          data: {
+            action: 'ajax_action_portfolio',
+            id: e.currentTarget.id.split('-')[2]
+            //$(this).data() works because it's a standard AJAX call
+          },
           success: function(data) {
             console.log('event is happening->', e.currentTarget.id);
             var blog_id = e.currentTarget.id.split('-')[2];
@@ -279,24 +277,90 @@
       // Function to change the single portfolio UI
       $('figure').click(function(e) {
         $.ajax({
-          //   type: 'POST',
-          //   url: '/ajax.php',
-          //   data: {
-          //     action: 'ajax_action',
-          //     postid: $(this).data('id')
-          //     //$(this).data() works because it's a standard AJAX call
-          //   },
-          type: 'GET',
-          url: '/getProjectDetails',
+          type: 'POST',
+          url: '/api/profile',
+          data: {
+            action: 'ajax_action_portfolio',
+            id: e.currentTarget.id.split('-')[2]
+            //$(this).data() works because it's a standard AJAX call
+          },
           success: function(data) {
-            console.log('event is happening->', e.currentTarget.id);
-            var portfolio_id = e.currentTarget.id.split('-')[2];
-            console.log('ID of the portfolio item -> ', portfolio_id);
+            // change DOM with data
+            // change name
+            $('.ajax-page-title').html(`<h1>${data.name}</h1>`);
+            // change img carousel
+            function getPortfolioImageUrl(url) {
+              let urlArray = url.split('upload');
+              let finalUrl = urlArray[0] + 'upload/w_600,h_400' + urlArray[1];
+              return finalUrl;
+            }
+            let carousel = data.img.map(
+              singleImg => `
+                <div class="item">
+                    <img src="${getPortfolioImageUrl(singleImg)}" alt="${
+                data.name
+              } Image" />
+                </div>
+              `
+            );
+            $('#single-portfolio-item-carousel-div').html(carousel.join(''));
+            $('#single-portfolio-item-carousel-div').owlCarousel({
+              smartSpeed: 1200,
+              items: 1,
+              loop: true,
+              dots: true,
+              nav: true,
+              navText: false,
+              margin: 10
+            });
+            // end image carousel
+            // change info
+            let url = data.url ? data.url : '#';
+            let github = data.github ? data.github : '#';
+            $('#portfolio-info-ajax').html(`
+              <div class="block-title">
+                  <h3>Description</h3>
+              </div>
+              <ul class="project-general-info">
+                <li>
+                    <p><i class="fa fa-user"></i> ${data.user}</p>
+                </li>
+                <li>
+                    <p>
+                        <i class="fa fa-globe"></i>
+                        <a href="${url}" target="_blank"> Visit </a>|
+                        <a href="${github}" target="_blank"> Github</a>
+                    </p>
+                </li>
+                <li>
+                    <p><i class="fa fa-calendar"></i> ${
+                      data.date.split('T')[0]
+                    }</p>
+                </li>
+              </ul>
+              <p class="text-justify">
+                  ${data.details}
+              </p>
+            `);
+            // change tags
+            let tags = data.tag.map(
+              singleTag => `
+                <li>
+                    <a>${singleTag}</a>
+                </li>
+              `
+            );
+            $('#single-portfolio-tags-block').html(`
+              <div class="block-title">
+                  <h3>Technology</h3>
+              </div>
+              <ul class="tags">
+                  ${tags.join('')}
+              </ul>
+            `);
+            // info end
 
-            setTimeout(() => {
-              console.log(data);
-              $('.ajax-page-title').html('<h1>Something what i want!!!</h1>');
-            }, 300);
+            // End
           }
         });
       });

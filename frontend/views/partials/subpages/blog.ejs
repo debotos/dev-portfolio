@@ -8,61 +8,45 @@
 
       <!-- Blog Posts Grid -->
       <div class="blog-masonry two-columns">
-        <!-- Blog Post 1 -->
-        <div class="item">
-          <div id="blog-item-1" class="blog-card">
-            <div class="media-block">
-              <a class="ajax-page-load" href="blog.html">
-                <img class="post-image img-responsive" src="images/blog/blog_post_1.jpg" alt="blog-post-1" />
-                <div class="mask"></div>
-                <div class="post-date">
-                  <span class="day">6</span>
-                  <span class="month">Dec</span>
-                  <!--<span class="year">2016</span>-->
-                </div>
-              </a>
-            </div>
-            <div class="post-info">
-              <ul class="category">
-                <li>
-                  <a class="ajax-page-load" href="blog.html">Travel</a>
-                </li>
-              </ul>
-              <a class="ajax-page-load" href="blog.html">
-                <h4 class="blog-item-title">Bootstrap is the Most Popular Framework</h4>
-              </a>
-            </div>
-          </div>
-        </div>
-        <!-- End of Blog Post 1 -->
-
-        <!-- Blog Post 2 -->
-        <div class="item">
-          <div id="blog-item-2" class="blog-card">
-            <div class="media-block">
-              <a class="ajax-page-load" href="blog.html">
-                <img class="post-image img-responsive" src="images/blog/blog_post_2.jpg" alt="blog-post-2" />
-                <div class="mask"></div>
-                <div class="post-date">
-                  <span class="day">3</span>
-                  <span class="month">Nov</span>
-                  <!--<span class="year">2016</span>-->
-                </div>
-              </a>
-            </div>
-            <div class="post-info">
-              <ul class="category">
-                <li>
-                  <a class="ajax-page-load" href="blog.html">jQuery</a>
-                </li>
-              </ul>
-              <a class="ajax-page-load" href="blog.html">
-                <h4 class="blog-item-title">One Framework, Every Device</h4>
-              </a>
+        <!-- Blog Post start-->
+        <% blog.blog.forEach(function(singleItem, index){ %>
+          <%
+            getBlogImageUrl = url => {
+              let urlArray = url.split('upload');
+              let finalUrl = urlArray[0] + 'upload/w_800,h_375' + urlArray[1];
+              return finalUrl;
+            };
+          %>
+          <div class="item">
+            <div id="blog-item-<%= singleItem._id %>" class="blog-card">
+              <div class="media-block">
+                <a class="ajax-page-load" href="blog.html">
+                  <img class="post-image img-responsive" src="<%= getBlogImageUrl(singleItem.img) %>" alt="blog post image" />
+                  <div class="mask"></div>
+                  <div class="post-date">
+                    <% let day=singleItem.date.split('T')[0].split('-')[2] %>
+                    <% let month=singleItem.date.split('T')[0].split('-')[1] %>
+                    <% let year=singleItem.date.split('T')[0].split('-')[0] %>
+                    <span class="day"><%= day %></span>
+                    <span class="month"><%= month %></span>
+                    <span class="year"><%= year %></span>
+                  </div>
+                </a>
+              </div>
+              <div class="post-info">
+                <ul class="category">
+                  <li>
+                    <a class="ajax-page-load" href="blog.html"><%= singleItem.category.map(item => ` ${item}`) %></a>
+                  </li>
+                </ul>
+                <a class="ajax-page-load" href="blog.html">
+                  <h4 class="blog-item-title"><%= singleItem.title %></h4>
+                </a>
+              </div>
             </div>
           </div>
-        </div>
-        <!-- End of Blog Post 2 -->
+        <% }); %>
+        <!-- End of Blog Post -->
       </div>
       <!-- Blog Posts Grid -->
     </div>

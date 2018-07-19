@@ -18,7 +18,7 @@
                 </li>
               <% } %>
               <li>
-                <a class="filter btn btn-sm btn-link" data-group="<%= singleItem %>"><%= singleItem %></a>
+                <a class="filter btn btn-sm btn-link" data-group="<%= singleItem.split(' ').join("").toLowerCase() %>"><%= singleItem %></a>
               </li>
             <% }); %>
         </ul>
@@ -29,12 +29,20 @@
 
           <!-- Portfolio Item -->
           <% portfolio.portfolio.forEach(function(singleItem, index){ %>
-            <figure id="portfolio-item-<%= index + 1 %>" class="item" data-groups='["all", <%= ...singleItem.category %>]'>
+           <%
+            getPortfolioImageUrl = url => {
+              let urlArray = url.split('upload');
+              let finalUrl = urlArray[0] + 'upload/w_600,h_400' + urlArray[1];
+              return finalUrl;
+            };
+          %>
+          <% let category_data_groups = singleItem.category.map((item) => `"${item.split(' ').join("").toLowerCase()}"`) %>
+            <figure id="portfolio-item-<%= singleItem._id %>" class="item" data-groups='[<%- ['"all"', category_data_groups] %>]'>
               <a class="ajax-page-load" href="portfolio.html"> <!--portfolio.html is just markup-->
-                <img src="<%= singleItem.img %>" alt="<%= singleItem.name %>">
+                <img src="<%= getPortfolioImageUrl(singleItem.img[0]) %>" alt="<%= singleItem.name %>">
                 <div>
                   <h5 class="name"><%= singleItem.name %></h5>
-                  <small><%= ...singleItem.tag %></small>
+                  <small><%= singleItem.tag.map(item => ` ${item}`) %></small>
                   <i class="fa fa-image"></i>
                 </div>
               </a>

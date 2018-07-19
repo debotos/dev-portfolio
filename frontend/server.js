@@ -3,13 +3,21 @@ const express = require('express');
 const morgan = require('morgan');
 const ejs = require('ejs');
 const axios = require('axios');
+const bodyParser = require('body-parser');
 
 // Var
 const port = process.env.PORT || 5500;
 const app = express();
 
-const HOST_URL = 'http://localhost:5000';
-const EMAIL = 'debotosdas@gmail.com';
+let HOST_URL;
+let EMAIL;
+if (process.env.NODE_ENV === 'production') {
+  HOST_URL = process.env.HOST_URL;
+  EMAIL = process.env.EMAIL;
+} else {
+  HOST_URL = 'http://localhost:5000';
+  EMAIL = 'debotosdas@gmail.com';
+}
 
 // general config
 app.set('views', path.join(__dirname, 'views'));
@@ -17,6 +25,9 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // Middleware
+// Body parser middleware
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 // Path to public directory
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(morgan('tiny'));
@@ -37,7 +48,12 @@ app.get('/', function(req, res) {
     const getBlogData = () => axios.get(`${HOST_URL}/api/blog/user/${EMAIL}`);
 
     const allResponse = axios
-      .all([getProfileData(), getPortfolioCategoryData(), getPortfolioData(), getBlogData()])
+      .all([
+        getProfileData(),
+        getPortfolioCategoryData(),
+        getPortfolioData(),
+        getBlogData()
+      ])
       .then(
         axios.spread(function(profileRes, categoryRes, portfolioRes, blogRes) {
           const profile = profileRes.data;

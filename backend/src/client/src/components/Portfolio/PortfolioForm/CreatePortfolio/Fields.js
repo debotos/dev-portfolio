@@ -56,7 +56,16 @@ class PortfolioFields extends Component {
     });
     const { errors, isValid } = validatePortfolioInput(this.state);
     if (this.state.pictures && isValid) {
-      this.finalWork();
+      if (this.state.pictures.length > 8) {
+        this.toaster.show({
+          icon: 'error',
+          intent: Intent.DANGER,
+          message: 'Error! Max 8 image can be selected!'
+        });
+        this.setState({ submitButtonWorkingState: false });
+      } else {
+        this.finalWork();
+      }
     } else {
       this.setState({ errors });
       setTimeout(() => {
@@ -325,7 +334,7 @@ class PortfolioFields extends Component {
                 <FormGroup
                   className="pt-form-group"
                   helperText={errors ? errors.img : ''}
-                  label="Choose Images Max: 8"
+                  label="Choose Images Max: 8 (w:600 x h:400)"
                   labelFor="img"
                   requiredLabel={true}
                 >

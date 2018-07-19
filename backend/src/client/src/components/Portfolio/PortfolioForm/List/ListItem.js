@@ -108,8 +108,16 @@ class ListItem extends Component {
     const { errors, isValid } = validatePortfolioInput(this.state);
     // console.log(isValid);
     if (isValid) {
-      // console.log('calling finalWork function');
-      this.finalWork();
+      if (this.state.pictures.length > 8) {
+        this.toaster.show({
+          icon: 'error',
+          intent: Intent.DANGER,
+          message: 'Error! Max 8 image can be selected!'
+        });
+        this.setState({ submitButtonWorkingState: false });
+      } else {
+        this.finalWork();
+      }
     } else {
       this.setState({ errors });
       setTimeout(() => {
@@ -252,7 +260,13 @@ class ListItem extends Component {
           }}
         >
           <h4 style={{ textAlign: 'center' }}>{portfolio.name}</h4>
-          <h5 style={{ textAlign: 'center' }}>{portfolio.img.length} Images</h5>
+          <h5 style={{ textAlign: 'center' }}>
+            {portfolio.img.length > 1 ? (
+              <span>{portfolio.img.length} Images</span>
+            ) : (
+              <span>{portfolio.img.length} Image</span>
+            )}
+          </h5>
           {portfolio.github && (
             <div style={{ textAlign: 'center' }}>
               <a href={portfolio.github} target="_blank">
@@ -522,7 +536,7 @@ class ListItem extends Component {
                   <FormGroup
                     className="pt-form-group"
                     helperText={errors ? errors.img : ''}
-                    label="Choose Images Max: 8"
+                    label="Choose Images Max: 8 (w:600 x h:400)"
                     labelFor="img"
                     requiredLabel={true}
                   >
