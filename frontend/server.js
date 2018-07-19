@@ -8,7 +8,7 @@ const axios = require('axios');
 const port = process.env.PORT || 5500;
 const app = express();
 
-const API_URL = 'http://localhost:5000';
+const HOST_URL = 'http://localhost:5000';
 const EMAIL = 'debotosdas@gmail.com';
 
 // general config
@@ -29,22 +29,25 @@ require('./app/api/API')(app);
 app.get('/', function(req, res) {
   try {
     const getProfileData = () =>
-      axios.get(`${API_URL}/api/profile/user/${EMAIL}`);
+      axios.get(`${HOST_URL}/api/profile/user/${EMAIL}`);
     const getPortfolioData = () =>
-      axios.get(`${API_URL}/api/portfolio/user/${EMAIL}`);
-    const getBlogData = () => axios.get(`${API_URL}/api/blog/user/${EMAIL}`);
+      axios.get(`${HOST_URL}/api/portfolio/user/${EMAIL}`);
+    const getPortfolioCategoryData = () =>
+      axios.get(`${HOST_URL}/api/portfolio/user/category/${EMAIL}`);
+    const getBlogData = () => axios.get(`${HOST_URL}/api/blog/user/${EMAIL}`);
 
     const allResponse = axios
-      .all([getProfileData(), getPortfolioData(), getBlogData()])
+      .all([getProfileData(), getPortfolioCategoryData(), getPortfolioData(), getBlogData()])
       .then(
-        axios.spread(function(profileRes, portfolioRes, blogRes) {
+        axios.spread(function(profileRes, categoryRes, portfolioRes, blogRes) {
           const profile = profileRes.data;
           const portfolio = portfolioRes.data;
+          const category = categoryRes.data;
           const blog = blogRes.data;
           // console.log('profile is => ', profile);
           // console.log('portfolio is =>', portfolio);
           // console.log('blog is =>', blog);
-          res.render('index.ejs', { profile, portfolio, blog });
+          res.render('index.ejs', { profile, category, portfolio, blog });
         })
       )
       .catch(ex => {

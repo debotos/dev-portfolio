@@ -11,62 +11,36 @@
 
         <!-- Portfolio filter -->
         <ul id="portfolio_filters" class="portfolio-filters">
-          <li class="active">
-            <a class="filter btn btn-sm btn-link active" data-group="all">All</a>
-          </li>
-          <li>
-            <a class="filter btn btn-sm btn-link" data-group="media">Media</a>
-          </li>
-          <li>
-            <a class="filter btn btn-sm btn-link" data-group="illustration">Illustration</a>
-          </li>
-          <li>
-            <a class="filter btn btn-sm btn-link" data-group="video">Video</a>
-          </li>
+            <% category.portfolio_categories.forEach(function(singleItem, index){ %>
+              <% if (index === 0){ %>
+                <li class="active">
+                  <a class="filter btn btn-sm btn-link active" data-group="all">All</a>
+                </li>
+              <% } %>
+              <li>
+                <a class="filter btn btn-sm btn-link" data-group="<%= singleItem %>"><%= singleItem %></a>
+              </li>
+            <% }); %>
         </ul>
         <!-- End of Portfolio filter -->
 
         <!-- Portfolio Grid -->
         <div id="portfolio_grid" class="portfolio-grid portfolio-masonry masonry-grid-3">
 
-          <!-- Portfolio Item 1 -->
-          <figure id="portfolio-item-1" class="item" data-groups='["all", "media"]'>
-            <a class="ajax-page-load" href="portfolio.html"> <!--portfolio.html is just markup-->
-              <img src="images/portfolio/1.jpg" alt="">
-              <div>
-                <h5 class="name">Project Name</h5>
-                <small>Media</small>
-                <i class="fa fa-file-text-o"></i>
-              </div>
-            </a>
-          </figure>
-          <!-- /Portfolio Item 1 -->
-
-          <!-- Portfolio Item 2 -->
-          <figure id="portfolio-item-2" class="item" data-groups='["all", "video"]'>
-            <a href="https://player.vimeo.com/video/97102654?autoplay=1" title="Praesent Dolor Ex" class="lightbox mfp-iframe">
-              <img src="images/portfolio/2.jpg" alt="">
-              <div>
-                <h5 class="name">Project Name</h5>
-                <small>Video</small>
-                <i class="fa fa-video-camera"></i>
-              </div>
-            </a>
-          </figure>
-          <!-- /Portfolio Item 2 -->
-
-          <!-- Portfolio Item 3 -->
-          <figure id="portfolio-item-3" class="item" data-groups='["all","illustration"]'>
-            <a href="images/portfolio/3.jpg" class="lightbox" title="Duis Eu Eros Viverra">
-              <img src="images/portfolio/3.jpg" alt="">
-              <div>
-                <h5 class="name">Project Name</h5>
-                <small>Illustration</small>
-                <i class="fa fa-image"></i>
-              </div>
-            </a>
-          </figure>
-          <!-- /Portfolio Item 3 -->
+          <!-- Portfolio Item -->
+          <% portfolio.portfolio.forEach(function(singleItem, index){ %>
+            <figure id="portfolio-item-<%= index + 1 %>" class="item" data-groups='["all", <%= ...singleItem.category %>]'>
+              <a class="ajax-page-load" href="portfolio.html"> <!--portfolio.html is just markup-->
+                <img src="<%= singleItem.img %>" alt="<%= singleItem.name %>">
+                <div>
+                  <h5 class="name"><%= singleItem.name %></h5>
+                  <small><%= ...singleItem.tag %></small>
+                  <i class="fa fa-image"></i>
+                </div>
+              </a>
+            </figure>
+          <% }); %>
+          <!-- /Portfolio Item -->
 
         </div>
         <!-- /Portfolio Grid -->
