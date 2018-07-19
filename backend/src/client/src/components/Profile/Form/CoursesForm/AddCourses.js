@@ -94,7 +94,7 @@ class AddCourses extends Component {
         intent: Intent.SUCCESS,
         message: 'Successful! Course Added!'
       });
-    }, 500);
+    }, 1500);
   }
 
   onChange(e) {

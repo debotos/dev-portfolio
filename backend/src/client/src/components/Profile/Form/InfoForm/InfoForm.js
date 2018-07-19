@@ -148,7 +148,7 @@ class ProfileForm extends Component {
         intent: Intent.SUCCESS,
         message: 'Successful!'
       });
-    }, 1500);
+    }, 2000);
   };
   finalWorkWithImageUpload = () => {
     const data = new FormData();

@@ -69,7 +69,7 @@ class Register extends Component {
     this.props.registerUser(newUser, this.props.history);
     setTimeout(() => {
       this.showToast();
-    }, 1000);
+    }, 2100);
   }
 
   render() {

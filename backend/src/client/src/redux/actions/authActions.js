@@ -11,7 +11,7 @@ export const registerUser = (userData, history) => dispatch => {
     .then(res =>
       setTimeout(() => {
         history.push('/login');
-      }, 1000)
+      }, 2500)
     )
     .catch(err =>
       dispatch({

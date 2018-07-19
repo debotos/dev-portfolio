@@ -96,7 +96,7 @@ class AddEducation extends Component {
         intent: Intent.SUCCESS,
         message: 'Successful! Education Added!'
       });
-    }, 500);
+    }, 1500);
   }
 
   onChange(e) {

@@ -96,7 +96,7 @@ class AddExperience extends Component {
         intent: Intent.SUCCESS,
         message: 'Successful! Experience Item Added!'
       });
-    }, 500);
+    }, 1500);
   }
 
   onChange(e) {

@@ -5,32 +5,41 @@
       <div class="row">
         <div class="col-sm-4 col-md-4 col-lg-4">
           <div class="photo">
-            <img src="images/photo.png" alt="">
+            <%
+              getImageUrl = url => {
+                let urlArray = url.split('upload');
+                let finalUrl = urlArray[0] + 'upload/w_550,h_550' + urlArray[1];
+                return finalUrl;
+              };
+            %>
+            <img src="<%= getImageUrl(profile.img) %>" alt="">
           </div>
         </div>
 
         <div class="col-sm-8 col-md-8 col-lg-8">
           <div class="title-block">
-            <h1>Dev Debotos</h1>
+            <h1><%= profile.full_name %></h1>
             <div class="owl-carousel text-rotation">
-              <div class="item">
-                <div class="sp-subtitle">Web Designer</div>
-              </div>
-              <div class="item">
-                <div class="sp-subtitle">Frontend-developer</div>
-              </div>
+              <% profile.skillsAt.forEach(function(goodAt){ %>
+                <div class="item">
+                  <div class="sp-subtitle"> <%= goodAt %></div>
+                </div>
+              <% }); %>
             </div>
           </div>
 
           <div class="social-links">
-            <a href="#">
+            <a href="<%= profile.social.github %>" target="_blank">
+              <i class="fa fa-github"></i>
+            </a>
+            <a href="<%= profile.social.linkedin %>" target="_blank">
+              <i class="fa fa-linkedin"></i>
+            </a>
+            <a href="<%= profile.social.twitter %>" target="_blank">
               <i class="fa fa-twitter"></i>
             </a>
-            <a href="#">
+            <a href="<%= profile.social.facebook %>" target="_blank">
               <i class="fa fa-facebook"></i>
-            </a>
-            <a href="#">
-              <i class="fa fa-instagram"></i>
             </a>
           </div>
         </div>
@@ -47,11 +56,10 @@
                 <span>Me</span>
               </h3>
             </div>
-            <p>Hello! I’m Debotos Das. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean fermentum ullamcorper
-              sem, at placerat dolor volutpat ac. Duis nulla enim, condimentum nec ultricies.</p>
+            <p><%= profile.bio %></p>
           </div>
           <div class="download-resume">
-            <a href="" class="btn btn-secondary">Download Resume</a>
+            <a target="_blank" href="<%= profile.resume_link %>" class="btn btn-secondary">Download Resume</a>
           </div>
         </div>
 
@@ -59,25 +67,25 @@
           <ul class="info-list">
             <li>
               <span class="title">Age</span>
-              <span class="value">21</span>
+              <span class="value"><%= profile.age %></span>
             </li>
             <li>
               <span class="title">Residence</span>
-              <span class="value">BD</span>
+              <span class="value"><%= profile.residence %></span>
             </li>
             <li>
               <span class="title">Address</span>
-              <span class="value">Bangladesh, Khulna</span>
+              <span class="value"><%= profile.address %></span>
             </li>
             <li>
               <span class="title">e-mail</span>
               <span class="value">
-                <a href="mailto:email@example.com">email@example.com</a>
+                <a href="mailto:<%= profile.email %>"><%= profile.email %></a>
               </span>
             </li>
             <li>
               <span class="title">Phone</span>
-              <span class="value">01790015380</span>
+              <span class="value"><%= profile.phone[0] %></span>
             </li>
             <li>
               <span class="title">Freelance</span>

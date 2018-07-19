@@ -1085,7 +1085,7 @@ body>footer .copyrights {
 /* Skills */
 
 .skills-info {
-  margin-bottom: 30px;
+  margin-bottom: 15px;
 }
 
 .skills-info h4 {
@@ -1225,7 +1225,7 @@ body>footer .copyrights {
 
 .service-block h4 {
   font-size: 17px;
-  padding: 20px 0 0;
+  padding: 12px 0 0 0;
 }
 
 .service-icon {
