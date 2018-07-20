@@ -83,9 +83,9 @@ class LoginForm extends Component {
                 value="Log In"
               />
             </form>
-            <Link className="nav-link" to="/register">
+            {/* <Link className="nav-link" to="/register">
               New? Sign Up
-            </Link>
+            </Link> */}
           </div>
         </div>
       </div>
