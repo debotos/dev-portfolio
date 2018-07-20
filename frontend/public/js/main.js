@@ -45,8 +45,8 @@
 
     $('#contact-form').on('submit', function(e) {
       if (!e.isDefaultPrevented()) {
-        var url = 'contact_form/contact_form.php';
-
+        $('#contact-form #contact-submit').prop('value', 'Sending...');
+        var url = '/contact';
         $.ajax({
           type: 'POST',
           url: url,
@@ -54,7 +54,28 @@
           success: function(data) {
             var messageAlert = 'alert-' + data.type;
             var messageText = data.message;
-
+            $('#contact-form #contact-submit').prop('value', 'Send message');
+            var alertBox =
+              '<div class="alert ' +
+              messageAlert +
+              ' alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
+              messageText +
+              '</div>';
+            if (messageAlert && messageText) {
+              $('#contact-form')
+                .find('.messages')
+                .html(alertBox);
+              if (messageAlert == 'alert-success') {
+                $('#contact-form')[0].reset();
+              }
+            }
+          },
+          error: function(XMLHttpRequest, textStatus, errorThrown) {
+            console.log(XMLHttpRequest.responseJSON);
+            var data = XMLHttpRequest.responseJSON;
+            var messageAlert = 'alert-' + data.type;
+            var messageText = data.message;
+            $('#contact-form #contact-submit').prop('value', 'Send message');
             var alertBox =
               '<div class="alert ' +
               messageAlert +
@@ -262,14 +283,52 @@
             //$(this).data() works because it's a standard AJAX call
           },
           success: function(data) {
-            console.log('event is happening->', e.currentTarget.id);
-            var blog_id = e.currentTarget.id.split('-')[2];
-            console.log('ID of the blog item -> ', blog_id);
+            // change the DOM
+            $('.blog-post-content h1').html(
+              `<h1 style="line-height: 1em; font-size: 1.2em;">${
+                data.title
+              }</h1>`
+            );
+            function getBlogImageUrl(url) {
+              let urlArray = url.split('upload');
+              let finalUrl = urlArray[0] + 'upload/w_800,h_375' + urlArray[1];
+              return finalUrl;
+            }
+            $('#single-blog-post-main-image').html(
+              `<img class="post-image img-responsive" src="${getBlogImageUrl(
+                data.img
+              )}" alt="blog post image" />`
+            );
 
-            setTimeout(() => {
-              console.log(data);
-              $('.blog-post-content h1').html(`<h1>${data.title}</h1>`);
-            }, 300);
+            $('#single-blog-post-entry-meta').html(`
+              <span class="date">
+                <a href="#">
+                  <i class="fa fa-fw fa-clock-o"></i> ${
+                    data.date.split('T')[0]
+                  }</a>
+              </span>
+              <span class="divider">|</span>
+              <span class="autor">
+                <a href="#">
+                  <i class="fa fa-fw fa-user"></i> ${data.author}</a>
+              </span>
+              <span class="divider">|</span>
+              <span class="category">
+                <a href="#">
+                  <i class="fa fa-fw fa-folder"></i> ${data.category.map(
+                    item => ` ${item}`
+                  )}</a>
+              </span>
+            `);
+            $('#single-blog-content').html(data.body);
+            let tags = data.tag.map(
+              singleTag => `
+                <li>
+                    <a>${singleTag}</a>
+                </li>
+              `
+            );
+            $('#single-blog-tags-section').html(`${tags.join('')}`);
           }
         });
       });
@@ -393,7 +452,9 @@
       //Google Maps
       $('#map').googleMap();
       $('#map').addMarker({
-        address: '15 avenue des champs Elysées 75008 Paris' // Your Address
+        address: $('#google-map-address h5').text()
+          ? $('#google-map-address h5').text()
+          : 'Khulna, BD' // Your Address
       });
     })
     .on('DOMSubtreeModified', subpages_resize);

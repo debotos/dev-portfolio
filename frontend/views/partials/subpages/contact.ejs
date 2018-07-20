@@ -21,8 +21,8 @@
             <div class="ci-icon">
               <i class="fa fa-map-marker"></i>
             </div>
-            <div class="ci-text">
-              <h5>Bangladesh, BD</h5>
+            <div id="google-map-address" class="ci-text">
+              <h5><%= profile.map_address %></h5>
             </div>
           </div>
           <div class="contact-info-block">
@@ -30,7 +30,7 @@
               <i class="fa fa-envelope"></i>
             </div>
             <div class="ci-text">
-              <h5>deb@example.com</h5>
+              <h5><%= profile.email %></h5>
             </div>
           </div>
           <div class="contact-info-block">
@@ -38,7 +38,7 @@
               <i class="fa fa-phone"></i>
             </div>
             <div class="ci-text">
-              <h5>+123 654 78900</h5>
+              <h5><%= profile.phone[0] %>, <%= profile.phone[1] %></h5>
             </div>
           </div>
           <div class="contact-info-block">
@@ -57,7 +57,7 @@
               <span>Form</span>
             </h3>
           </div>
-          <form id="contact-form" method="post" action="contact_form/contact_form.php">
+          <form id="contact-form" method="post" action="/contact">
 
             <div class="messages"></div>
 
@@ -88,7 +88,7 @@
 
               <!--<div class="g-recaptcha" data-sitekey="6LdqmCAUAAAAAMMNEZvn6g4W5e0or2sZmAVpxVqI"></div>-->
 
-              <input type="submit" class="button btn-send" value="Send message">
+              <input id="contact-submit" type="submit" class="button btn-send" value="Send message" >
             </div>
           </form>
         </div>

@@ -1235,7 +1235,7 @@ body>footer .copyrights {
   background-color: #2eca7f;
   width: 80px;
   height: 80px;
-  border-radius: 100px;
+  border-radius: 00px;
   margin: 5px 0 0;
   -webkit-transition: all 0.3s ease-in-out;
   -moz-transition: all 0.3s ease-in-out;
@@ -2443,7 +2443,7 @@ blockquote .small {
   }
   .page-content,
   .single-page-content .content-area .page-content {
-    padding: 30px 30px 50px;
+    padding: 1.5rem;
   }
   .subpage-block {
     margin-bottom: 40px;
