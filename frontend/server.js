@@ -29,7 +29,7 @@ if (process.env.NODE_ENV === 'production') {
   MAILER_PASSWORD = ''; // @todo: Put you password here
 }
 
-console.log('ENV => ');
+console.log('ENV => ', process.env.NODE_ENV);
 console.log(process.env.HOST_URL);
 console.log(process.env.EMAIL);
 console.log(process.env.MAP_API_KEY);
