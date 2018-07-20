@@ -34,7 +34,7 @@ module.exports = app => {
         }
       })
       .catch(ex => {
-        console.log('Server Error => ', ex);
+        console.log(`Error (Maybe API service ${HOST_URL} crashed!) => `, ex);
         return res.status(400).json('Internal Server Error!');
       });
   });
@@ -59,7 +59,7 @@ module.exports = app => {
         }
       })
       .catch(ex => {
-        console.log('Server Error => ', ex);
+        console.log(`Error (Maybe API service ${HOST_URL} crashed!) => `, ex);
         return res.status(400).json('Internal Server Error!');
       });
   });

@@ -24,7 +24,7 @@ if (process.env.NODE_ENV === 'production') {
 } else {
   HOST_URL = 'http://localhost:5000';
   EMAIL = 'debotosdas@gmail.com';
-  MAP_API_KEY = 'AIzaSyAGRnjXpMsqvw_2p6C3gltC9ebIQvEfX34';
+  MAP_API_KEY = ''; // @todo: Put google map api key
   MAILER_ID = ''; // @todo: Put you email here
   MAILER_PASSWORD = ''; // @todo: Put you password here
 }
@@ -89,11 +89,14 @@ app.get('/', function(req, res) {
         })
       )
       .catch(ex => {
-        console.log('Error => ', ex);
+        console.log(
+          `Error (Maybe API service ${HOST_URL} crashed!) => `,
+          ex.response.data
+        );
         res.status(404).render('404.ejs');
       });
   } catch (error) {
-    console.error('Error => ', error);
+    console.error(`Error (Maybe API service ${HOST_URL} crashed!) => `, error);
     res.status(404).render('404.ejs');
   }
 });
