@@ -1,48 +1,51 @@
 <!-- Services Subpage -->
 <section class="pt-page" data-id="services">
-  <div class="section-inner custom-page-content">
-    <!-- <div class="page-header color-1">
+	<div class="section-inner custom-page-content">
+		<!-- <div class="page-header color-1">
       <h2>Services</h2>
     </div> -->
-    <div class="page-content">
-      <!-- My Services -->
-      <div class="row">
-        <div class="col-sm-12 col-md-12">
-          <div class="block-title">
-            <h3>My
-              <span>Services</span>
-            </h3>
-          </div>
-        </div>
+		<div class="page-content">
+			<!-- My Services -->
+			<div class="row">
+				<div class="col-sm-12 col-md-12">
+					<div class="block-title">
+						<h3>
+							My
+							<span>Services</span>
+						</h3>
+					</div>
+				</div>
+				<div class="col-sm-12 col-md-12">
+					<div
+						style="display: flex; justify-content: center; flex-wrap: wrap; padding: 0 20px 20px 20px;"
+					>
+						<% profile.what_i_do.forEach(function(singleItem){ %>
+						<div class="col-sm-12 col-md-6">
+							<div class="service-block">
+								<div class="service-info">
+									<% getServiceImageUrl = url => { let urlArray = url.split('upload'); let finalUrl
+									= urlArray[0] + 'upload/w_148,h_148' + urlArray[1]; return finalUrl; }; %>
+									<div class="service-image">
+										<img
+											src="<%= getServiceImageUrl(singleItem.img) %>"
+											alt="My Services"
+											class="mCS_img_loaded"
+										/>
+									</div>
+									<h4><%= singleItem.title %></h4>
+									<p><%= singleItem.info %></p>
+								</div>
+							</div>
+						</div>
 
-         <% profile.what_i_do.forEach(function(singleItem){ %>
-          <div class="col-sm-6 col-md-3">
-            <div class="service-block">
-              <div class="service-info">
-                <%
-                  getServiceImageUrl = url => {
-                    let urlArray = url.split('upload');
-                    let finalUrl = urlArray[0] + 'upload/w_148,h_148' + urlArray[1];
-                    return finalUrl;
-                  };
-                %>
-                <div class="service-image">
-                  <img src="<%= getServiceImageUrl(singleItem.img) %>" alt="My Services" class="mCS_img_loaded">
-                </div>
-                <h4><%= singleItem.title %></h4>
-                <p><%= singleItem.info %></p>
-              </div>
-            </div>
-          </div>
-        <% }); %>
+						<% }); %>
+					</div>
+				</div>
+			</div>
+			<!-- End of My Services -->
 
-        
-
-      </div>
-      <!-- End of My Services -->
-
-      <!-- Clients -->
-      <!-- <div class="row">
+			<!-- Clients -->
+			<!-- <div class="row">
         <div class="col-sm-12 col-md-12">
           <div class="block-title">
             <h3>Clients</h3>
@@ -98,61 +101,54 @@
 
         </div>
       </div> -->
-      <!-- End of Clients -->
+			<!-- End of Clients -->
 
-      <!-- Testimonials -->
-      <div class="row">
-        <div class="col-sm-12 col-md-12">
-          <div class="block-title">
-            <h3>Testimonials</h3>
-          </div>
+			<!-- Testimonials -->
+			<div class="row">
+				<div class="col-sm-12 col-md-12">
+					<div class="block-title">
+						<h3>Testimonials</h3>
+					</div>
 
+					<div class="testimonials owl-carousel block">
+						<!-- Testimonial -->
 
-          <div class="testimonials owl-carousel block">
-            <!-- Testimonial -->
+						<% profile.testimonials.forEach(function(singleItem){ %>
+						<div class="testimonial-item">
+							<!-- Testimonial Author -->
+							<div class="testimonial-credits">
+								<!-- Picture -->
+								<% getTestimonialImageUrl = url => { let urlArray = url.split('upload'); let
+								finalUrl = urlArray[0] + 'upload/w_200,h_200' + urlArray[1]; return finalUrl; }; %>
+								<div class="testimonial-picture">
+									<img src="<%= getTestimonialImageUrl(singleItem.img) %>" alt="" />
+								</div>
+								<!-- /Picture -->
+								<!-- Testimonial author information -->
+								<div class="testimonial-author-info">
+									<p class="testimonial-author"><%= singleItem.name %></p>
+									<p class="testimonial-firm"><%= singleItem.job %></p>
+								</div>
+							</div>
+							<!-- /Testimonial author information -->
+							<!-- Testimonial Content -->
+							<div class="testimonial-content">
+								<div class="testimonial-text">
+									<p>"<%= singleItem.testimonial %>"</p>
+								</div>
+							</div>
+							<!-- /Testimonial Content -->
+						</div>
+						<% }); %>
 
-             <% profile.testimonials.forEach(function(singleItem){ %>
-                <div class="testimonial-item">
-                  <!-- Testimonial Author -->
-                  <div class="testimonial-credits">
-                    <!-- Picture -->
-                    <%
-                      getTestimonialImageUrl = url => {
-                        let urlArray = url.split('upload');
-                        let finalUrl = urlArray[0] + 'upload/w_200,h_200' + urlArray[1];
-                        return finalUrl;
-                      };
-                    %>
-                    <div class="testimonial-picture">
-                      <img src="<%= getTestimonialImageUrl(singleItem.img) %>" alt="">
-                    </div>
-                    <!-- /Picture -->
-                    <!-- Testimonial author information -->
-                    <div class="testimonial-author-info">
-                      <p class="testimonial-author"><%= singleItem.name %></p>
-                      <p class="testimonial-firm"><%= singleItem.job %></p>
-                    </div>
-                  </div>
-                  <!-- /Testimonial author information -->
-                  <!-- Testimonial Content -->
-                  <div class="testimonial-content">
-                    <div class="testimonial-text">
-                      <p>"<%= singleItem.testimonial %>"</p>
-                    </div>
-                  </div>
-                  <!-- /Testimonial Content -->
-                </div>
-              <% }); %>
-            
-            <!-- End of Testimonial -->
+						<!-- End of Testimonial -->
+					</div>
+				</div>
+			</div>
+			<!-- End of Tesimonials -->
 
-          </div>
-        </div>
-      </div>
-      <!-- End of Tesimonials -->
-
-      <!-- Pricing -->
-      <!-- <div class="row">
+			<!-- Pricing -->
+			<!-- <div class="row">
         <div class="col-sm-12 col-md-12">
           <div class="block-title">
             <h3>Pricing</h3>
@@ -218,8 +214,8 @@
           </div>
         </div>
       </div> -->
-      <!-- End of Pricing -->
-    </div>
-  </div>
+			<!-- End of Pricing -->
+		</div>
+	</div>
 </section>
 <!-- End of Services Subpage -->

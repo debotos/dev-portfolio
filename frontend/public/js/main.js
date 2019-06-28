@@ -356,7 +356,7 @@
             let carousel = data.img.map(
               singleImg => `
                 <div class="item">
-                    <img src="${getPortfolioImageUrl(singleImg)}" alt="${
+                    <img src="${singleImg}" alt="${
                 data.name
               } Image" />
                 </div>
